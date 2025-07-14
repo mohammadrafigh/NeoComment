@@ -1,6 +1,16 @@
-<GridLayout>
-    <StackLayout>
-        <Label [text]="'sign in page'" class="text-lg text-gray-500 p-4"></Label>
-        <TextField hint="Instance URL" keyboardType="url" returnKeyType="next" (returnPress)="checkInstance()" />
+<GridLayout verticalAlignment="center">
+  @if (!isValidInstance) {
+    <StackLayout class="p-4">
+      <Label text="Welcome to NeoComment!" class="text-2xl text-stone-500 font-medium p-4 text-center"></Label>
+      <TextField hint="Instance URL" keyboardType="url" returnKeyType="go" (returnPress)="checkInstance()"
+                [(ngModel)]="instanceURL" />
+      <Button (tap)="checkInstance()" text="Next"></Button>
     </StackLayout>
+  } @else {
+    <StackLayout class="p-4">
+      <TextField hint="Email Address" keyboardType="url" returnKeyType="go" (returnPress)="checkInstance()"
+                [(ngModel)]="instanceURL" />
+      <Button (tap)="checkInstance()" text="Next"></Button>
+    </StackLayout>
+  }
 </GridLayout>
