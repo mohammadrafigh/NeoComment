@@ -1,7 +1,7 @@
 import { NativeScriptConfig } from '@nativescript/core';
 
 export default {
-  id: 'org.nativescript.neoComment',
+  id: 'com.mohammadrafigh.neocomment',
   appPath: 'src',
   appResourcesPath: 'App_Resources',
   android: {
