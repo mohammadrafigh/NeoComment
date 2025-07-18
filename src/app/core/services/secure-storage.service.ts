@@ -32,8 +32,9 @@ export class SecureStorageService {
    * @param key
    * @returns a Promise that resolves to the value associated with the key, or null if the key does not exist.
    */
-  get(key: string): Promise<string> {
-    return this.secureStorage.get({ key });
+  async get<T>(key: string): Promise<T> {
+    const value = await this.secureStorage.get({ key });
+    return value ? JSON.parse(value) : null;
   }
 
   /**
@@ -41,8 +42,9 @@ export class SecureStorageService {
    * @param key
    * @returns the value associated with the key, or null if the key does not exist.
    */
-  getSync(key: string): string {
-    return this.secureStorage.getSync({ key });
+  getSync<T>(key: string): T {
+    const value = this.secureStorage.getSync({ key });
+    return value ? JSON.parse(value) : null;
   }
 
   /**
