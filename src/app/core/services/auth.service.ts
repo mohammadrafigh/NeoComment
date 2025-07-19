@@ -4,10 +4,9 @@ import { HttpClient } from "@angular/common/http";
 import { tap } from "rxjs";
 import { Utils } from "@nativescript/core";
 import { MessageService } from "~/app/core/services/message.service";
-import { DatabaseService } from "~/app/core/services/database.service";
+import { StateService } from "~/app/core/services/state.service";
 import { Router } from "@angular/router";
 import { Session } from "~/app/core/models/session.model";
-import { State } from "../models/state.model";
 
 interface OAuthResponse {
   id: string;
@@ -33,7 +32,7 @@ export class AuthService {
   private router = inject(Router);
   private storageService = inject(SecureStorageService);
   private messageService = inject(MessageService);
-  private dbService = inject(DatabaseService);
+  private stateService = inject(StateService);
 
   private REDIRECT_URI = "neocomment://neocomment.app/oauth";
   // Temporary properties for OAuth flow
@@ -51,15 +50,11 @@ export class AuthService {
     const sessions = this.storageService.getSync<Session[]>("sessions") || [];
     const activeSession = sessions.find((s) => s.isActive);
     if (activeSession) {
-      this._activeSession.set(activeSession);
-      this._signedIn.set(true);
-      this.router.navigate(["/explore"], { replaceUrl: true });
+      this.setActiveSession(activeSession);
     } else if (sessions.length > 0) {
       sessions[0].isActive = true;
-      this._activeSession.set(sessions[0]);
       this.storageService.setSync("sessions", JSON.stringify(sessions));
-      this._signedIn.set(true);
-      this.router.navigate(["/explore"], { replaceUrl: true });
+      this.setActiveSession(sessions[0]);
     }
   }
 
@@ -115,10 +110,10 @@ export class AuthService {
           sessions.push(this._activeSession());
           this.storageService.setSync("sessions", JSON.stringify(sessions));
 
-          const state = new State();
-          state.instanceURL = this.instanceURL;
-          state.sessionId = this._activeSession().id;
-          await this.dbService.createState(state);
+          this.stateService.createNewState(
+            this._activeSession().id,
+            this.instanceURL
+          );
 
           this._signedIn.set(true);
 
@@ -143,14 +138,23 @@ export class AuthService {
     this.storageService.setSync("sessions", JSON.stringify(sessions));
 
     try {
-      await this.dbService.deleteState(this._activeSession().id);
+      await this.stateService.deleteState(this._activeSession().id);
     } catch {
       console.log("Couldn't delete state data");
     }
 
     if (activateNextSession && sessions.length > 0) {
-      this._activeSession.set(sessions[0]);
+      this.setActiveSession(sessions[0]);
+    } else {
+      this.setActiveSession(null);
+    }
+  }
+
+  private setActiveSession(session: Session) {
+    if (session) {
+      this._activeSession.set(session);
       this._signedIn.set(true);
+      this.stateService.activateState(this._activeSession().id);
       this.router.navigate(["/explore"], { replaceUrl: true });
     } else {
       this._activeSession.set(null);

@@ -17,18 +17,18 @@ export class DatabaseService {
   closeDB() {
     try {
       this.database.close();
-    } catch {
+    } catch (e) {
       console.log("Couldn't close database connection");
+      console.error(e);
     }
   }
 
-  async createState(state: State): Promise<string> {
+  createState(state: State): string {
     try {
       const id = this.database.createDocument(state);
-      return Promise.resolve(id);
+      return id;
     } catch (e) {
       console.log(e);
-      return Promise.reject();
     }
   }
 
@@ -42,22 +42,22 @@ export class DatabaseService {
     }
   }
 
-  async getStates(): Promise<State[]> {
+  async deleteState(sessionId: string) {
     try {
       const states: State[] = this.database.getDocuments([]);
-      return Promise.resolve(states);
+      const stateId = states.find((s) => s.sessionId === sessionId).id;
+      this.database.deleteDocument(stateId);
+      return Promise.resolve();
     } catch (e) {
       console.log(e);
       return Promise.reject();
     }
   }
 
-  async deleteState(sessionId: string) {
+  async getStates(): Promise<State[]> {
     try {
-      const states: State[] = this.database.getDocuments([]);
-      const stateId = states.find(s => s.sessionId === sessionId).id;
-      this.database.deleteDocument(stateId);
-      return Promise.resolve();
+      const states: State[] = this.database.query();
+      return Promise.resolve(states ?? []);
     } catch (e) {
       console.log(e);
       return Promise.reject();
