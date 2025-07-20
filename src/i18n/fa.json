@@ -1,0 +1,9 @@
+{
+  "app.name": "NeoComment",
+
+  "features.sign_in": {
+    "welcome": "به نئوکامنت خوش آمدید!",
+    "instance_url": "آدرس نمونه",
+    "next": "بعدی"
+  }
+}
