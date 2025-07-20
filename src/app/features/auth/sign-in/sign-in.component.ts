@@ -5,6 +5,7 @@ import {
   NativeScriptRouterModule,
 } from "@nativescript/angular";
 import { AuthService } from "../../../core/services/auth.service";
+import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 
 @Component({
   selector: "ns-sign-in",
@@ -14,6 +15,7 @@ import { AuthService } from "../../../core/services/auth.service";
     NativeScriptCommonModule,
     NativeScriptRouterModule,
     NativeScriptFormsModule,
+    NativeScriptLocalizeModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

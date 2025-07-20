@@ -1,0 +1,19 @@
+{
+  "app.name": "NeoComment",
+
+  "features.sign_in": {
+    "welcome": "Welcome to NeoComment!",
+    "instance_url": "Instance URL",
+    "next": "Next"
+  },
+
+  "core.auth_service": {
+    "unavailable_instance": "The instance is unavailable",
+    "authentication_error": "Unable to complete authentication. Please try again."
+  },
+
+  "core.user_service": {
+    "get_user_error": "Unable to get user info",
+    "get_preference_error": "Unable to get preference"
+  }
+}

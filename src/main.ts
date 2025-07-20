@@ -4,7 +4,8 @@ import {
   provideNativeScriptRouter,
   runNativeScriptAngularApp,
 } from "@nativescript/angular";
-import { provideZonelessChangeDetection } from "@angular/core";
+import { NativeScriptLocalizeModule } from '@nativescript/localize/angular';
+import { importProvidersFrom, provideZonelessChangeDetection } from "@angular/core";
 import { withInterceptors } from "@angular/common/http";
 import { routes } from "./app/app.routes";
 import { AppComponent } from "./app/app.component";
@@ -18,7 +19,7 @@ runNativeScriptAngularApp({
       providers: [
         provideNativeScriptHttpClient(withInterceptors([ authInterceptor, tokenInterceptor ])),
         provideNativeScriptRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
-        provideZonelessChangeDetection(),
+        importProvidersFrom(NativeScriptLocalizeModule)
       ],
     });
   },

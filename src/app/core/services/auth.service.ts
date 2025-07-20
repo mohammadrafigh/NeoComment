@@ -7,6 +7,7 @@ import { MessageService } from "~/app/core/services/message.service";
 import { StateService } from "~/app/core/services/state.service";
 import { Router } from "@angular/router";
 import { Session } from "~/app/core/models/session.model";
+import { localize } from "@nativescript/localize";
 
 interface OAuthResponse {
   id: string;
@@ -81,7 +82,9 @@ export class AuthService {
           },
           error: (err) => {
             console.error("Error registering client:", err);
-            this.messageService.showErrorMessage("The instance is unavailable");
+            this.messageService.showErrorMessage(
+              localize("core.auth_service.unavailable_instance")
+            );
           },
         })
       );
@@ -122,7 +125,7 @@ export class AuthService {
         error: (err) => {
           console.error("Error handling OAuth response:", err);
           this.messageService.showErrorMessage(
-            "Unable to complete authentication. Please try again."
+            localize("core.auth_service.authentication_error")
           );
         },
       });

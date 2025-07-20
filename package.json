@@ -15,6 +15,7 @@
     "@nativescript-community/universal-links": "^3.0.1",
     "@nativescript/angular": "^20.0.0",
     "@nativescript/core": "~8.9.0",
+    "@nativescript/localize": "^5.2.0",
     "@nativescript/secure-storage": "^3.0.3",
     "@triniwiz/nativescript-couchbase": "^1.4.0",
     "rxjs": "~7.8.0",

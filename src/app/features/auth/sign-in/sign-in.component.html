@@ -1,12 +1,12 @@
 <GridLayout verticalAlignment="center">
   <StackLayout class="p-4">
-    <Label text="Welcome to NeoComment!" class="text-2xl text-stone-500 font-medium p-4 text-center"></Label>
-    <TextField hint="Instance URL" keyboardType="url" returnKeyType="go" (returnPress)="checkInstance()"
+      <Label [text]="'features.sign_in.welcome' | L" class="text-2xl text-stone-500 font-medium p-4 text-center"></Label>
+    <TextField [hint]="'features.sign_in.instance_url' | L" keyboardType="url" returnKeyType="go" (returnPress)="checkInstance()"
               [(ngModel)]="instanceURL" />
     @if (loading) {
       <ActivityIndicator busy="true" />
     } @else {
-      <Button (tap)="checkInstance()" text="Next"></Button>
+      <Button (tap)="checkInstance()" [text]="'features.sign_in.next' | L"></Button>
     }
   </StackLayout>
 </GridLayout>

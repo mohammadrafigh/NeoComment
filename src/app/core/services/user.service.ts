@@ -5,6 +5,7 @@ import { AuthService } from "./auth.service";
 import { User, UserDTO } from "../models/user.model";
 import { Preference, PreferenceDTO } from "../models/preference.model";
 import { StateService } from "./state.service";
+import { localize } from "@nativescript/localize";
 
 @Injectable({
   providedIn: "root",
@@ -33,7 +34,7 @@ export class UserService {
         },
         error: (e) => {
           console.error(e);
-          this.messageService.showErrorMessage("Unable to get user info");
+          this.messageService.showErrorMessage(localize("core.user_service.get_user_error"));
         },
       });
   }
@@ -51,7 +52,7 @@ export class UserService {
         },
         error: (e) => {
           console.error(e);
-          this.messageService.showErrorMessage("Unable to get preference");
+          this.messageService.showErrorMessage(localize("core.user_service.get_preference_error"));
         },
       });
   }
