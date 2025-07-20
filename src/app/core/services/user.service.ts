@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { MessageService } from "./message.service";
 import { AuthService } from "./auth.service";
 import { User, UserDTO } from "../models/user.model";
+import { Preference, PreferenceDTO } from "../models/preference.model";
 import { StateService } from "./state.service";
 
 @Injectable({
@@ -18,6 +19,7 @@ export class UserService {
     effect(() => {
       if (this.authService.signedIn() && this.stateService.instanceURL()) {
         this.getUserInfo();
+        this.getPreference();
       }
     });
   }
@@ -34,5 +36,29 @@ export class UserService {
           this.messageService.showErrorMessage("Unable to get user info");
         },
       });
+  }
+
+  getPreference() {
+    this.http
+      .get<PreferenceDTO>(
+        `${this.stateService.instanceURL()}/api/me/preference`
+      )
+      .subscribe({
+        next: (preference: PreferenceDTO) => {
+          this.stateService.updateState({
+            preference: Preference.fromDTO(preference),
+          });
+        },
+        error: (e) => {
+          console.error(e);
+          this.messageService.showErrorMessage("Unable to get preference");
+        },
+      });
+  }
+
+  getUserByHandle(handle: string) {
+    return this.http.get<UserDTO>(
+      `${this.stateService.instanceURL()}/api/user/${handle}`
+    );
   }
 }
