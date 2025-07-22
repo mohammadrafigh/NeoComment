@@ -25,7 +25,7 @@ export class DatabaseService {
 
   createState(state: State): string {
     try {
-      const id = this.database.createDocument(state);
+      const id = this.database.createDocument(state, state.id);
       return id;
     } catch (e) {
       console.log(e);
@@ -42,11 +42,9 @@ export class DatabaseService {
     }
   }
 
-  async deleteState(sessionId: string) {
+  async deleteState(id: string) {
     try {
-      const states: State[] = this.database.getDocuments([]);
-      const stateId = states.find((s) => s.sessionId === sessionId).id;
-      this.database.deleteDocument(stateId);
+      this.database.deleteDocument(id);
       return Promise.resolve();
     } catch (e) {
       console.log(e);

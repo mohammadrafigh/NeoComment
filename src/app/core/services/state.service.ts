@@ -12,7 +12,7 @@ export class StateService {
   private activeSessionId = signal(null);
   private states = signal<State[]>([]);
   readonly activeState = computed(() =>
-    this.states().find((s) => s.sessionId === this.activeSessionId())
+    this.states().find((s) => s.id === this.activeSessionId())
   );
   readonly instanceURL = computed(() => this.activeState()?.instanceURL);
 
@@ -40,19 +40,19 @@ export class StateService {
 
   createNewState(sessionId: string, instanceURL: string) {
     const state = new State();
-    state.sessionId = sessionId;
+    state.id = sessionId;
     state.instanceURL = instanceURL;
-    state.id = this.dbService.createState(state);
-    this.activeSessionId.set(sessionId);
+    this.dbService.createState(state);
     this.states.update((states) => {
       states.push(state);
       return states;
     });
+    this.activeSessionId.set(sessionId);
   }
 
   deleteState(sessionId: string) {
     this.states.update((states) =>
-      states.filter((s) => s.sessionId !== sessionId)
+      states.filter((s) => s.id !== sessionId)
     );
     if (this.activeSessionId() === sessionId) {
       this.activeSessionId.set(null);

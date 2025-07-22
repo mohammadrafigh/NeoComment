@@ -4,8 +4,7 @@ import { TrendingItem } from "./trending-item.model";
 import { TrendingCollection } from "./trending-collection.model";
 
 export class State {
-  id: string;
-  sessionId: string;
+  id: string; // Same as sessionId
   instanceURL: string;
   user: User;
   preference: Preference;
