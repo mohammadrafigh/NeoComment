@@ -45,7 +45,7 @@ export class StateService {
     this.dbService.createState(state);
     this.states.update((states) => {
       states.push(state);
-      return states;
+      return [...states];
     });
     this.activeSessionId.set(sessionId);
   }
