@@ -54,13 +54,12 @@ export class DatabaseService {
     }
   }
 
-  async getStates(): Promise<State[]> {
+  getStates(): State[] {
     try {
       const states: State[] = this.database.query();
-      return Promise.resolve(states ?? []);
+      return states ?? [];
     } catch (e) {
       console.log(e);
-      return Promise.reject();
     }
   }
 }

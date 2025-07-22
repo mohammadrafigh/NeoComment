@@ -18,7 +18,8 @@ export class StateService {
 
   constructor() {
     // Load cached data
-    this.dbService.getStates().then((states) => this.states.set(states));
+    const states = this.dbService.getStates();
+    this.states.set(states);
 
     // Save to DB on change
     effect(() => {
@@ -42,11 +43,11 @@ export class StateService {
     state.sessionId = sessionId;
     state.instanceURL = instanceURL;
     state.id = this.dbService.createState(state);
+    this.activeSessionId.set(sessionId);
     this.states.update((states) => {
       states.push(state);
       return states;
     });
-    this.activeSessionId.set(sessionId);
   }
 
   deleteState(sessionId: string) {
