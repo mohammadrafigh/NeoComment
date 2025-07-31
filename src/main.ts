@@ -23,6 +23,7 @@ import { AppComponent } from "./app/app.component";
 import { withInMemoryScrolling } from "@angular/router";
 import { authInterceptor } from "./app/core/interceptors/auth.interceptor";
 import { tokenInterceptor } from "./app/core/interceptors/token.interceptor";
+import { Application, Button, Label, View } from "@nativescript/core";
 
 runNativeScriptAngularApp({
   appModuleBootstrap: () => {
@@ -41,3 +42,40 @@ runNativeScriptAngularApp({
     });
   },
 });
+
+// Initialize the image module with downsampling enabled
+imageModuleInitialize({ isDownsampleEnabled: true });
+if (Application.android) {
+  Application.on(Application.exitEvent, (args) => imageModuleShutDown());
+}
+
+// Workaround for https://github.com/NativeScript/NativeScript/issues/10769
+// Utility to check if the CSS class includes "tabler-icon"
+function hasTablerIconClass(view: View): boolean {
+  const cls = view.className || "";
+  return cls.split(" ").includes("tabler-icon");
+}
+
+// Patch for Button
+const originalButtonOnLoaded = Button.prototype.onLoaded;
+Button.prototype.onLoaded = function () {
+  originalButtonOnLoaded.call(this);
+  if (
+    hasTablerIconClass(this) &&
+    this.nativeViewProtected?.setIncludeFontPadding
+  ) {
+    this.nativeViewProtected.setIncludeFontPadding(false);
+  }
+};
+
+// Patch for Label
+const originalLabelOnLoaded = Label.prototype.onLoaded;
+Label.prototype.onLoaded = function () {
+  originalLabelOnLoaded.call(this);
+  if (
+    hasTablerIconClass(this) &&
+    this.nativeViewProtected?.setIncludeFontPadding
+  ) {
+    this.nativeViewProtected.setIncludeFontPadding(false);
+  }
+};
