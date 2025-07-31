@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="_core_user_service_get_preference_error_1yajbw">"Unable to get preference"</string>
+  <string name="_core_user_service_get_user_error_28n28">"Unable to get user info"</string>
+  <string name="_core_auth_service_authentication_error_EM4WQ">"Unable to complete authentication. Please try again."</string>
+  <string name="_core_auth_service_unavailable_instance_Z22pryR">"The instance is unavailable"</string>
+  <string name="_features_sign_in_next_Vzyp">"Next"</string>
+  <string name="_features_sign_in_instance_url_qg7CC">"Instance URL"</string>
+  <string name="_features_sign_in_welcome_Z2se0Fl">"Welcome to NeoComment!"</string>
+  <string name="_app_name_1k3Sbz">"NeoComment"</string>
+  <string name="app_name">"NeoComment"</string>
+  <string name="title_activity_kimera">"NeoComment"</string>
+</resources>
