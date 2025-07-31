@@ -15,9 +15,9 @@ export class MessageService {
 
   showSimpleMessage(message: string): void {
     const componentRef = this.anchorRef.createComponent(MessageComponent);
-    componentRef.setInput('message', message);
-    componentRef.setInput('backgroundColor', 'bg-gray-700');
-    componentRef.setInput('textColor', 'text-neutral-50');
+    componentRef.setInput("message", message);
+    componentRef.setInput("backgroundColor", "bg-gray-700");
+    componentRef.setInput("textColor", "text-neutral-50");
 
     setTimeout(() => {
       componentRef.destroy();
@@ -26,9 +26,9 @@ export class MessageService {
 
   showSuccessMessage(message: string): void {
     const componentRef = this.anchorRef.createComponent(MessageComponent);
-    componentRef.setInput('message', message);
-    componentRef.setInput('backgroundColor', 'bg-green-300');
-    componentRef.setInput('textColor', 'text-neutral-950');
+    componentRef.setInput("message", message);
+    componentRef.setInput("backgroundColor", "bg-green-300");
+    componentRef.setInput("textColor", "text-neutral-950");
 
     setTimeout(() => {
       componentRef.destroy();
@@ -37,9 +37,9 @@ export class MessageService {
 
   showWarningMessage(message: string): void {
     const componentRef = this.anchorRef.createComponent(MessageComponent);
-    componentRef.setInput('message', message);
-    componentRef.setInput('backgroundColor', 'bg-orange-300');
-    componentRef.setInput('textColor', 'text-neutral-950');
+    componentRef.setInput("message", message);
+    componentRef.setInput("backgroundColor", "bg-orange-300");
+    componentRef.setInput("textColor", "text-neutral-950");
 
     setTimeout(() => {
       componentRef.destroy();
@@ -48,9 +48,9 @@ export class MessageService {
 
   showErrorMessage(message: string): void {
     const componentRef = this.anchorRef.createComponent(MessageComponent);
-    componentRef.setInput('message', message);
-    componentRef.setInput('backgroundColor', 'bg-red-300');
-    componentRef.setInput('textColor', 'text-neutral-950');
+    componentRef.setInput("message", message);
+    componentRef.setInput("backgroundColor", "bg-red-300");
+    componentRef.setInput("textColor", "text-neutral-950");
 
     setTimeout(() => {
       componentRef.destroy();

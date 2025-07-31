@@ -77,16 +77,16 @@ export class AuthService {
             this.clientId = res.client_id;
             this.clientSecret = res.client_secret;
             Utils.openUrl(
-              `${instanceURL}/oauth/authorize?response_type=code&client_id=${this.clientId}&redirect_uri=${this.REDIRECT_URI}&scope=read+write`
+              `${instanceURL}/oauth/authorize?response_type=code&client_id=${this.clientId}&redirect_uri=${this.REDIRECT_URI}&scope=read+write`,
             );
           },
           error: (err) => {
             console.error("Error registering client:", err);
             this.messageService.showErrorMessage(
-              localize("core.auth_service.unavailable_instance")
+              localize("core.auth_service.unavailable_instance"),
             );
           },
-        })
+        }),
       );
   }
 
@@ -115,7 +115,7 @@ export class AuthService {
 
           this.stateService.createNewState(
             this._activeSession().id,
-            this.instanceURL
+            this.instanceURL,
           );
 
           this._signedIn.set(true);
@@ -125,7 +125,7 @@ export class AuthService {
         error: (err) => {
           console.error("Error handling OAuth response:", err);
           this.messageService.showErrorMessage(
-            localize("core.auth_service.authentication_error")
+            localize("core.auth_service.authentication_error"),
           );
         },
       });

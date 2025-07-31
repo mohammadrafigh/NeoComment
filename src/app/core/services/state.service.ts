@@ -12,7 +12,7 @@ export class StateService {
   private activeSessionId = signal(null);
   private states = signal<State[]>([]);
   readonly activeState = computed(() =>
-    this.states().find((s) => s.id === this.activeSessionId())
+    this.states().find((s) => s.id === this.activeSessionId()),
   );
   readonly instanceURL = computed(() => this.activeState()?.instanceURL);
 
@@ -51,9 +51,7 @@ export class StateService {
   }
 
   deleteState(sessionId: string) {
-    this.states.update((states) =>
-      states.filter((s) => s.id !== sessionId)
-    );
+    this.states.update((states) => states.filter((s) => s.id !== sessionId));
     if (this.activeSessionId() === sessionId) {
       this.activeSessionId.set(null);
     }
@@ -61,9 +59,9 @@ export class StateService {
   }
 
   updateState(partialState: Partial<State>) {
-    this.states.update(states => {
+    this.states.update((states) => {
       const stateIndex = states.indexOf(this.activeState());
-      states[stateIndex] = {...states[stateIndex], ...partialState};
+      states[stateIndex] = { ...states[stateIndex], ...partialState };
       return [...states];
     });
   }

@@ -10,7 +10,7 @@ import { tap } from "rxjs/operators";
 
 export const authInterceptor: HttpInterceptorFn = (
   request: HttpRequest<any>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ) => {
   const authService = inject(AuthService);
 
@@ -22,6 +22,6 @@ export const authInterceptor: HttpInterceptorFn = (
           console.error("Unauthorized request, signing out.");
         }
       },
-    })
+    }),
   );
 };

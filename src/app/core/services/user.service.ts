@@ -34,7 +34,9 @@ export class UserService {
         },
         error: (e) => {
           console.error(e);
-          this.messageService.showErrorMessage(localize("core.user_service.get_user_error"));
+          this.messageService.showErrorMessage(
+            localize("core.user_service.get_user_error"),
+          );
         },
       });
   }
@@ -42,7 +44,7 @@ export class UserService {
   getPreference() {
     this.http
       .get<PreferenceDTO>(
-        `${this.stateService.instanceURL()}/api/me/preference`
+        `${this.stateService.instanceURL()}/api/me/preference`,
       )
       .subscribe({
         next: (preference: PreferenceDTO) => {
@@ -52,14 +54,16 @@ export class UserService {
         },
         error: (e) => {
           console.error(e);
-          this.messageService.showErrorMessage(localize("core.user_service.get_preference_error"));
+          this.messageService.showErrorMessage(
+            localize("core.user_service.get_preference_error"),
+          );
         },
       });
   }
 
   getUserByHandle(handle: string) {
     return this.http.get<UserDTO>(
-      `${this.stateService.instanceURL()}/api/user/${handle}`
+      `${this.stateService.instanceURL()}/api/user/${handle}`,
     );
   }
 }

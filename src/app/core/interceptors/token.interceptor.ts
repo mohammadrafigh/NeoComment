@@ -8,7 +8,7 @@ import { AuthService } from "../services/auth.service";
 
 export const tokenInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ) => {
   const authService = inject(AuthService);
   const token = authService.activeSession()?.accessToken;
