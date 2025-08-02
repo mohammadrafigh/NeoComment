@@ -1,1 +1,26 @@
-{}
+{
+    "app.name": "NeoComment",
+    "features.sign_in": {
+        "welcome": "Benvenuti su NeoComment!",
+        "instance_url": "URL dell’istanza",
+        "next": "Avanti"
+    },
+    "features.explore": {
+        "page_title": "Esplora",
+        "books": "Libri",
+        "movies": "Film",
+        "series": "Serie",
+        "games": "Giochi",
+        "musics": "Musica",
+        "podcasts": "Podcast",
+        "collections": "Collezioni"
+    },
+    "core.auth_service": {
+        "unavailable_instance": "L’istanza non è disponibile",
+        "authentication_error": "Impossibile completare l’autenticazione. Si prega di riprovare."
+    },
+    "core.user_service": {
+        "get_user_error": "Impossibile ricevere le informazioni dell’utente",
+        "get_preference_error": "Impossibile ricevere preferenze"
+    }
+}
