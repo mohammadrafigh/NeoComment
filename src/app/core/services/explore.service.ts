@@ -7,6 +7,7 @@ import {
   TrendingCollection,
   TrendingCollectionDTO,
 } from "../models/trending-collection.model";
+import { forkJoin, Observable, tap } from "rxjs";
 
 interface TrendingType {
   path: string;
@@ -29,47 +30,53 @@ export class ExploreService {
   ];
 
   getAllTrendings() {
+    const observables: Observable<any>[] = [];
     for (const trendingType of this.TRENDING_TYPES) {
-      this.getTrending(trendingType);
+      observables.push(this.getTrending(trendingType));
     }
-    this.getTrendingCollections();
+    observables.push(this.getTrendingCollections());
+    return forkJoin(observables);
   }
 
   getTrending(trendingType: TrendingType) {
-    this.http
-      .get<TrendingItemDTO[]>(
-        `${this.stateService.instanceURL()}/api/trending/${trendingType.path}`
-      )
-      .subscribe({
-        next: (trendingItemsDTO: TrendingItemDTO[]) => {
-          const trendingItems = trendingItemsDTO.map((i) =>
-            TrendingItem.fromDTO(i)
-          );
-          const state: Partial<State> = {};
-          state[trendingType.stateName] = trendingItems;
-          this.stateService.updateState(state);
-        },
-        error: (e) => {
-          console.error(e);
-        },
-      });
+    return this.http
+      .get<
+        TrendingItemDTO[]
+      >(`${this.stateService.instanceURL()}/api/trending/${trendingType.path}`)
+      .pipe(
+        tap({
+          next: (trendingItemsDTO: TrendingItemDTO[]) => {
+            const trendingItems = trendingItemsDTO.map((i) =>
+              TrendingItem.fromDTO(i),
+            );
+            const state: Partial<State> = {};
+            state[trendingType.stateName] = trendingItems;
+            this.stateService.updateState(state);
+          },
+          error: (e) => {
+            console.error(e);
+          },
+        }),
+      );
   }
 
   getTrendingCollections() {
-    this.http
-      .get<TrendingCollectionDTO[]>(
-        `${this.stateService.instanceURL()}/api/trending/collection`
-      )
-      .subscribe({
-        next: (trendingCollectionsDTO: TrendingCollectionDTO[]) => {
-          const trendingCollections = trendingCollectionsDTO.map((c) =>
-            TrendingCollection.fromDTO(c)
-          );
-          this.stateService.updateState({ trendingCollections });
-        },
-        error: (e) => {
-          console.error(e);
-        },
-      });
+    return this.http
+      .get<
+        TrendingCollectionDTO[]
+      >(`${this.stateService.instanceURL()}/api/trending/collection`)
+      .pipe(
+        tap({
+          next: (trendingCollectionsDTO: TrendingCollectionDTO[]) => {
+            const trendingCollections = trendingCollectionsDTO.map((c) =>
+              TrendingCollection.fromDTO(c),
+            );
+            this.stateService.updateState({ trendingCollections });
+          },
+          error: (e) => {
+            console.error(e);
+          },
+        }),
+      );
   }
 }

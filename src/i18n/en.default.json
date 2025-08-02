@@ -7,6 +7,17 @@
     "next": "Next"
   },
 
+  "features.explore": {
+    "page_title": "Explore",
+    "books": "Books",
+    "movies": "Movies",
+    "series": "Series",
+    "games": "Games",
+    "musics": "Musics",
+    "podcasts": "Podcasts",
+    "collections": "Collections"
+  },
+
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",
     "authentication_error": "Unable to complete authentication. Please try again."

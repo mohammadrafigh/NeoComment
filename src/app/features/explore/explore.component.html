@@ -1,0 +1,46 @@
+<ActionBar flat="true">
+  <GridLayout columns="auto, *, auto" class="pr-4 w-full">
+    <Button
+      text="&#xfa7e;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="authService.signOut(true)"
+    ></Button>
+    <Label
+      [text]="'features.explore.page_title' | L"
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+    <NSImg
+      [src]="stateService.activeState()?.user?.avatar"
+      failureImageUri="font://&#xeb4d;"
+      class="tabler-icon text-neutral-500 rounded-full w-10 h-10"
+      col="2"
+    ></NSImg>
+  </GridLayout>
+</ActionBar>
+
+<StackLayout>
+  @if (loading) {
+    <ActivityIndicator busy="true" />
+  }
+
+  <Label [text]="'features.explore.books' | L" class="h1 m-4 mb-2"></Label>
+
+  <CollectionView
+    [items]="stateService.activeState().trendingBooks"
+    orientation="horizontal"
+    colWidth="326"
+    rowHeight="100%"
+    class="bg-forest/15 py-4 px-2"
+  >
+    <ng-template let-item="item">
+      <StackLayout class="px-2">
+        <ns-book-item
+          [item]="item"
+          [language]="stateService.activeState().preference.language"
+        ></ns-book-item>
+      </StackLayout>
+    </ng-template>
+  </CollectionView>
+</StackLayout>

@@ -4,6 +4,14 @@
   <string name="_core_user_service_get_user_error_28n28">"Unable to get user info"</string>
   <string name="_core_auth_service_authentication_error_EM4WQ">"Unable to complete authentication. Please try again."</string>
   <string name="_core_auth_service_unavailable_instance_Z22pryR">"The instance is unavailable"</string>
+  <string name="_features_explore_collections_ZnPbvb">"Collections"</string>
+  <string name="_features_explore_podcasts_1tOOKf">"Podcasts"</string>
+  <string name="_features_explore_musics_2qVjsi">"Musics"</string>
+  <string name="_features_explore_games_ZzExRC">"Games"</string>
+  <string name="_features_explore_series_Z2rUgKW">"Series"</string>
+  <string name="_features_explore_movies_2qxilj">"Movies"</string>
+  <string name="_features_explore_books_ZzX3be">"Books"</string>
+  <string name="_features_explore_page_title_ZrpHT6">"Explore"</string>
   <string name="_features_sign_in_next_Vzyp">"Next"</string>
   <string name="_features_sign_in_instance_url_qg7CC">"Instance URL"</string>
   <string name="_features_sign_in_welcome_Z2se0Fl">"Welcome to NeoComment!"</string>
