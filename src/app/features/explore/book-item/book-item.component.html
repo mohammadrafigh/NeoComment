@@ -1,0 +1,10 @@
+<StackLayout class="rounded-lg bg-white" orientation="horizontal">
+  <NSImg
+    [src]="item.coverImageURL"
+    height="140"
+    class="rounded-tl-lg rounded-bl-lg"
+  ></NSImg>
+  <StackLayout class="p-3">
+    <Label [text]="localizedTitle || item.displayTitle || item.title"></Label>
+  </StackLayout>
+</StackLayout>
