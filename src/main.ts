@@ -46,7 +46,24 @@ runNativeScriptAngularApp({
 // Initialize the image module with downsampling enabled
 imageModuleInitialize({ isDownsampleEnabled: true });
 if (Application.android) {
+  // To prevent memory leaks in rare cases per plugin documentation
   Application.on(Application.exitEvent, (args) => imageModuleShutDown());
+
+  // Set status bar and navigation bar styles
+  Application.android.on(
+    Application.AndroidApplication.activityStartedEvent,
+    (args) => {
+      const window = args.activity.getWindow();
+      const decorView = window.getDecorView();
+      const View = android.view.View;
+
+      // TODO: Mohammad 07-31-2025: Remove the hardcoded colors when themes are implemented
+      const color = android.graphics.Color.parseColor("#FAFAFA");
+      window.setStatusBarColor(color);
+      window.setNavigationBarColor(color);
+      decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    },
+  );
 }
 
 // Workaround for https://github.com/NativeScript/NativeScript/issues/10769

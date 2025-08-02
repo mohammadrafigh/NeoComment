@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <!-- The default color of the ActionBar -->
-    <color name="ns_primary">#F5F5F5</color>
-	
+    <color name="ns_primary">#FAFAFA</color>
+
     <!-- (API21+) The color of the status bar and contextual app bars; this is normally a dark version of colorPrimary. -->
     <color name="ns_primaryDark">#757575</color>
 
