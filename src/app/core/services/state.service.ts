@@ -93,6 +93,7 @@ export class StateService {
     state.id = sessionId;
     state.instanceURL = instanceURL;
     this.dbService.createState(state);
+    this._instanceURL.set(instanceURL);
     this.activateState(sessionId);
   }
 
