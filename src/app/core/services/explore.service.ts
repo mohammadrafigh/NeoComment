@@ -2,16 +2,17 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { TrendingItem, TrendingItemDTO } from "../models/trending-item.model";
 import { StateService } from "./state.service";
-import { State } from "../models/state.model";
 import {
   TrendingCollection,
   TrendingCollectionDTO,
 } from "../models/trending-collection.model";
 import { forkJoin, Observable, tap } from "rxjs";
+import { Book } from "../models/book.model";
 
 interface TrendingType {
   path: string;
-  stateName: string;
+  type: typeof TrendingItem;
+  setter: (items: TrendingItem[]) => void;
 }
 
 @Injectable({
@@ -21,12 +22,36 @@ export class ExploreService {
   private http = inject(HttpClient);
   private stateService = inject(StateService);
   private TRENDING_TYPES: TrendingType[] = [
-    { path: "book", stateName: "trendingBooks" },
-    { path: "movie", stateName: "trendingMovies" },
-    { path: "tv", stateName: "trendingSeries" },
-    { path: "music", stateName: "trendingMusics" },
-    { path: "game", stateName: "trendingGames" },
-    { path: "podcast", stateName: "trendingPodcasts" },
+    {
+      path: "book",
+      type: Book,
+      setter: this.stateService.setTrendingBooks.bind(this.stateService),
+    },
+    {
+      path: "movie",
+      type: TrendingItem,
+      setter: this.stateService.setTrendingMovies.bind(this.stateService),
+    },
+    {
+      path: "tv",
+      type: TrendingItem,
+      setter: this.stateService.setTrendingSeries.bind(this.stateService),
+    },
+    {
+      path: "music",
+      type: TrendingItem,
+      setter: this.stateService.setTrendingMusics.bind(this.stateService),
+    },
+    {
+      path: "game",
+      type: TrendingItem,
+      setter: this.stateService.setTrendingGames.bind(this.stateService),
+    },
+    {
+      path: "podcast",
+      type: TrendingItem,
+      setter: this.stateService.setTrendingPodcasts.bind(this.stateService),
+    },
   ];
 
   getAllTrendings() {
@@ -47,11 +72,9 @@ export class ExploreService {
         tap({
           next: (trendingItemsDTO: TrendingItemDTO[]) => {
             const trendingItems = trendingItemsDTO.map((i) =>
-              TrendingItem.fromDTO(i),
+              trendingType.type.fromDTO(i),
             );
-            const state: Partial<State> = {};
-            state[trendingType.stateName] = trendingItems;
-            this.stateService.updateState(state);
+            trendingType.setter(trendingItems);
           },
           error: (e) => {
             console.error(e);
@@ -71,7 +94,7 @@ export class ExploreService {
             const trendingCollections = trendingCollectionsDTO.map((c) =>
               TrendingCollection.fromDTO(c),
             );
-            this.stateService.updateState({ trendingCollections });
+            this.stateService.setTrendingCollections(trendingCollections);
           },
           error: (e) => {
             console.error(e);

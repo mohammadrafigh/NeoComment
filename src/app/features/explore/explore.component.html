@@ -12,7 +12,7 @@
       col="1"
     ></Label>
     <NSImg
-      [src]="stateService.activeState()?.user?.avatar"
+      [src]="stateService.user()?.avatar"
       failureImageUri="font://&#xeb4d;"
       class="tabler-icon text-neutral-500 rounded-full w-10 h-10"
       col="2"
@@ -28,7 +28,7 @@
   <Label [text]="'features.explore.books' | L" class="h1 m-4 mb-2"></Label>
 
   <CollectionView
-    [items]="stateService.activeState().trendingBooks"
+    [items]="stateService.trendingBooks()"
     orientation="horizontal"
     colWidth="326"
     rowHeight="100%"
@@ -38,7 +38,7 @@
       <StackLayout class="px-2">
         <ns-book-item
           [item]="item"
-          [language]="stateService.activeState().preference.language"
+          [language]="stateService.preference().language"
         ></ns-book-item>
       </StackLayout>
     </ng-template>

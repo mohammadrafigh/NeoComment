@@ -48,8 +48,10 @@ export class TrendingItem {
   displayTitle: string;
   externalResources: ExternalResource[];
 
-  static fromDTO(dto: TrendingItemDTO): TrendingItem {
-    const trendingItem = new TrendingItem();
+  protected static fillFromDTO<
+    T1 extends TrendingItem,
+    T2 extends TrendingItemDTO,
+  >(trendingItem: T1, dto: T2): T1 {
     trendingItem.type = dto.type;
     trendingItem.title = dto.title;
     trendingItem.description = dto.description;
@@ -68,29 +70,11 @@ export class TrendingItem {
     trendingItem.parentUUID = dto.parent_uuid;
     trendingItem.displayTitle = dto.display_title;
     trendingItem.externalResources = dto.external_resources;
+
     return trendingItem;
   }
 
-  static toDTO(trendingItem: TrendingItem): TrendingItemDTO {
-    return {
-      type: trendingItem.type,
-      title: trendingItem.title,
-      description: trendingItem.description,
-      localized_title: trendingItem.localizedTitle,
-      localized_description: trendingItem.localizedDescription,
-      cover_image_url: trendingItem.coverImageURL,
-      rating: trendingItem.rating,
-      rating_count: trendingItem.ratingCount,
-      rating_distribution: trendingItem.ratingDistribution,
-      tags: trendingItem.tags,
-      id: trendingItem.id,
-      uuid: trendingItem.uuid,
-      url: trendingItem.url,
-      api_url: trendingItem.apiURL,
-      category: trendingItem.category,
-      parent_uuid: trendingItem.parentUUID,
-      display_title: trendingItem.displayTitle,
-      external_resources: trendingItem.externalResources,
-    };
+  static fromDTO(dto: TrendingItemDTO): TrendingItem {
+    return this.fillFromDTO(new TrendingItem(), dto);
   }
 }

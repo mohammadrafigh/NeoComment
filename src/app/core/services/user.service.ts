@@ -30,7 +30,7 @@ export class UserService {
       .get<UserDTO>(`${this.stateService.instanceURL()}/api/me`)
       .subscribe({
         next: (user: UserDTO) => {
-          this.stateService.updateState({ user: User.fromDTO(user) });
+          this.stateService.setUser(User.fromDTO(user));
         },
         error: (e) => {
           console.error(e);
@@ -48,9 +48,7 @@ export class UserService {
       )
       .subscribe({
         next: (preference: PreferenceDTO) => {
-          this.stateService.updateState({
-            preference: Preference.fromDTO(preference),
-          });
+          this.stateService.setPreference(Preference.fromDTO(preference));
         },
         error: (e) => {
           console.error(e);

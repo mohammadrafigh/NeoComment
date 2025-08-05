@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CouchBase } from "@triniwiz/nativescript-couchbase";
-import { State } from "../models/state.model";
+import { StateCache } from "../models/state-cache.model";
 import { Application } from "@nativescript/core";
 
 @Injectable({
@@ -23,7 +23,7 @@ export class DatabaseService {
     }
   }
 
-  createState(state: State): string {
+  createState(state: StateCache): string {
     try {
       const id = this.database.createDocument(state, state.id);
       return id;
@@ -32,7 +32,7 @@ export class DatabaseService {
     }
   }
 
-  async updateState(state: State): Promise<void> {
+  async updateState(state: StateCache): Promise<void> {
     try {
       this.database.updateDocument(state.id, state);
       return Promise.resolve();
@@ -52,9 +52,9 @@ export class DatabaseService {
     }
   }
 
-  getStates(): State[] {
+  getStates(): StateCache[] {
     try {
-      const states: State[] = this.database.query();
+      const states: StateCache[] = this.database.query();
       return states ?? [];
     } catch (e) {
       console.log(e);
