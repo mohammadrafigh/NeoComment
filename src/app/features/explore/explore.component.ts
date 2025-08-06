@@ -107,7 +107,7 @@ export class ExploreComponent implements OnInit {
         break;
       }
       case "game": {
-        const item = this.stateService.trendingGames()[args.index];
+        // Just a placeholder for the future
         break;
       }
       case "music": {

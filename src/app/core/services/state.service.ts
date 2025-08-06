@@ -6,6 +6,7 @@ import { User } from "../models/user.model";
 import { Preference } from "../models/preference.model";
 import { Book } from "../models/book.model";
 import { Movie } from "../models/movie.model";
+import { Game } from "../models/game.model";
 import { Series } from "../models/series.model";
 import { TrendingItem } from "../models/trending-item.model";
 import { TrendingCollection } from "../models/trending-collection.model";
@@ -30,10 +31,10 @@ export class StateService {
   trendingMovies = this._trendingMovies.asReadonly();
   private _trendingSeries = signal<Series[]>([]);
   trendingSeries = this._trendingSeries.asReadonly();
+  private _trendingGames = signal<Game[]>([]);
+  trendingGames = this._trendingGames.asReadonly();
   private _trendingMusics = signal<TrendingItem[]>([]);
   trendingMusics = this._trendingMusics.asReadonly();
-  private _trendingGames = signal<TrendingItem[]>([]);
-  trendingGames = this._trendingGames.asReadonly();
   private _trendingPodcasts = signal<TrendingItem[]>([]);
   trendingPodcasts = this._trendingPodcasts.asReadonly();
   private _trendingCollections = signal<TrendingCollection[]>([]);
@@ -128,12 +129,12 @@ export class StateService {
     this._trendingSeries.set(series);
   }
 
-  setTrendingMusics(musics: TrendingItem[]) {
-    this._trendingMusics.set(musics);
+  setTrendingGames(games: Game[]) {
+    this._trendingGames.set(games);
   }
 
-  setTrendingGames(games: TrendingItem[]) {
-    this._trendingGames.set(games);
+  setTrendingMusics(musics: TrendingItem[]) {
+    this._trendingMusics.set(musics);
   }
 
   setTrendingPodcasts(podcasts: TrendingItem[]) {
@@ -161,6 +162,12 @@ export class StateService {
   updateSeries(seriesItem: Series) {
     this._trendingSeries.update((series) =>
       series.map((s) => (s.uuid === seriesItem.uuid ? seriesItem : s)),
+    );
+  }
+
+  updateGame(game: Game) {
+    this._trendingGames.update((games) =>
+      games.map((g) => (g.uuid === game.uuid ? game : g)),
     );
   }
 }
