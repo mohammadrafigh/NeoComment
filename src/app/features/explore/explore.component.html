@@ -21,25 +21,172 @@
 </ActionBar>
 
 <StackLayout>
+  <StackLayout
+    class="textfield-with-icon-container m-4"
+    orientation="horizontal"
+  >
+    <Label text="&#xeb1c;" class="tabler-icon text-neutral-500"></Label>
+    <TextField
+      [hint]="'features.explore.search' | L"
+      returnKeyType="search"
+      (returnPress)="search()"
+      [(ngModel)]="searchInput"
+    />
+  </StackLayout>
+
   @if (loading) {
     <ActivityIndicator busy="true" />
   }
 
-  <Label [text]="'features.explore.books' | L" class="h1 m-4 mb-2"></Label>
+  <CollectionView [items]="trendingCategories" [itemTemplateSelector]="templateSelector">
+    <ng-template cvTemplateKey="books" let-item="category">
+      <StackLayout>
+        <Label [text]="'features.explore.books' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="stateService.trendingBooks()"
+          orientation="horizontal"
+          colWidth="326"
+          rowHeight="100%"
+          class="bg-forest/15 py-4 px-2"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="px-2">
+              <ns-book-item
+                [item]="item"
+                [language]="stateService.preference().language"
+              ></ns-book-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      </StackLayout>
+    </ng-template>
 
-  <CollectionView
-    [items]="stateService.trendingBooks()"
-    orientation="horizontal"
-    colWidth="326"
-    rowHeight="100%"
-    class="bg-forest/15 py-4 px-2"
-  >
-    <ng-template let-item="item">
-      <StackLayout class="px-2">
-        <ns-book-item
-          [item]="item"
-          [language]="stateService.preference().language"
-        ></ns-book-item>
+    <ng-template cvTemplateKey="movies" let-item="category">
+      <StackLayout>
+        <Label [text]="'features.explore.movies' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="stateService.trendingMovies()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="100%"
+          class="bg-forest/15 py-4 px-2"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="px-2">
+              <ns-movie-item
+                [item]="item"
+                [language]="stateService.preference().language"
+              ></ns-movie-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="series" let-item="category">
+      <StackLayout>
+        <Label [text]="'features.explore.series' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="stateService.trendingSeries()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="100%"
+          class="bg-forest/15 py-4 px-2"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="px-2">
+              <ns-series-item
+                [item]="item"
+                [language]="stateService.preference().language"
+              ></ns-series-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="games" let-item="category">
+      <StackLayout>
+        <Label [text]="'features.explore.games' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="stateService.trendingGames()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="100%"
+          class="bg-forest/15 py-4 px-2"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="px-2">
+              <ns-game-item
+                [item]="item"
+                [language]="stateService.preference().language"
+              ></ns-game-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="musics" let-item="category">
+      <StackLayout>
+        <Label [text]="'features.explore.musics' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="stateService.trendingMusics()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="100%"
+          class="bg-forest/15 py-4 px-2"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="px-2">
+              <ns-music-item
+                [item]="item"
+                [language]="stateService.preference().language"
+              ></ns-music-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="podcasts" let-item="category">
+      <StackLayout>
+        <Label [text]="'features.explore.podcasts' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="stateService.trendingPodcasts()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="100%"
+          class="bg-forest/15 py-4 px-2"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="px-2">
+              <ns-podcast-item
+                [item]="item"
+                [language]="stateService.preference().language"
+              ></ns-podcast-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="collections" let-item="category">
+      <StackLayout>
+        <Label [text]="'features.explore.collections' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="stateService.trendingCollections()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="100%"
+          class="bg-forest/15 py-4 px-2"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="px-2">
+              <ns-collection-item [item]="item" [instanceURL]="stateService.instanceURL()"></ns-collection-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
       </StackLayout>
     </ng-template>
   </CollectionView>

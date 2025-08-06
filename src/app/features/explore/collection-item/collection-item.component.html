@@ -1,0 +1,44 @@
+<StackLayout class="rounded-lg bg-white w-[150]">
+  <NSImg
+    [src]="instanceURL + item.cover"
+    class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
+  ></NSImg>
+  <StackLayout class="p-2">
+    <FlexboxLayout class="flex-col justify-between">
+      <StackLayout class="w-full">
+        <Label
+          [text]="item.title"
+          class="mb-0.5"
+          textWrap="true"
+        ></Label>
+        <!-- <Label
+          [text]="2002"
+          class="text-xs font-medium text-neutral-500"
+          textWrap="true"
+        ></Label> -->
+      </StackLayout>
+      <FlexboxLayout class="justify-between mt-2">
+        <StackLayout orientation="horizontal">
+          <Label
+            text="&#xeabe;"
+            class="tabler-icon text-neutral-500 mr-1 text-lg"
+          ></Label>
+          <!-- <Label
+            [text]="item.ratingCount | kilo"
+            class="text-neutral-500 text-sm"
+          ></Label> -->
+        </StackLayout>
+        <StackLayout orientation="horizontal">
+          <!-- <Label
+            [text]="item.rating"
+            class="text-neutral-500 text-sm mr-2"
+          ></Label> -->
+          <Label
+            text="&#xeb72;"
+            class="tabler-icon text-neutral-500 text-lg"
+          ></Label>
+        </StackLayout>
+      </FlexboxLayout>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>

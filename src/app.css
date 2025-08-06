@@ -11,26 +11,36 @@
   }
 }
 
-.tabler-icon {
-  font-family: "tabler-icons-300", "tabler-icons";
-  font-size: 24;
-  font-weight: 400;
-}
+@layer components {
+  .tabler-icon {
+    font-family: "tabler-icons-300", "tabler-icons";
+    font-size: 24;
+    font-weight: 400;
+  }
 
-Page {
-  @apply bg-neutral-50 dark:bg-neutral-800;
-}
+  Page {
+    @apply bg-neutral-50 dark:bg-neutral-800;
+  }
 
-Label {
-  @apply text-neutral-700;
-}
+  Label {
+    @apply text-neutral-700;
+  }
 
-.icon-button {
-  @apply text-center rounded-full w-10 h-10 min-w-10 min-h-10 text-neutral-500 highlighted:bg-neutral-200;
-  android-elevation: 0;
-  android-dynamic-elevation-offset: 0;
-}
+  TextField {
+    @apply border-none rounded-full bg-neutral-200 h-12 px-4 text-neutral-500;
+  }
 
-.h1 {
-  @apply text-base font-medium;
+  .h1 {
+    @apply text-base font-medium;
+  }
+
+  .icon-button {
+    @apply text-center rounded-full w-10 h-10 min-w-10 min-h-10 text-neutral-500 highlighted:bg-neutral-200;
+    android-elevation: 0;
+    android-dynamic-elevation-offset: 0;
+  }
+
+  .textfield-with-icon-container {
+    @apply rounded-full bg-neutral-200 h-12 px-4;
+  }
 }
