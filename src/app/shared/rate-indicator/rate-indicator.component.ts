@@ -6,24 +6,21 @@ import { NativeScriptCommonModule } from "@nativescript/angular";
   imports: [NativeScriptCommonModule],
   schemas: [NO_ERRORS_SCHEMA],
   template: `
-    <AbsoluteLayout>
-      <StackLayout
-        class="bg-forest rounded-full"
-        [height]="size - 2"
-        [width]="(rate * (size - 2)) / maxRate"
-        top="1"
-        left="1"
-      ></StackLayout>
-      <StackLayout
-        class="rounded-full border-[1] border-neutral-500"
-        [height]="size"
-        [width]="size"
-      ></StackLayout>
-    </AbsoluteLayout>
+    <StackLayout
+      class="rounded-full border-[1] border-neutral-500 bg-forest"
+      [background]="
+        'linear-gradient(to right, transparent ' +
+        rate * 10 +
+        '%, white ' +
+        rate * 10 +
+        '%)'
+      "
+      [height]="size"
+      [width]="size"
+    ></StackLayout>
   `,
 })
 export class RateIndicatorComponent {
   @Input() rate: number;
-  @Input() maxRate = 10;
   @Input() size = 18;
 }
