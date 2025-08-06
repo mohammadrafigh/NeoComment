@@ -20,9 +20,9 @@ export interface BookDTO extends TrendingItemDTO {
 export class Book extends TrendingItem {
   subtitle: string;
   origTitle: string;
-  author: string[];
-  translator: string[];
-  language: string[];
+  authors: string[];
+  translators: string[];
+  languages: string[];
   pubHouse: string;
   pubYear: number;
   pubMonth: number;
@@ -38,9 +38,9 @@ export class Book extends TrendingItem {
     super.fillFromDTO(book, dto);
     book.subtitle = dto.subtitle;
     book.origTitle = dto.orig_title;
-    book.author = dto.author;
-    book.translator = dto.translator;
-    book.language = dto.language;
+    book.authors = dto.author;
+    book.translators = dto.translator;
+    book.languages = dto.language;
     book.pubHouse = dto.pub_house;
     book.pubYear = dto.pub_year;
     book.pubMonth = dto.pub_month;

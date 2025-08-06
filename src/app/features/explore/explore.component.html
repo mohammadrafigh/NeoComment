@@ -48,6 +48,7 @@
           colWidth="326"
           rowHeight="100%"
           class="bg-forest/15 py-4 px-2"
+          (itemLoading)="onItemLoading($event, 'book')"
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
@@ -70,6 +71,7 @@
           colWidth="166"
           rowHeight="100%"
           class="bg-forest/15 py-4 px-2"
+          (itemLoading)="onItemLoading($event, 'movie')"
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
@@ -92,6 +94,7 @@
           colWidth="166"
           rowHeight="100%"
           class="bg-forest/15 py-4 px-2"
+          (itemLoading)="onItemLoading($event, 'series')"
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
@@ -114,6 +117,7 @@
           colWidth="166"
           rowHeight="100%"
           class="bg-forest/15 py-4 px-2"
+          (itemLoading)="onItemLoading($event, 'game')"
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
@@ -136,6 +140,7 @@
           colWidth="166"
           rowHeight="100%"
           class="bg-forest/15 py-4 px-2"
+          (itemLoading)="onItemLoading($event, 'music')"
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
@@ -158,6 +163,7 @@
           colWidth="166"
           rowHeight="100%"
           class="bg-forest/15 py-4 px-2"
+          (itemLoading)="onItemLoading($event, 'podcast')"
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
@@ -180,6 +186,7 @@
           colWidth="166"
           rowHeight="100%"
           class="bg-forest/15 py-4 px-2"
+          (itemLoading)="onItemLoading($event, 'collection')"
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">

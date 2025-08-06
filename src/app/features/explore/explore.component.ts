@@ -14,6 +14,7 @@ import { CollectionViewModule } from "@nativescript-community/ui-collectionview/
 import { StateService } from "../../core/services/state.service";
 import { ExploreService } from "../../core/services/explore.service";
 import { AuthService } from "../../core/services/auth.service";
+import { BookService } from "../../core/services/book.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { BookItemComponent } from "./book-item/book-item.component";
 import { MovieItemComponent } from "./movie-item/movie-item.component";
@@ -22,6 +23,7 @@ import { GameItemComponent } from "./game-item/game-item.component";
 import { MusicItemComponent } from "./music-item/music-item.component";
 import { PodcastItemComponent } from "./podcast-item/podcast-item.component";
 import { CollectionItemComponent } from "./collection-item/collection-item.component";
+import { ItemEventData } from "@nativescript/core";
 
 @Component({
   selector: "ns-explore",
@@ -48,6 +50,7 @@ export class ExploreComponent implements OnInit {
   stateService = inject(StateService);
   exploreService = inject(ExploreService);
   authService = inject(AuthService);
+  bookService = inject(BookService);
   loading = false;
   searchInput: string = null;
   trendingCategories = [
@@ -74,6 +77,42 @@ export class ExploreComponent implements OnInit {
 
   templateSelector(category: string) {
     return category;
+  }
+
+  onItemLoading(args: ItemEventData, type: string) {
+    switch (type) {
+      case "book": {
+        const item = this.stateService.trendingBooks()[args.index];
+        if (!item?.authors) {
+          this.bookService.getBookDetails(item.uuid);
+        }
+        break;
+      }
+      case "movie": {
+        const item = this.stateService.trendingMovies()[args.index];
+        break;
+      }
+      case "series": {
+        const item = this.stateService.trendingSeries()[args.index];
+        break;
+      }
+      case "game": {
+        const item = this.stateService.trendingGames()[args.index];
+        break;
+      }
+      case "music": {
+        const item = this.stateService.trendingMusics()[args.index];
+        break;
+      }
+      case "podcast": {
+        const item = this.stateService.trendingPodcasts()[args.index];
+        break;
+      }
+      case "collection": {
+        const item = this.stateService.trendingCollections()[args.index];
+        break;
+      }
+    }
   }
 
   search() {

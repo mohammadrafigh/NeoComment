@@ -141,4 +141,12 @@ export class StateService {
   setTrendingCollections(collections: TrendingCollection[]) {
     this._trendingCollections.set(collections);
   }
+
+  // -----------------------------------------------------
+
+  updateBook(book: Book) {
+    this._trendingBooks.update((books) =>
+      books.map((b) => (b.uuid === book.uuid ? book : b)),
+    );
+  }
 }

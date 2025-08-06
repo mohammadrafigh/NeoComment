@@ -8,6 +8,11 @@
       <StackLayout class="w-full">
         <Label
           [text]="(item?.localizedTitle | neoL: language) || item?.displayTitle || item?.title"
+          class="mb-0.5"
+          textWrap="true"
+        ></Label>
+        <Label [text]="item?.authors?.join(' - ')"
+          class="text-xs font-medium text-neutral-500"
           textWrap="true"
         ></Label>
       </StackLayout>
