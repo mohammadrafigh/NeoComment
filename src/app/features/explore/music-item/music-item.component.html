@@ -4,17 +4,19 @@
     class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
   ></NSImg>
   <StackLayout class="p-2">
-    <FlexboxLayout class="flex-col justify-between">
+    <FlexboxLayout class="flex-col justify-between h-[90]">
       <StackLayout class="w-full">
         <Label
           [text]="(item?.localizedTitle | neoL: language) || item?.displayTitle || item?.title"
           class="mb-0.5"
           textWrap="true"
+          [maxLines]="2"
         ></Label>
         <Label
           [text]="item?.artists?.join(' - ')"
           class="text-xs font-medium text-neutral-500"
           textWrap="true"
+          [maxLines]="1"
         ></Label>
       </StackLayout>
       <FlexboxLayout class="justify-between mt-2">
