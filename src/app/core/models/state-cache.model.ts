@@ -4,6 +4,7 @@ import { TrendingItem } from "./trending-item.model";
 import { TrendingCollection } from "./trending-collection.model";
 import { Book } from "./book.model";
 import { Movie } from "./movie.model";
+import { Series } from "./series.model";
 
 export class StateCache {
   id: string; // Same as sessionId
@@ -12,7 +13,7 @@ export class StateCache {
   preference: Preference;
   trendingBooks: Book[];
   trendingMovies: Movie[];
-  trendingSeries: TrendingItem[];
+  trendingSeries: Series[];
   trendingMusics: TrendingItem[];
   trendingGames: TrendingItem[];
   trendingPodcasts: TrendingItem[];

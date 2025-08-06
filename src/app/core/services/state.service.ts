@@ -6,6 +6,7 @@ import { User } from "../models/user.model";
 import { Preference } from "../models/preference.model";
 import { Book } from "../models/book.model";
 import { Movie } from "../models/movie.model";
+import { Series } from "../models/series.model";
 import { TrendingItem } from "../models/trending-item.model";
 import { TrendingCollection } from "../models/trending-collection.model";
 
@@ -27,7 +28,7 @@ export class StateService {
   trendingBooks = this._trendingBooks.asReadonly();
   private _trendingMovies = signal<Movie[]>([]);
   trendingMovies = this._trendingMovies.asReadonly();
-  private _trendingSeries = signal<TrendingItem[]>([]);
+  private _trendingSeries = signal<Series[]>([]);
   trendingSeries = this._trendingSeries.asReadonly();
   private _trendingMusics = signal<TrendingItem[]>([]);
   trendingMusics = this._trendingMusics.asReadonly();
@@ -123,7 +124,7 @@ export class StateService {
     this._trendingMovies.set(movies);
   }
 
-  setTrendingSeries(series: TrendingItem[]) {
+  setTrendingSeries(series: Series[]) {
     this._trendingSeries.set(series);
   }
 
@@ -154,6 +155,12 @@ export class StateService {
   updateMovie(movie: Movie) {
     this._trendingMovies.update((movies) =>
       movies.map((m) => (m.uuid === movie.uuid ? movie : m)),
+    );
+  }
+
+  updateSeries(seriesItem: Series) {
+    this._trendingSeries.update((series) =>
+      series.map((s) => (s.uuid === seriesItem.uuid ? seriesItem : s)),
     );
   }
 }
