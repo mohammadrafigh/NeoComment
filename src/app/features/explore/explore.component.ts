@@ -15,6 +15,7 @@ import { StateService } from "../../core/services/state.service";
 import { ExploreService } from "../../core/services/explore.service";
 import { AuthService } from "../../core/services/auth.service";
 import { BookService } from "../../core/services/book.service";
+import { MovieService } from "../../core/services/movie.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { BookItemComponent } from "./book-item/book-item.component";
 import { MovieItemComponent } from "./movie-item/movie-item.component";
@@ -51,6 +52,7 @@ export class ExploreComponent implements OnInit {
   exploreService = inject(ExploreService);
   authService = inject(AuthService);
   bookService = inject(BookService);
+  movieService = inject(MovieService);
   loading = false;
   searchInput: string = null;
   trendingCategories = [
@@ -90,6 +92,9 @@ export class ExploreComponent implements OnInit {
       }
       case "movie": {
         const item = this.stateService.trendingMovies()[args.index];
+        if (!item?.year) {
+          this.movieService.getMovieDetails(item.uuid);
+        }
         break;
       }
       case "series": {

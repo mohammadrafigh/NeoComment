@@ -5,6 +5,7 @@ import { debounceTime, Subject } from "rxjs";
 import { User } from "../models/user.model";
 import { Preference } from "../models/preference.model";
 import { Book } from "../models/book.model";
+import { Movie } from "../models/movie.model";
 import { TrendingItem } from "../models/trending-item.model";
 import { TrendingCollection } from "../models/trending-collection.model";
 
@@ -24,7 +25,7 @@ export class StateService {
   preference = this._preference.asReadonly();
   private _trendingBooks = signal<Book[]>([]);
   trendingBooks = this._trendingBooks.asReadonly();
-  private _trendingMovies = signal<TrendingItem[]>([]);
+  private _trendingMovies = signal<Movie[]>([]);
   trendingMovies = this._trendingMovies.asReadonly();
   private _trendingSeries = signal<TrendingItem[]>([]);
   trendingSeries = this._trendingSeries.asReadonly();
@@ -118,7 +119,7 @@ export class StateService {
     this._trendingBooks.set(books);
   }
 
-  setTrendingMovies(movies: TrendingItem[]) {
+  setTrendingMovies(movies: Movie[]) {
     this._trendingMovies.set(movies);
   }
 
@@ -147,6 +148,12 @@ export class StateService {
   updateBook(book: Book) {
     this._trendingBooks.update((books) =>
       books.map((b) => (b.uuid === book.uuid ? book : b)),
+    );
+  }
+
+  updateMovie(movie: Movie) {
+    this._trendingMovies.update((movies) =>
+      movies.map((m) => (m.uuid === movie.uuid ? movie : m)),
     );
   }
 }
