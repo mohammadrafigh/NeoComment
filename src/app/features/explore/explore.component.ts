@@ -17,6 +17,7 @@ import { AuthService } from "../../core/services/auth.service";
 import { BookService } from "../../core/services/book.service";
 import { MovieService } from "../../core/services/movie.service";
 import { SeriesService } from "../../core/services/series.service";
+import { MusicService } from "../../core/services/music.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { BookItemComponent } from "./book-item/book-item.component";
 import { MovieItemComponent } from "./movie-item/movie-item.component";
@@ -55,6 +56,7 @@ export class ExploreComponent implements OnInit {
   bookService = inject(BookService);
   movieService = inject(MovieService);
   seriesService = inject(SeriesService);
+  musicService = inject(MusicService);
   loading = false;
   searchInput: string = null;
   trendingCategories = [
@@ -112,6 +114,9 @@ export class ExploreComponent implements OnInit {
       }
       case "music": {
         const item = this.stateService.trendingMusics()[args.index];
+        if (!item?.artists) {
+          this.musicService.getMusicDetails(item.uuid);
+        }
         break;
       }
       case "podcast": {

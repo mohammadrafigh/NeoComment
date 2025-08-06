@@ -1,7 +1,7 @@
 import { Component, Input, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
-import { TrendingItem } from "../../../core/models/trending-item.model";
+import { Game } from "../../../core/models/game.model";
 import { RateIndicatorComponent } from "../../../shared/rate-indicator/rate-indicator.component";
 import { KiloPipe } from "../../../shared/pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
@@ -19,6 +19,6 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
   schemas: [NO_ERRORS_SCHEMA],
 })
 export class GameItemComponent {
-  @Input() item: TrendingItem;
+  @Input() item: Game;
   @Input() language: string;
 }
