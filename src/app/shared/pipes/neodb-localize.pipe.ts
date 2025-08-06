@@ -5,10 +5,10 @@ import { LocalizedText } from "../../core/models/trending-item.model";
 @Pipe({ name: "neoL" })
 export class NeoDBLocalizePipe implements PipeTransform {
   transform(value: LocalizedText[], targetLanguage: string): string | undefined {
-    if (value.length === 0) {
-      return;
+    if (value?.length > 0) {
+      return value.find((lt) => lt.lang === targetLanguage)?.text;
     }
 
-    return value.find((lt) => lt.lang === targetLanguage)?.text;
+    return;
   }
 }
