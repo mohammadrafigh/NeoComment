@@ -9,7 +9,7 @@ import { Movie } from "../models/movie.model";
 import { Game } from "../models/game.model";
 import { Series } from "../models/series.model";
 import { Music } from "../models/music.model";
-import { TrendingItem } from "../models/trending-item.model";
+import { Podcast } from "../models/podcast.model";
 import { TrendingCollection } from "../models/trending-collection.model";
 
 @Injectable({
@@ -36,7 +36,7 @@ export class StateService {
   trendingGames = this._trendingGames.asReadonly();
   private _trendingMusics = signal<Music[]>([]);
   trendingMusics = this._trendingMusics.asReadonly();
-  private _trendingPodcasts = signal<TrendingItem[]>([]);
+  private _trendingPodcasts = signal<Podcast[]>([]);
   trendingPodcasts = this._trendingPodcasts.asReadonly();
   private _trendingCollections = signal<TrendingCollection[]>([]);
   trendingCollections = this._trendingCollections.asReadonly();
@@ -138,7 +138,7 @@ export class StateService {
     this._trendingMusics.set(musics);
   }
 
-  setTrendingPodcasts(podcasts: TrendingItem[]) {
+  setTrendingPodcasts(podcasts: Podcast[]) {
     this._trendingPodcasts.set(podcasts);
   }
 
@@ -175,6 +175,12 @@ export class StateService {
   updateMusic(music: Music) {
     this._trendingMusics.update((musics) =>
       musics.map((m) => (m.uuid === music.uuid ? music : m)),
+    );
+  }
+
+  updatePodcast(podcast: Podcast) {
+    this._trendingPodcasts.update((podcasts) =>
+      podcasts.map((p) => (p.uuid === podcast.uuid ? podcast : p)),
     );
   }
 }

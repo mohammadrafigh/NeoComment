@@ -120,7 +120,7 @@ export class ExploreComponent implements OnInit {
         break;
       }
       case "podcast": {
-        const item = this.stateService.trendingPodcasts()[args.index];
+        // Just a placeholder for the future
         break;
       }
       case "collection": {
