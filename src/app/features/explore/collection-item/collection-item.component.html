@@ -1,13 +1,13 @@
 <StackLayout class="rounded-lg bg-white w-[150]">
   <NSImg
-    [src]="instanceURL + item.cover"
+    [src]="instanceURL + item?.cover"
     class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
   ></NSImg>
   <StackLayout class="p-2">
     <FlexboxLayout class="flex-col justify-between">
       <StackLayout class="w-full">
         <Label
-          [text]="item.title"
+          [text]="item?.title"
           class="mb-0.5"
           textWrap="true"
         ></Label>
@@ -24,13 +24,13 @@
             class="tabler-icon text-neutral-500 mr-1 text-lg"
           ></Label>
           <!-- <Label
-            [text]="item.ratingCount | kilo"
+            [text]="item?.ratingCount | kilo"
             class="text-neutral-500 text-sm"
           ></Label> -->
         </StackLayout>
         <StackLayout orientation="horizontal">
           <!-- <Label
-            [text]="item.rating"
+            [text]="item?.rating"
             class="text-neutral-500 text-sm mr-2"
           ></Label> -->
           <Label

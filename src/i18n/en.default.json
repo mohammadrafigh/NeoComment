@@ -15,7 +15,8 @@
     "games": "Games",
     "musics": "Musics",
     "podcasts": "Podcasts",
-    "collections": "Collections"
+    "collections": "Collections",
+    "search": "Search"
   },
 
   "core.auth_service": {

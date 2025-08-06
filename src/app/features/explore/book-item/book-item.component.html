@@ -1,13 +1,13 @@
 <StackLayout class="rounded-lg bg-white h-[140]" orientation="horizontal">
   <NSImg
-    [src]="item.coverImageURL"
+    [src]="item?.coverImageURL"
     class="rounded-tl-lg rounded-bl-lg h-[140] w-[93]"
   ></NSImg>
   <StackLayout class="p-3">
     <FlexboxLayout class="flex-col justify-between h-full">
       <StackLayout class="w-full">
         <Label
-          [text]="localizedTitle || item.displayTitle || item.title"
+          [text]="(item?.localizedTitle | neoL: language) || item?.displayTitle || item?.title"
           textWrap="true"
         ></Label>
       </StackLayout>
@@ -18,17 +18,17 @@
             class="tabler-icon text-neutral-500 mr-1 text-lg"
           ></Label>
           <Label
-            [text]="item.ratingCount | kilo"
+            [text]="item?.ratingCount | kilo"
             class="text-neutral-500 text-sm"
           ></Label>
         </StackLayout>
-        @if (item.rating > 0) {
+        @if (item?.rating > 0) {
           <StackLayout orientation="horizontal">
             <Label
-              [text]="item.rating"
+              [text]="item?.rating"
               class="text-neutral-500 text-sm mr-2"
             ></Label>
-            <ns-rate-indicator [rate]="item.rating" [size]="18"></ns-rate-indicator>
+            <ns-rate-indicator [rate]="item?.rating" [size]="18"></ns-rate-indicator>
           </StackLayout>
         }
       </FlexboxLayout>

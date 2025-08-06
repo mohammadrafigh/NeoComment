@@ -1,29 +1,24 @@
-import {
-  Component,
-  Input,
-  NO_ERRORS_SCHEMA,
-  OnInit,
-} from "@angular/core";
+import { Component, Input, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { TrendingItem } from "../../../core/models/trending-item.model";
 import { RateIndicatorComponent } from "../../../shared/rate-indicator/rate-indicator.component";
-import { KiloPipe } from "../../../shared/pipes/kilo/kilo.pipe";
+import { KiloPipe } from "../../../shared/pipes/kilo.pipe";
+import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 
 @Component({
   selector: "ns-series-item",
   templateUrl: "./series-item.component.html",
-  imports: [NativeScriptCommonModule, NativeScriptLocalizeModule, RateIndicatorComponent, KiloPipe],
+  imports: [
+    NativeScriptCommonModule,
+    NativeScriptLocalizeModule,
+    RateIndicatorComponent,
+    KiloPipe,
+    NeoDBLocalizePipe,
+  ],
   schemas: [NO_ERRORS_SCHEMA],
 })
-export class SeriesItemComponent implements OnInit {
+export class SeriesItemComponent {
   @Input() item: TrendingItem;
   @Input() language: string;
-  localizedTitle: string;
-
-  ngOnInit() {
-    this.localizedTitle = this.item.localizedTitle.find(
-      (lt) => lt.lang === this.language,
-    )?.text;
-  }
 }
