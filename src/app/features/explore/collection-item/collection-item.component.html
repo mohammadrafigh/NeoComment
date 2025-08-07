@@ -4,16 +4,16 @@
     class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
   ></NSImg>
   <StackLayout class="p-2">
-    <FlexboxLayout class="flex-col justify-between">
+    <FlexboxLayout class="flex-col justify-between h-20">
       <StackLayout class="w-full">
         <Label
           [text]="item?.title"
-          class="mb-0.5"
           textWrap="true"
+          [maxLines]="2"
         ></Label>
         <!-- <Label
           [text]="2002"
-          class="text-xs font-medium text-neutral-500"
+          class="text-xs font-medium text-neutral-500 mt-0.5"
           textWrap="true"
         ></Label> -->
       </StackLayout>
