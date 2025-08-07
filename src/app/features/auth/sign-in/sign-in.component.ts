@@ -6,6 +6,7 @@ import {
 } from "@nativescript/angular";
 import { AuthService } from "../../../core/services/auth.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
+import { finalize } from "rxjs";
 
 @Component({
   selector: "ns-sign-in",
@@ -28,8 +29,11 @@ export class SignInComponent {
 
   checkInstance() {
     this.loading = true;
-    this.authService.registerClient(this.instanceURL).subscribe({
-      complete: () => (this.loading = false),
-    });
+    this.authService
+      .registerClient(this.instanceURL)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe({
+        error: (e) => console.log("Failed to register client"),
+      });
   }
 }

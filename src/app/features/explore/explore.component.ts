@@ -27,6 +27,7 @@ import { MusicItemComponent } from "./music-item/music-item.component";
 import { PodcastItemComponent } from "./podcast-item/podcast-item.component";
 import { CollectionItemComponent } from "./collection-item/collection-item.component";
 import { ItemEventData } from "@nativescript/core";
+import { finalize } from "rxjs";
 
 @Component({
   selector: "ns-explore",
@@ -75,10 +76,12 @@ export class ExploreComponent implements OnInit {
 
   getAllTrendings() {
     this.loading = true;
-    this.exploreService.getAllTrendings().subscribe({
-      error: () => console.error("Couldn't fetch trendings"),
-      complete: () => (this.loading = false),
-    });
+    this.exploreService
+      .getAllTrendings()
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe({
+        error: () => console.error("Couldn't fetch trendings"),
+      });
   }
 
   templateSelector(category: string) {
