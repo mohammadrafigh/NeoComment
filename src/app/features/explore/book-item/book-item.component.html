@@ -1,11 +1,11 @@
-<StackLayout class="rounded-lg bg-white h-[140]" orientation="horizontal">
+<StackLayout class="rounded-lg bg-white h-[150]" orientation="horizontal">
   <NSImg
     [src]="item?.coverImageURL"
-    class="rounded-tl-lg rounded-bl-lg h-[140] w-[93]"
+    class="rounded-tl-lg rounded-bl-lg h-[150] w-[100]"
   ></NSImg>
   <StackLayout class="p-3">
-    <FlexboxLayout class="flex-col justify-between h-full">
-      <StackLayout class="w-full">
+    <FlexboxLayout class="flex-col justify-between h-full w-full">
+      <StackLayout>
         <Label
           [text]="(item?.localizedTitle | neoL: language) || item?.displayTitle || item?.title"
           class="mb-0.5"

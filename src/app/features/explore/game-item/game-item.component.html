@@ -1,11 +1,11 @@
-<StackLayout class="rounded-lg bg-white w-[150]">
+<StackLayout class="rounded-lg bg-white w-[150] h-[246]">
   <NSImg
     [src]="item?.coverImageURL"
     class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
   ></NSImg>
   <StackLayout class="p-2">
-    <FlexboxLayout class="flex-col justify-between h-20">
-      <StackLayout class="w-full">
+    <FlexboxLayout class="flex-col justify-between h-full w-full">
+      <StackLayout>
         <Label
           [text]="(item?.localizedTitle | neoL: language) || item?.displayTitle || item?.title"
           textWrap="true"

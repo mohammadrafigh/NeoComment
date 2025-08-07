@@ -49,9 +49,9 @@ export class StateService {
         const stateCache = states.find((s) => s.id === this.activeSessionId());
         if (stateCache) {
           // Hydration of signals (state chunks)
-          this._instanceURL.set(stateCache.instanceURL);
-          this._user.set(stateCache.user);
-          this._preference.set(stateCache.preference);
+          this._instanceURL.set(stateCache.instanceURL || null);
+          this._user.set(stateCache.user || null);
+          this._preference.set(stateCache.preference || null);
           this._trendingBooks.set(stateCache.trendingBooks || []);
           this._trendingMovies.set(stateCache.trendingMovies || []);
           this._trendingSeries.set(stateCache.trendingSeries || []);
