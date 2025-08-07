@@ -21,27 +21,36 @@
 </ActionBar>
 
 <StackLayout>
-  <StackLayout
-    class="textfield-with-icon-container m-4"
-    orientation="horizontal"
-  >
-    <Label text="&#xeb1c;" class="tabler-icon text-neutral-500"></Label>
+  <FlexboxLayout class="textfield-with-icon-container m-4">
+    <Label
+      text="&#xeb1c;"
+      class="tabler-icon text-neutral-500 shrink-0"
+    ></Label>
     <TextField
       [hint]="'features.explore.search' | L"
       returnKeyType="search"
       (returnPress)="search()"
       [(ngModel)]="searchInput"
+      class="w-full"
     />
-  </StackLayout>
 
-  @if (loading) {
-    <ActivityIndicator busy="true" />
-  }
+    <ActivityIndicator
+      [busy]="loading()"
+      [visibility]="loading() ? 'visible' : 'collapsed'"
+      class="shrink-0"
+    />
+  </FlexboxLayout>
 
-  <CollectionView [items]="trendingCategories" [itemTemplateSelector]="templateSelector">
+  <CollectionView
+    [items]="trendingCategories"
+    [itemTemplateSelector]="templateSelector"
+  >
     <ng-template cvTemplateKey="books" let-item="category">
       <StackLayout>
-        <Label [text]="'features.explore.books' | L" class="h1 m-4 mb-2"></Label>
+        <Label
+          [text]="'features.explore.books' | L"
+          class="h1 m-4 mb-2"
+        ></Label>
         <CollectionView
           [items]="stateService.trendingBooks()"
           orientation="horizontal"
@@ -64,7 +73,10 @@
 
     <ng-template cvTemplateKey="movies" let-item="category">
       <StackLayout>
-        <Label [text]="'features.explore.movies' | L" class="h1 m-4 mb-2"></Label>
+        <Label
+          [text]="'features.explore.movies' | L"
+          class="h1 m-4 mb-2"
+        ></Label>
         <CollectionView
           [items]="stateService.trendingMovies()"
           orientation="horizontal"
@@ -87,7 +99,10 @@
 
     <ng-template cvTemplateKey="series" let-item="category">
       <StackLayout>
-        <Label [text]="'features.explore.series' | L" class="h1 m-4 mb-2"></Label>
+        <Label
+          [text]="'features.explore.series' | L"
+          class="h1 m-4 mb-2"
+        ></Label>
         <CollectionView
           [items]="stateService.trendingSeries()"
           orientation="horizontal"
@@ -110,7 +125,10 @@
 
     <ng-template cvTemplateKey="games" let-item="category">
       <StackLayout>
-        <Label [text]="'features.explore.games' | L" class="h1 m-4 mb-2"></Label>
+        <Label
+          [text]="'features.explore.games' | L"
+          class="h1 m-4 mb-2"
+        ></Label>
         <CollectionView
           [items]="stateService.trendingGames()"
           orientation="horizontal"
@@ -133,7 +151,10 @@
 
     <ng-template cvTemplateKey="musics" let-item="category">
       <StackLayout>
-        <Label [text]="'features.explore.musics' | L" class="h1 m-4 mb-2"></Label>
+        <Label
+          [text]="'features.explore.musics' | L"
+          class="h1 m-4 mb-2"
+        ></Label>
         <CollectionView
           [items]="stateService.trendingMusics()"
           orientation="horizontal"
@@ -156,7 +177,10 @@
 
     <ng-template cvTemplateKey="podcasts" let-item="category">
       <StackLayout>
-        <Label [text]="'features.explore.podcasts' | L" class="h1 m-4 mb-2"></Label>
+        <Label
+          [text]="'features.explore.podcasts' | L"
+          class="h1 m-4 mb-2"
+        ></Label>
         <CollectionView
           [items]="stateService.trendingPodcasts()"
           orientation="horizontal"
@@ -179,7 +203,10 @@
 
     <ng-template cvTemplateKey="collections" let-item="category">
       <StackLayout>
-        <Label [text]="'features.explore.collections' | L" class="h1 m-4 mb-2"></Label>
+        <Label
+          [text]="'features.explore.collections' | L"
+          class="h1 m-4 mb-2"
+        ></Label>
         <CollectionView
           [items]="stateService.trendingCollections()"
           orientation="horizontal"
@@ -190,7 +217,10 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-collection-item [item]="item" [instanceURL]="stateService.instanceURL()"></ns-collection-item>
+              <ns-collection-item
+                [item]="item"
+                [instanceURL]="stateService.instanceURL()"
+              ></ns-collection-item>
             </StackLayout>
           </ng-template>
         </CollectionView>

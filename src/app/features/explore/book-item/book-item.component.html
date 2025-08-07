@@ -1,6 +1,7 @@
 <StackLayout class="rounded-lg bg-white h-[150]" orientation="horizontal">
   <NSImg
-    [src]="item?.coverImageURL"
+    [src]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
+    [failureImageUri]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'"
     class="rounded-tl-lg rounded-bl-lg h-[150] w-[100]"
   ></NSImg>
   <StackLayout class="p-3">

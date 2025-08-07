@@ -4,6 +4,7 @@ import {
   NO_ERRORS_SCHEMA,
   OnInit,
   inject,
+  signal,
 } from "@angular/core";
 import {
   NativeScriptCommonModule,
@@ -58,7 +59,7 @@ export class ExploreComponent implements OnInit {
   movieService = inject(MovieService);
   seriesService = inject(SeriesService);
   musicService = inject(MusicService);
-  loading = false;
+  loading = signal(false);
   searchInput: string = null;
   trendingCategories = [
     "books",
@@ -75,10 +76,10 @@ export class ExploreComponent implements OnInit {
   }
 
   getAllTrendings() {
-    this.loading = true;
+    this.loading.set(true);
     this.exploreService
       .getAllTrendings()
-      .pipe(finalize(() => (this.loading = false)))
+      .pipe(finalize(() => (this.loading.set(false))))
       .subscribe({
         error: () => console.error("Couldn't fetch trendings"),
       });
