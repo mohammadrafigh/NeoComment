@@ -16,6 +16,6 @@
     }
   },
   "include": ["src/tests/**/*.ts", "src/**/*.ios.ts", "src/**/*.android.ts"],
-  "files": ["./src/main.ts", "./references.d.ts", "./src/polyfills.ts"],
+  "files": ["./src/main.ts", "./references.d.ts", "./src/polyfills.ts", "./src/app/core/services/update-state.worker.ts"],
   "exclude": ["node_modules", "platforms", "e2e"]
 }

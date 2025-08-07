@@ -84,7 +84,7 @@ export class StateService {
     });
 
     this.dbSaveTrigger
-      .pipe(debounceTime(500))
+      .pipe(debounceTime(2000))
       .subscribe((state) => this.dbService.updateState(state));
   }
 

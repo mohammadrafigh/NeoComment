@@ -33,13 +33,34 @@ export class DatabaseService {
   }
 
   async updateState(state: StateCache): Promise<void> {
-    try {
-      this.database.updateDocument(state.id, state);
-      return Promise.resolve();
-    } catch (e) {
-      console.log(e);
-      return Promise.reject();
-    }
+    return new Promise((resolve, reject) => {
+      let worker;
+      try {
+        worker = new Worker("./update-state.worker.ts");
+      } catch (e) {
+        console.log("Failed to start worker", e);
+        reject(e);
+        return;
+      }
+      worker.onmessage = (message) => {
+        if (message.data && message.data.success) {
+          resolve();
+        } else {
+          reject(
+            message.data && message.data.error
+              ? message.data.error
+              : "Unknown error",
+          );
+        }
+        worker.terminate();
+      };
+      worker.onerror = (err) => {
+        console.log("Worker error", err);
+        reject(err);
+        worker.terminate();
+      };
+      worker.postMessage({ state, dbName: "neocomment" });
+    });
   }
 
   async deleteState(id: string) {
