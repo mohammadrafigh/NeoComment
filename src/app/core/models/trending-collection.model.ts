@@ -6,7 +6,7 @@ export interface TrendingCollectionDTO {
   created_time: string;
   title: string;
   brief: string;
-  cover: string;
+  cover_image_url: string;
   html_content: string;
   is_dynamic: boolean;
 }
@@ -19,7 +19,7 @@ export class TrendingCollection {
   createdTime: string;
   title: string;
   brief: string;
-  cover: string;
+  coverImageURL: string;
   htmlContent: string;
   isDynamic: boolean;
 
@@ -32,7 +32,7 @@ export class TrendingCollection {
     trendingCollection.createdTime = dto.created_time;
     trendingCollection.title = dto.title;
     trendingCollection.brief = dto.brief;
-    trendingCollection.cover = dto.cover;
+    trendingCollection.coverImageURL = dto.cover_image_url;
     trendingCollection.htmlContent = dto.html_content;
     trendingCollection.isDynamic = dto.is_dynamic;
     return trendingCollection;
@@ -47,7 +47,7 @@ export class TrendingCollection {
       created_time: trendingCollection.createdTime,
       title: trendingCollection.title,
       brief: trendingCollection.brief,
-      cover: trendingCollection.cover,
+      cover_image_url: trendingCollection.coverImageURL,
       html_content: trendingCollection.htmlContent,
       is_dynamic: trendingCollection.isDynamic,
     };

@@ -16,5 +16,4 @@ import { KiloPipe } from "../../../shared/pipes/kilo.pipe";
 })
 export class CollectionItemComponent {
   @Input() item: TrendingCollection;
-  @Input() instanceURL: string;
 }

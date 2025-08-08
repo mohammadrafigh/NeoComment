@@ -219,10 +219,7 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-collection-item
-                [item]="item"
-                [instanceURL]="stateService.instanceURL()"
-              ></ns-collection-item>
+              <ns-collection-item [item]="item"></ns-collection-item>
             </StackLayout>
           </ng-template>
         </CollectionView>
