@@ -89,7 +89,7 @@ export class ExploreComponent implements OnInit {
     return category;
   }
 
-  onItemLoading(args: ItemEventData, type: string) {
+  onItemLoading(args: any, type: string) {
     switch (type) {
       case "book": {
         const item = this.stateService.trendingBooks()[args.index];
