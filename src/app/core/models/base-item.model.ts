@@ -22,7 +22,14 @@ export interface BaseItemDTO {
   uuid: string;
   url: string;
   api_url: string;
-  category: string;
+  category:
+    | "book"
+    | "movie"
+    | "tv"
+    | "music"
+    | "game"
+    | "podcast"
+    | "performance";
   parent_uuid: string;
   display_title: string;
   external_resources: ExternalResource[];
@@ -43,15 +50,22 @@ export class BaseItem {
   uuid: string;
   url: string;
   apiURL: string;
-  category: string;
+  category:
+    | "book"
+    | "movie"
+    | "tv"
+    | "music"
+    | "game"
+    | "podcast"
+    | "performance";
   parentUUID: string;
   displayTitle: string;
   externalResources: ExternalResource[];
 
-  protected static fillFromDTO<
-    T1 extends BaseItem,
-    T2 extends BaseItemDTO,
-  >(baseItem: T1, dto: T2): T1 {
+  protected static fillFromDTO<T1 extends BaseItem, T2 extends BaseItemDTO>(
+    baseItem: T1,
+    dto: T2,
+  ): T1 {
     baseItem.type = dto.type;
     baseItem.title = dto.title;
     baseItem.description = dto.description;
