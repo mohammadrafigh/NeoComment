@@ -1,13 +1,13 @@
-import { TrendingItemDTO, TrendingItem } from "./trending-item.model";
+import { BaseItemDTO, BaseItem } from "./base-item.model";
 
-export interface PodcastDTO extends TrendingItemDTO {
+export interface PodcastDTO extends BaseItemDTO {
   genre: string[];
   host: string[];
   language: string[];
   official_site: string;
 }
 
-export class Podcast extends TrendingItem {
+export class Podcast extends BaseItem {
   genres: string[];
   hosts: string[];
   languages: string[];

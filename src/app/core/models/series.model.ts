@@ -1,6 +1,6 @@
-import { TrendingItemDTO, TrendingItem } from "./trending-item.model";
+import { BaseItemDTO, BaseItem } from "./base-item.model";
 
-export interface SeriesDTO extends TrendingItemDTO {
+export interface SeriesDTO extends BaseItemDTO {
   orig_title: string;
   director: string[];
   playwright: string[];
@@ -17,7 +17,7 @@ export interface SeriesDTO extends TrendingItemDTO {
   season_uuids: string[];
 }
 
-export class Series extends TrendingItem {
+export class Series extends BaseItem {
   origTitle: string;
   directors: string[];
   playwrights: string[];

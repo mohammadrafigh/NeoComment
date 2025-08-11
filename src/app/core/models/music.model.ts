@@ -1,6 +1,6 @@
-import { TrendingItemDTO, TrendingItem } from "./trending-item.model";
+import { BaseItemDTO, BaseItem } from "./base-item.model";
 
-export interface MusicDTO extends TrendingItemDTO {
+export interface MusicDTO extends BaseItemDTO {
   genre: string[];
   artist: string[];
   company: string[];
@@ -10,7 +10,7 @@ export interface MusicDTO extends TrendingItemDTO {
   barcode: string;
 }
 
-export class Music extends TrendingItem {
+export class Music extends BaseItem {
   genres: string[];
   artists: string[];
   companies: string[];

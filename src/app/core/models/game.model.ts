@@ -1,6 +1,6 @@
-import { TrendingItemDTO, TrendingItem } from "./trending-item.model";
+import { BaseItemDTO, BaseItem } from "./base-item.model";
 
-export interface GameDTO extends TrendingItemDTO {
+export interface GameDTO extends BaseItemDTO {
   genre: string[];
   developer: string[];
   publisher: string[];
@@ -10,7 +10,7 @@ export interface GameDTO extends TrendingItemDTO {
   official_site: string;
 }
 
-export class Game extends TrendingItem {
+export class Game extends BaseItem {
   genres: string[];
   developers: string[];
   publishers: string[];

@@ -1,6 +1,6 @@
-import { TrendingItemDTO, TrendingItem } from "./trending-item.model";
+import { BaseItemDTO, BaseItem } from "./base-item.model";
 
-export interface BookDTO extends TrendingItemDTO {
+export interface BookDTO extends BaseItemDTO {
   subtitle: string;
   orig_title: string;
   author: string[];
@@ -17,7 +17,7 @@ export interface BookDTO extends TrendingItemDTO {
   isbn: string;
 }
 
-export class Book extends TrendingItem {
+export class Book extends BaseItem {
   subtitle: string;
   origTitle: string;
   authors: string[];

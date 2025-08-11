@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { LocalizedText } from "../../core/models/trending-item.model";
+import { LocalizedText } from "../../core/models/base-item.model";
 
 // Returns a localized text from NeoDB LocalizedTexts
 @Pipe({ name: "neoL" })

@@ -1,6 +1,6 @@
-import { TrendingItemDTO, TrendingItem } from "./trending-item.model";
+import { BaseItemDTO, BaseItem } from "./base-item.model";
 
-export interface MovieDTO extends TrendingItemDTO {
+export interface MovieDTO extends BaseItemDTO {
   orig_title: string;
   director: string[];
   playwright: string[];
@@ -14,7 +14,7 @@ export interface MovieDTO extends TrendingItemDTO {
   imdb: string;
 }
 
-export class Movie extends TrendingItem {
+export class Movie extends BaseItem {
   origTitle: string;
   directors: string[];
   playwrights: string[];

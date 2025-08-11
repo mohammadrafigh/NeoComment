@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { TrendingItem, TrendingItemDTO } from "../models/trending-item.model";
+import { BaseItem, BaseItemDTO } from "../models/base-item.model";
 import { StateService } from "./state.service";
 import {
   TrendingCollection,
@@ -11,8 +11,8 @@ import { Book } from "../models/book.model";
 
 interface TrendingType {
   path: string;
-  type: typeof TrendingItem;
-  setter: (items: TrendingItem[]) => void;
+  type: typeof BaseItem;
+  setter: (items: BaseItem[]) => void;
 }
 
 @Injectable({
@@ -29,27 +29,27 @@ export class ExploreService {
     },
     {
       path: "movie",
-      type: TrendingItem,
+      type: BaseItem,
       setter: this.stateService.setTrendingMovies.bind(this.stateService),
     },
     {
       path: "tv",
-      type: TrendingItem,
+      type: BaseItem,
       setter: this.stateService.setTrendingSeries.bind(this.stateService),
     },
     {
       path: "music",
-      type: TrendingItem,
+      type: BaseItem,
       setter: this.stateService.setTrendingMusics.bind(this.stateService),
     },
     {
       path: "game",
-      type: TrendingItem,
+      type: BaseItem,
       setter: this.stateService.setTrendingGames.bind(this.stateService),
     },
     {
       path: "podcast",
-      type: TrendingItem,
+      type: BaseItem,
       setter: this.stateService.setTrendingPodcasts.bind(this.stateService),
     },
   ];
@@ -66,11 +66,11 @@ export class ExploreService {
   getTrending(trendingType: TrendingType) {
     return this.http
       .get<
-        TrendingItemDTO[]
+        BaseItemDTO[]
       >(`${this.stateService.instanceURL()}/api/trending/${trendingType.path}`)
       .pipe(
         tap({
-          next: (trendingItemsDTO: TrendingItemDTO[]) => {
+          next: (trendingItemsDTO: BaseItemDTO[]) => {
             const trendingItems = trendingItemsDTO.map((i) =>
               trendingType.type.fromDTO(i),
             );
