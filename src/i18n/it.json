@@ -13,7 +13,8 @@
         "games": "Giochi",
         "musics": "Musica",
         "podcasts": "Podcast",
-        "collections": "Collezioni"
+        "collections": "Collezioni",
+        "search": "Cerca"
     },
     "core.auth_service": {
         "unavailable_instance": "L’istanza non è disponibile",
