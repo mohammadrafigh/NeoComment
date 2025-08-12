@@ -1,1 +1,27 @@
-{}
+{
+    "app.name": "NeoComment",
+    "features.sign_in": {
+        "welcome": "欢迎使用 NeoComment！",
+        "instance_url": "实例地址",
+        "next": "继续"
+    },
+    "features.explore": {
+        "page_title": "探索",
+        "books": "书籍",
+        "movies": "电影",
+        "series": "电视剧集",
+        "games": "游戏",
+        "musics": "音乐",
+        "podcasts": "播客",
+        "collections": "收藏单",
+        "search": "搜索"
+    },
+    "core.auth_service": {
+        "unavailable_instance": "该实例不可用",
+        "authentication_error": "无法完成身份验证。请重试。"
+    },
+    "core.user_service": {
+        "get_user_error": "无法获取用户信息",
+        "get_preference_error": "无法获取偏好设置"
+    }
+}
