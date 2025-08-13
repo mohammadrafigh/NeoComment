@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="_core_user_service_get_preference_error_1yajbw">"Unable to get preference"</string>
-  <string name="_core_user_service_get_user_error_28n28">"Unable to get user info"</string>
-  <string name="_core_auth_service_authentication_error_EM4WQ">"Unable to complete authentication. Please try again."</string>
-  <string name="_core_auth_service_unavailable_instance_Z22pryR">"The instance is unavailable"</string>
-  <string name="_features_explore_search_Z2rWsyL">"Search"</string>
-  <string name="_features_explore_collections_ZnPbvb">"Collections"</string>
-  <string name="_features_explore_podcasts_1tOOKf">"Podcasts"</string>
-  <string name="_features_explore_musics_2qVjsi">"Musics"</string>
-  <string name="_features_explore_games_ZzExRC">"Games"</string>
-  <string name="_features_explore_series_Z2rUgKW">"Series"</string>
-  <string name="_features_explore_movies_2qxilj">"Movies"</string>
-  <string name="_features_explore_books_ZzX3be">"Books"</string>
-  <string name="_features_explore_page_title_ZrpHT6">"Explore"</string>
-  <string name="_features_sign_in_next_Vzyp">"Next"</string>
-  <string name="_features_sign_in_instance_url_qg7CC">"Instance URL"</string>
-  <string name="_features_sign_in_welcome_Z2se0Fl">"Welcome to NeoComment!"</string>
+  <string name="_core_user_service_get_preference_error_1yajbw">"Impossibile ricevere preferenze"</string>
+  <string name="_core_user_service_get_user_error_28n28">"Impossibile ricevere le informazioni dell’utente"</string>
+  <string name="_core_auth_service_authentication_error_EM4WQ">"Impossibile completare l’autenticazione. Si prega di riprovare."</string>
+  <string name="_core_auth_service_unavailable_instance_Z22pryR">"L’istanza non è disponibile"</string>
+  <string name="_features_explore_collections_ZnPbvb">"Collezioni"</string>
+  <string name="_features_explore_podcasts_1tOOKf">"Podcast"</string>
+  <string name="_features_explore_musics_2qVjsi">"Musica"</string>
+  <string name="_features_explore_games_ZzExRC">"Giochi"</string>
+  <string name="_features_explore_series_Z2rUgKW">"Serie"</string>
+  <string name="_features_explore_movies_2qxilj">"Film"</string>
+  <string name="_features_explore_books_ZzX3be">"Libri"</string>
+  <string name="_features_explore_page_title_ZrpHT6">"Esplora"</string>
+  <string name="_features_sign_in_next_Vzyp">"Avanti"</string>
+  <string name="_features_sign_in_instance_url_qg7CC">"URL dell’istanza"</string>
+  <string name="_features_sign_in_welcome_Z2se0Fl">"Benvenuti su NeoComment!"</string>
   <string name="_app_name_1k3Sbz">"NeoComment"</string>
   <string name="app_name">"NeoComment"</string>
   <string name="title_activity_kimera">"NeoComment"</string>
+  <string name="_features_explore_search_Z2rWsyL">"Search"</string>
 </resources>
