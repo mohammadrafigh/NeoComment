@@ -36,6 +36,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   page = inject(Page);
   searchService = inject(SearchService);
   messageService = inject(MessageService);
+  statusbarSize: number = global.statusbarSize;
   searchQuery: string = null;
   loading = signal(false);
   searchTrigger = new Subject<string>();

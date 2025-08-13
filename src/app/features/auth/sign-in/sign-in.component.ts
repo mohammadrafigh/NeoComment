@@ -22,10 +22,9 @@ import { finalize } from "rxjs";
 })
 export class SignInComponent {
   authService = inject(AuthService);
+  statusbarSize: number = global.statusbarSize;
   instanceURL: string;
   loading = false;
-
-  constructor() {}
 
   checkInstance() {
     this.loading = true;

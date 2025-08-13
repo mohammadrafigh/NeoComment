@@ -61,6 +61,7 @@ export class ExploreComponent implements OnInit {
   seriesService = inject(SeriesService);
   musicService = inject(MusicService);
   router = inject(Router);
+  statusbarSize: number = global.statusbarSize;
   loading = signal(false);
   trendingCategories = [
     "books",

@@ -23,7 +23,7 @@ import { AppComponent } from "./app/app.component";
 import { withInMemoryScrolling } from "@angular/router";
 import { authInterceptor } from "./app/core/interceptors/auth.interceptor";
 import { tokenInterceptor } from "./app/core/interceptors/token.interceptor";
-import { Application, Button, Label, View } from "@nativescript/core";
+import { Application, Button, Label, Screen, Utils, View } from "@nativescript/core";
 
 runNativeScriptAngularApp({
   appModuleBootstrap: () => {
@@ -45,6 +45,7 @@ runNativeScriptAngularApp({
 
 // Initialize the image module with downsampling enabled
 imageModuleInitialize({ isDownsampleEnabled: true });
+
 if (Application.android) {
   // To prevent memory leaks in rare cases per plugin documentation
   Application.on(Application.exitEvent, (args) => imageModuleShutDown());
@@ -55,15 +56,31 @@ if (Application.android) {
     (args) => {
       const window = args.activity.getWindow();
       const decorView = window.getDecorView();
-      const View = android.view.View;
 
       // TODO: Mohammad 07-31-2025: Remove the hardcoded colors when themes are implemented
-      const color = android.graphics.Color.parseColor("#FAFAFA");
-      window.setStatusBarColor(color);
-      window.setNavigationBarColor(color);
-      decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+      decorView.setSystemUiVisibility(
+        android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+          android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+          android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR,
+      );
+      window.setNavigationBarColor(
+        android.graphics.Color.parseColor("#FAFAFA"),
+      );
     },
   );
+
+  // Set statusbarSize to use as top padding of pages
+  const resourceId = Utils.android
+    .getApplicationContext()
+    .getResources()
+    .getIdentifier("status_bar_height", "dimen", "android");
+  if (resourceId > 0) {
+    global.statusbarSize =
+      Utils.android
+        .getApplicationContext()
+        .getResources()
+        .getDimensionPixelSize(resourceId) / Screen.mainScreen.scale;
+  }
 }
 
 // Workaround for https://github.com/NativeScript/NativeScript/issues/10769
