@@ -27,8 +27,9 @@ import { GameItemComponent } from "./game-item/game-item.component";
 import { MusicItemComponent } from "./music-item/music-item.component";
 import { PodcastItemComponent } from "./podcast-item/podcast-item.component";
 import { CollectionItemComponent } from "./collection-item/collection-item.component";
-import { ItemEventData } from "@nativescript/core";
 import { finalize } from "rxjs";
+import { Router } from "@angular/router";
+import { PageTransition, SharedTransition } from "@nativescript/core";
 
 @Component({
   selector: "ns-explore",
@@ -59,8 +60,8 @@ export class ExploreComponent implements OnInit {
   movieService = inject(MovieService);
   seriesService = inject(SeriesService);
   musicService = inject(MusicService);
+  router = inject(Router);
   loading = signal(false);
-  searchInput: string = null;
   trendingCategories = [
     "books",
     "movies",
@@ -79,7 +80,7 @@ export class ExploreComponent implements OnInit {
     this.loading.set(true);
     this.exploreService
       .getAllTrendings()
-      .pipe(finalize(() => (this.loading.set(false))))
+      .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         error: () => console.error("Couldn't fetch trendings"),
       });
@@ -134,7 +135,13 @@ export class ExploreComponent implements OnInit {
     }
   }
 
-  search() {
-    // TODO: Mohammad 08-05-2025: Implement it
+  searchClicked() {
+    this.router.navigate(["/search"], {
+      transition: SharedTransition.custom(new PageTransition(), {
+        pageReturn: {
+          duration: 150,
+        },
+      }),
+    } as any);
   }
 }

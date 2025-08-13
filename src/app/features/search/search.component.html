@@ -1,0 +1,29 @@
+<GridLayout>
+  <StackLayout
+    sharedTransitionTag="searchbox"
+    class="bg-neutral-200 rounded-none h-full w-full p-4"
+  >
+    <FlexboxLayout class="textfield-with-icon-container">
+      <Label
+        text="&#xeb1c;"
+        class="tabler-icon text-neutral-500 shrink-0"
+      ></Label>
+      <TextField
+        #searchInput
+        [hint]="'features.explore.search' | L"
+        (textChange)="onQueryChange($event)"
+        returnKeyType="search"
+        (returnPress)="showAllResults()"
+        autocapitalizationType="none"
+        [(ngModel)]="searchQuery"
+        class="w-full"
+      />
+
+      <ActivityIndicator
+        [busy]="loading()"
+        [visibility]="loading() ? 'visible' : 'collapsed'"
+        class="shrink-0"
+      />
+    </FlexboxLayout>
+  </StackLayout>
+</GridLayout>

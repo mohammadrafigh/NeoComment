@@ -23,25 +23,29 @@
 </ActionBar>
 
 <StackLayout>
-  <FlexboxLayout class="textfield-with-icon-container m-4">
-    <Label
-      text="&#xeb1c;"
-      class="tabler-icon text-neutral-500 shrink-0"
-    ></Label>
-    <TextField
-      [hint]="'features.explore.search' | L"
-      returnKeyType="search"
-      (returnPress)="search()"
-      [(ngModel)]="searchInput"
-      class="w-full"
-    />
+  <StackLayout
+    sharedTransitionTag="searchbox"
+    class="bg-neutral-200 rounded-full m-4"
+  >
+    <FlexboxLayout class="textfield-with-icon-container">
+      <Label
+        text="&#xeb1c;"
+        class="tabler-icon text-neutral-500 shrink-0"
+      ></Label>
+      <TextField
+        [editable]="false"
+        [hint]="'features.explore.search' | L"
+        class="w-full"
+        (tap)="searchClicked()"
+      />
 
-    <ActivityIndicator
-      [busy]="loading()"
-      [visibility]="loading() ? 'visible' : 'collapsed'"
-      class="shrink-0"
-    />
-  </FlexboxLayout>
+      <ActivityIndicator
+        [busy]="loading()"
+        [visibility]="loading() ? 'visible' : 'collapsed'"
+        class="shrink-0"
+      />
+    </FlexboxLayout>
+  </StackLayout>
 
   <CollectionView
     [items]="trendingCategories"
