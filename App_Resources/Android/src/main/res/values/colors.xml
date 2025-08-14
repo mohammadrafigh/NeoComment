@@ -7,7 +7,7 @@
     <color name="ns_primaryDark">#757575</color>
 
     <!-- The color of UI controls such as check boxes, radio buttons, and edit text boxes. -->
-	<color name="ns_accent">#65ADF1</color>
+	<color name="ns_accent">#9fbb8d</color>
 
     <!-- this is unused in the default themes, so we might want to remove it? -->
     <!-- <color name="ns_blue">#272734</color> -->
