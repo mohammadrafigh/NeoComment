@@ -23,7 +23,14 @@ import { AppComponent } from "./app/app.component";
 import { withInMemoryScrolling } from "@angular/router";
 import { authInterceptor } from "./app/core/interceptors/auth.interceptor";
 import { tokenInterceptor } from "./app/core/interceptors/token.interceptor";
-import { Application, Button, Label, Screen, Utils, View } from "@nativescript/core";
+import {
+  Application,
+  Button,
+  Label,
+  Screen,
+  Utils,
+  View,
+} from "@nativescript/core";
 
 runNativeScriptAngularApp({
   appModuleBootstrap: () => {
@@ -65,6 +72,32 @@ if (Application.android) {
       );
       window.setNavigationBarColor(
         android.graphics.Color.parseColor("#FAFAFA"),
+      );
+
+      // Workaround for https://issuetracker.google.com/issues/36911528?pli=1
+      const rootView = args.activity.findViewById(android.R.id.content);
+      rootView.setOnApplyWindowInsetsListener(
+        new android.view.View.OnApplyWindowInsetsListener({
+          onApplyWindowInsets(view, insets) {
+            if (android.os.Build.VERSION.SDK_INT >= 30) {
+              // Android 11+ API
+              const imeInsets = insets.getInsets(
+                android.view.WindowInsets.Type.ime(),
+              );
+              view.setPadding(0, 0, 0, imeInsets.bottom);
+              return insets;
+            } else {
+              const bottomInset = insets.getSystemWindowInsetBottom();
+              view.setPadding(0, 0, 0, bottomInset);
+              return insets.replaceSystemWindowInsets(
+                insets.getSystemWindowInsetLeft(),
+                insets.getSystemWindowInsetTop(),
+                insets.getSystemWindowInsetRight(),
+                0, // remove bottom inset so it doesn’t double-apply
+              );
+            }
+          },
+        }),
       );
     },
   );
