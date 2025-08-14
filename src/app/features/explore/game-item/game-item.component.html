@@ -1,8 +1,8 @@
-<StackLayout class="rounded-lg bg-white w-[150] h-[246]">
+<StackLayout class="rounded-lg bg-white w-[150] h-[306]">
   <NSImg
     [src]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
     [failureImageUri]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'"
-    class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
+    class="rounded-tl-lg rounded-tr-lg w-[150] h-[200]"
   ></NSImg>
   <StackLayout class="p-2">
     <FlexboxLayout class="flex-col justify-between h-full w-full">
@@ -11,6 +11,12 @@
           [text]="(item?.localizedTitle | neoL: language) || item?.displayTitle || item?.title"
           textWrap="true"
           [maxLines]="2"
+        ></Label>
+        <Label
+          [text]="item?.developers ? item.developers.join(' - ') : item?.publishers?.join(' - ')"
+          class="text-xs font-medium text-neutral-500 mt-0.5"
+          textWrap="true"
+          [maxLines]="1"
         ></Label>
       </StackLayout>
       <FlexboxLayout class="justify-between mt-2">
