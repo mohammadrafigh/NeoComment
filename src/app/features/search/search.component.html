@@ -2,9 +2,11 @@
   <StackLayout
     [paddingTop]="statusbarSize + 16"
     sharedTransitionTag="searchbox"
-    class="bg-neutral-200 rounded-none h-full w-full p-4"
+    class="bg-neutral-200 rounded-none h-full w-full"
   >
-    <FlexboxLayout class="textfield-with-icon-container">
+    <FlexboxLayout
+      class="textfield-with-icon-container border-b-2 border-b-neutral-400"
+    >
       <Label
         text="&#xeb1c;"
         class="tabler-icon text-neutral-500 shrink-0"
@@ -23,8 +25,133 @@
       <ActivityIndicator
         [busy]="loading()"
         [visibility]="loading() ? 'visible' : 'collapsed'"
-        class="shrink-0"
+        class="shrink-0 w-8 h-8"
       />
     </FlexboxLayout>
+
+    <ScrollView class="h-full">
+      <GridLayout rows="auto, auto, auto">
+        <WrapLayout [items]="categories | keyvalue" class="mt-2 px-2" row="0" [hidden]="!itemSearchResult()">
+          @for (category of categories | keyvalue; track category.key) {
+            <Button
+              [text]="category.value.title"
+              androidElevation="0"
+              androidDynamicElevationOffset
+              class="bg-forest rounded-lg text-xs h-6 m-1 px-2"
+              (tap)="showAllResults(category.key)"
+            ></Button>
+          }
+        </WrapLayout>
+
+        <CollectionView
+          row="1"
+          [items]="itemSearchResult()?.data.slice(0, 5)"
+          rowHeight="76"
+          separatorColor="transparent"
+          class="mt-2 px-4"
+        >
+          <ng-template let-item="item">
+            <GridLayout>
+              <GridLayout
+                rows="auto, auto"
+                columns="auto, *, auto, auto"
+                verticalAlignment="center"
+              >
+                <NSImg
+                  row="0"
+                  col="0"
+                  rowSpan="2"
+                  [src]="
+                    item.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'
+                  "
+                  [failureImageUri]="
+                    item.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
+                  "
+                  class="rounded-lg mr-3 h-[60] w-[45]"
+                ></NSImg>
+                <label
+                  row="0"
+                  col="1"
+                  colSpan="2"
+                  [text]="
+                    (item.localizedTitle
+                      | neoL: stateService.preference().language) ||
+                    item.displayTitle ||
+                    item.title
+                  "
+                ></label>
+                <Label
+                  row="0"
+                  col="3"
+                  [text]="categories.get(item.category).icon"
+                  class="tabler-icon text-neutral-500 ml-2 text-lg"
+                ></Label>
+
+                <Label
+                  row="1"
+                  col="1"
+                  [text]="
+                    item.authors
+                      ? item.authors.join(' - ')
+                      : item.artists
+                        ? item.artists.join(' - ')
+                        : item.developers
+                          ? item.developers.join(' - ')
+                          : item.year
+                  "
+                  class="text-xs font-medium text-neutral-500 align-top"
+                ></Label>
+                <Label
+                  row="1"
+                  col="2"
+                  [text]="item.ratingCount | kilo"
+                  class="text-neutral-500 text-sm align-top ml-2"
+                ></Label>
+                <Label
+                  row="1"
+                  col="3"
+                  text="&#xeb4d;"
+                  class="tabler-icon text-neutral-500 text-lg text-right align-top"
+                ></Label>
+              </GridLayout>
+            </GridLayout>
+          </ng-template>
+        </CollectionView>
+
+        <CollectionView
+          row="2"
+          orientation="horizontal"
+          [items]="fediSearchResult()?.accounts.slice(0, 5)"
+          colWidth="120"
+          rowHeight="110"
+          class="px-2 mt-1"
+        >
+          <ng-template let-item="item">
+            <GridLayout class="px-2">
+              <GridLayout rows="auto, auto, auto" verticalAlignment="center">
+                <NSImg
+                  row="0"
+                  [src]="item.avatar"
+                  failureImageUri="font://&#xeb4d;"
+                  class="tabler-icon text-neutral-500 border-8 text-4xl border-forest rounded-full w-16 h-16"
+                  [decodeWidth]="200"
+                  [decodeHeight]="200"
+                ></NSImg>
+                <label
+                  row="1"
+                  [text]="item.displayName"
+                  class="text-center mt-1"
+                ></label>
+                <Label
+                  row="2"
+                  [text]="'@' + item.acct"
+                  class="tabler-icon text-neutral-500 text-xs text-center"
+                ></Label>
+              </GridLayout>
+            </GridLayout>
+          </ng-template>
+        </CollectionView>
+      </GridLayout>
+    </ScrollView>
   </StackLayout>
 </GridLayout>

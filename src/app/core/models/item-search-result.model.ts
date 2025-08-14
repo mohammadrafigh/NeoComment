@@ -6,19 +6,19 @@ import { Podcast, PodcastDTO } from "./podcast.model";
 import { Game, GameDTO } from "./game.model";
 import { Performance, PerformanceDTO } from "./performance.model";
 
-export interface SearchResultDTO {
+export interface ItemSearchResultDTO {
   data: Array<BookDTO | MovieDTO | SeriesDTO | MusicDTO | PodcastDTO | GameDTO | PerformanceDTO>;
   pages: number;
   count: number;
 }
 
-export class SearchResult {
+export class ItemSearchResult {
   data: Array<Book | Movie | Series | Music | Podcast | Game | Performance>;
   pages: number;
   count: number;
 
-  static fromDTO(dto: SearchResultDTO): SearchResult {
-    const searchResult = new SearchResult();
+  static fromDTO(dto: ItemSearchResultDTO): ItemSearchResult {
+    const searchResult = new ItemSearchResult();
     searchResult.data = dto.data.map((item) => {
       switch (item.category) {
         case "book": return Book.fromDTO(item as BookDTO);
