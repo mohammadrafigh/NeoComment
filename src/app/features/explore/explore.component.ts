@@ -142,7 +142,7 @@ export class ExploreComponent implements OnInit {
   }
 
   searchClicked() {
-    this.router.navigate(["/search"], {
+    this.router.navigate(["/search-preview"], {
       transition: SharedTransition.custom(new PageTransition(), {
         pageReturn: {
           duration: 150,

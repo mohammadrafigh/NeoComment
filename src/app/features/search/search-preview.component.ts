@@ -26,8 +26,8 @@ import { FediSearchResult } from "~/app/core/models/fediverse/fedi-search-result
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 
 @Component({
-  selector: "ns-search",
-  templateUrl: "./search.component.html",
+  selector: "ns-search-preview",
+  templateUrl: "./search-preview.component.html",
   imports: [
     NativeScriptCommonModule,
     NativeScriptRouterModule,
@@ -39,7 +39,7 @@ import { CollectionViewModule } from "@nativescript-community/ui-collectionview/
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchPreviewComponent implements OnInit, OnDestroy {
   @ViewChild("searchInput") searchInput: ElementRef;
   page = inject(Page);
   searchService = inject(SearchService);
