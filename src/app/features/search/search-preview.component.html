@@ -13,7 +13,7 @@
       ></Label>
       <TextField
         #searchInput
-        [hint]="'features.explore.search' | L"
+        [hint]="'common.search' | L"
         (textChange)="onQueryChange($event)"
         returnKeyType="search"
         (returnPress)="showAllResults()"
@@ -31,8 +31,8 @@
 
     <ScrollView class="h-full">
       <GridLayout rows="auto, auto, auto">
-        <WrapLayout [items]="categories | keyvalue" class="mt-2 px-2" row="0" [hidden]="!itemSearchResult()">
-          @for (category of categories | keyvalue; track category.key) {
+        <WrapLayout class="mt-2 px-2" row="0" [hidden]="!itemSearchResult()">
+          @for (category of categories | keyvalue: keepOrder; track category.key) {
             <Button
               [text]="category.value.title"
               androidElevation="0"

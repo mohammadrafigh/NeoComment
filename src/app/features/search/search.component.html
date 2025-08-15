@@ -1,0 +1,38 @@
+<GridLayout [paddingTop]="statusbarSize + 16">
+  <StackLayout
+    row="0"
+    sharedTransitionTag="searchbox"
+    class="bg-neutral-200 rounded-full m-4"
+  >
+    <FlexboxLayout class="textfield-with-icon-container">
+      <Label
+        text="&#xeb1c;"
+        class="tabler-icon text-neutral-500 shrink-0"
+      ></Label>
+      <TextField
+        [editable]="false"
+        [hint]="'common.search' | L"
+        class="w-full"
+        (tap)="searchClicked()"
+      />
+
+      <ActivityIndicator
+        [busy]="loading()"
+        [visibility]="loading() ? 'visible' : 'collapsed'"
+        class="shrink-0 w-8 h-8"
+      />
+    </FlexboxLayout>
+  </StackLayout>
+
+  <TabView row="1">
+    @for (category of categories | keyvalue: keepOrder; track category.key) {
+      <StackLayout *tabItem="{ title: category.value.title }">
+        <GridLayout>
+          <ContentView horizontalAlignment="center">
+            <label text="First Tab Content"></label>
+          </ContentView>
+        </GridLayout>
+      </StackLayout>
+    }
+  </TabView>
+</GridLayout>

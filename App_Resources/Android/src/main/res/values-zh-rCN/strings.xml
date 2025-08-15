@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="_common_search_10VhSa">"搜索"</string>
+  <string name="_common_collections_Z2o1IeR">"收藏单"</string>
+  <string name="_common_podcasts_Z1ffeXG">"播客"</string>
+  <string name="_common_musics_OCV6i">"音乐"</string>
+  <string name="_common_games_Z17Q9Te">"游戏"</string>
+  <string name="_common_series_10XtFY">"电视剧集"</string>
+  <string name="_common_movies_OeTYj">"电影"</string>
+  <string name="_common_books_Z189EcP">"书籍"</string>
+  <string name="_core_user_service_get_preference_error_1yajbw">"无法获取偏好设置"</string>
+  <string name="_core_user_service_get_user_error_28n28">"无法获取用户信息"</string>
+  <string name="_core_auth_service_authentication_error_EM4WQ">"无法完成身份验证。请重试。"</string>
+  <string name="_core_auth_service_unavailable_instance_Z22pryR">"该实例不可用"</string>
+  <string name="_features_explore_page_title_ZrpHT6">"探索"</string>
+  <string name="_features_sign_in_next_Vzyp">"继续"</string>
+  <string name="_features_sign_in_instance_url_qg7CC">"实例地址"</string>
+  <string name="_features_sign_in_welcome_Z2se0Fl">"欢迎使用 NeoComment！"</string>
+  <string name="_app_name_1k3Sbz">"NeoComment"</string>
+  <string name="app_name">"NeoComment"</string>
+  <string name="title_activity_kimera">"NeoComment"</string>
+  <string name="_common_generic_error_ZwC57J">"Something went wrong"</string>
+  <string name="_common_people_TKIHq">"People"</string>
+  <string name="_common_performances_1ICKps">"Performances"</string>
+</resources>

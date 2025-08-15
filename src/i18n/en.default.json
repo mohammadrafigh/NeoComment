@@ -1,14 +1,22 @@
 {
   "app.name": "NeoComment",
-
   "features.sign_in": {
     "welcome": "Welcome to NeoComment!",
     "instance_url": "Instance URL",
     "next": "Next"
   },
-
   "features.explore": {
-    "page_title": "Explore",
+    "page_title": "Explore"
+  },
+  "core.auth_service": {
+    "unavailable_instance": "The instance is unavailable",
+    "authentication_error": "Unable to complete authentication. Please try again."
+  },
+  "core.user_service": {
+    "get_user_error": "Unable to get user info",
+    "get_preference_error": "Unable to get preference"
+  },
+  "common": {
     "books": "Books",
     "movies": "Movies",
     "series": "Series",
@@ -16,16 +24,9 @@
     "musics": "Musics",
     "podcasts": "Podcasts",
     "collections": "Collections",
-    "search": "Search"
-  },
-
-  "core.auth_service": {
-    "unavailable_instance": "The instance is unavailable",
-    "authentication_error": "Unable to complete authentication. Please try again."
-  },
-
-  "core.user_service": {
-    "get_user_error": "Unable to get user info",
-    "get_preference_error": "Unable to get preference"
+    "performances": "Performances",
+    "people": "People",
+    "search": "Search",
+    "generic_error": "Something went wrong"
   }
 }

@@ -6,15 +6,7 @@
         "next": "Avanti"
     },
     "features.explore": {
-        "page_title": "Esplora",
-        "books": "Libri",
-        "movies": "Film",
-        "series": "Serie",
-        "games": "Giochi",
-        "musics": "Musica",
-        "podcasts": "Podcast",
-        "collections": "Collezioni",
-        "search": "Cerca"
+        "page_title": "Esplora"
     },
     "core.auth_service": {
         "unavailable_instance": "L’istanza non è disponibile",
@@ -23,5 +15,15 @@
     "core.user_service": {
         "get_user_error": "Impossibile ricevere le informazioni dell’utente",
         "get_preference_error": "Impossibile ricevere preferenze"
+    },
+    "common": {
+        "books": "Libri",
+        "movies": "Film",
+        "series": "Serie",
+        "games": "Giochi",
+        "musics": "Musica",
+        "podcasts": "Podcast",
+        "collections": "Collezioni",
+        "search": "Cerca"
     }
 }
