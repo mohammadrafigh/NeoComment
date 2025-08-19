@@ -1,37 +1,165 @@
-<GridLayout [paddingTop]="statusbarSize + 16">
-  <StackLayout
-    row="0"
-    sharedTransitionTag="searchbox"
-    class="bg-neutral-200 rounded-full m-4"
-  >
-    <FlexboxLayout class="textfield-with-icon-container">
-      <Label
-        text="&#xeb1c;"
-        class="tabler-icon text-neutral-500 shrink-0"
-      ></Label>
-      <TextField
-        [editable]="false"
-        [hint]="'common.search' | L"
-        class="w-full"
-        (tap)="searchClicked()"
-      />
+<ActionBar flat="true">
+  <GridLayout columns="*" class="pr-4 w-full" [paddingTop]="statusbarSize + 16">
+    <StackLayout
+      row="0"
+      sharedTransitionTag="searchbox"
+      class="bg-neutral-200 rounded-full my-4"
+    >
+      <FlexboxLayout class="textfield-with-icon-container">
+        <Label
+          text="&#xeb1c;"
+          class="tabler-icon text-neutral-500 shrink-0"
+        ></Label>
+        <TextField
+          [editable]="false"
+          [hint]="'common.search' | L"
+          class="w-full"
+          [ngModel]="query()"
+          (tap)="searchClicked()"
+        />
 
-      <ActivityIndicator
-        [busy]="loading()"
-        [visibility]="loading() ? 'visible' : 'collapsed'"
-        class="shrink-0 w-8 h-8"
-      />
-    </FlexboxLayout>
-  </StackLayout>
+        <ActivityIndicator
+          [busy]="loading()"
+          [visibility]="loading() ? 'visible' : 'collapsed'"
+          class="shrink-0 w-8 h-8"
+        />
+      </FlexboxLayout>
+    </StackLayout>
+  </GridLayout>
+</ActionBar>
 
-  <TabView row="1">
+<GridLayout>
+  <TabView #tabs>
     @for (category of categories | keyvalue: keepOrder; track category.key) {
       <StackLayout *tabItem="{ title: category.value.title }">
-        <GridLayout>
-          <ContentView horizontalAlignment="center">
-            <label text="First Tab Content"></label>
-          </ContentView>
-        </GridLayout>
+        <ContentView
+          verticalAlignment="center"
+          horizontalAlignment="center"
+          class="h-full"
+          [hidden]="
+            loading() ||
+            itemSearchResults()[category.key]?.count > 0 ||
+              itemSearchResults()[category.key]?.accounts?.length > 0
+          "
+        >
+          <Label [text]="'features.search.no_result' | L"></Label>
+        </ContentView>
+        @if (category.key === "book") {
+          <CollectionView
+            [hidden]="itemSearchResults().book?.count === 0"
+            [items]="itemSearchResults().book?.data"
+            [colWidth]="
+              screenWidth >= 1050 ? '33%' : screenWidth >= 700 ? '50%' : '100%'
+            "
+            class="bg-forest/15 p-2 h-full"
+            (loadMoreItems)="loadMore(category.key)"
+          >
+            <ng-template let-item="item">
+              <StackLayout class="p-2">
+                <ns-book-item
+                  [item]="item"
+                  [language]="stateService.preference()?.language"
+                ></ns-book-item>
+              </StackLayout>
+            </ng-template>
+          </CollectionView>
+        } @else if (category.key === "people") {
+          <CollectionView
+            [hidden]="itemSearchResults().people?.accounts?.length === 0"
+            [items]="itemSearchResults().people?.accounts"
+            [colWidth]="
+              screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'
+            "
+            class="bg-forest/15 p-2 h-full"
+            (loadMoreItems)="loadMore(category.key)"
+          >
+            <ng-template let-item="item">
+              <GridLayout class="p-2">
+                <GridLayout rows="auto, auto, auto" verticalAlignment="center">
+                  <NSImg
+                    row="0"
+                    [src]="item.avatar"
+                    failureImageUri="font://&#xeb4d;"
+                    class="tabler-icon text-neutral-500 border-8 text-4xl border-forest rounded-full w-16 h-16"
+                    [decodeWidth]="200"
+                    [decodeHeight]="200"
+                  ></NSImg>
+                  <label
+                    row="1"
+                    [text]="item.displayName"
+                    class="text-center mt-1"
+                  ></label>
+                  <Label
+                    row="2"
+                    [text]="'@' + item.acct"
+                    class="tabler-icon text-neutral-500 text-xs text-center"
+                  ></Label>
+                </GridLayout>
+              </GridLayout>
+            </ng-template>
+          </CollectionView>
+        } @else {
+          <CollectionView
+            [hidden]="itemSearchResults()[category.key]?.count === 0"
+            [items]="itemSearchResults()[category.key]?.data"
+            [itemTemplateSelector]="templateSelector"
+            [colWidth]="
+              screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'
+            "
+            class="bg-forest/15 p-2 h-full"
+            (loadMoreItems)="loadMore(category.key)"
+          >
+            <ng-template let-item="item" cvTemplateKey="movie">
+              <StackLayout class="p-2">
+                <ns-movie-item
+                  [item]="item"
+                  [language]="stateService.preference()?.language"
+                ></ns-movie-item>
+              </StackLayout>
+            </ng-template>
+
+            <ng-template let-item="item" cvTemplateKey="tv">
+              <StackLayout class="p-2">
+                <ns-series-item
+                  [item]="item"
+                  [language]="stateService.preference()?.language"
+                ></ns-series-item>
+              </StackLayout>
+            </ng-template>
+            <ng-template let-item="item" cvTemplateKey="game">
+              <StackLayout class="p-2">
+                <ns-game-item
+                  [item]="item"
+                  [language]="stateService.preference()?.language"
+                ></ns-game-item>
+              </StackLayout>
+            </ng-template>
+            <ng-template let-item="item" cvTemplateKey="music">
+              <StackLayout class="p-2">
+                <ns-music-item
+                  [item]="item"
+                  [language]="stateService.preference()?.language"
+                ></ns-music-item>
+              </StackLayout>
+            </ng-template>
+            <ng-template let-item="item" cvTemplateKey="podcast">
+              <StackLayout class="p-2">
+                <ns-podcast-item
+                  [item]="item"
+                  [language]="stateService.preference()?.language"
+                ></ns-podcast-item>
+              </StackLayout>
+            </ng-template>
+            <ng-template let-item="item" cvTemplateKey="performance">
+              <StackLayout class="p-2">
+                <ns-performance-item
+                  [item]="item"
+                  [language]="stateService.preference()?.language"
+                ></ns-performance-item>
+              </StackLayout>
+            </ng-template>
+          </CollectionView>
+        }
       </StackLayout>
     }
   </TabView>

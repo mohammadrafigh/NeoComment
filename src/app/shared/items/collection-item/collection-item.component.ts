@@ -6,7 +6,7 @@ import {
 import { NativeScriptCommonModule } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { TrendingCollection } from "../../../core/models/trending-collection.model";
-import { KiloPipe } from "../../../shared/pipes/kilo.pipe";
+import { KiloPipe } from "../../pipes/kilo.pipe";
 
 @Component({
   selector: "ns-collection-item",

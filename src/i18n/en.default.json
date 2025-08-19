@@ -8,6 +8,9 @@
   "features.explore": {
     "page_title": "Explore"
   },
+  "features.search": {
+    "no_result": "Could not find anything"
+  },
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",
     "authentication_error": "Unable to complete authentication. Please try again."

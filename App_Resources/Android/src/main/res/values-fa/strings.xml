@@ -21,5 +21,6 @@
   <string name="_core_user_service_get_user_error_28n28">"Unable to get user info"</string>
   <string name="_core_auth_service_authentication_error_EM4WQ">"Unable to complete authentication. Please try again."</string>
   <string name="_core_auth_service_unavailable_instance_Z22pryR">"The instance is unavailable"</string>
+  <string name="_features_search_no_result_wbnfd">"Could not find anything"</string>
   <string name="_features_explore_page_title_ZrpHT6">"Explore"</string>
 </resources>

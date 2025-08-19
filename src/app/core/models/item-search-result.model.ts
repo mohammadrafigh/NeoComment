@@ -16,6 +16,7 @@ export class ItemSearchResult {
   data: Array<Book | Movie | Series | Music | Podcast | Game | Performance>;
   pages: number;
   count: number;
+  currentPage = 1;
 
   static fromDTO(dto: ItemSearchResultDTO): ItemSearchResult {
     const searchResult = new ItemSearchResult();

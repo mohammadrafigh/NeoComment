@@ -8,6 +8,7 @@ export interface FediSearchResultDTO {
 
 export class FediSearchResult {
   accounts: FediAccount[];
+  currentPage = 1;
 
   static fromDTO(dto: FediSearchResultDTO): FediSearchResult {
     const searchResult = new FediSearchResult();

@@ -1,0 +1,53 @@
+<StackLayout class="rounded-lg bg-white w-[150] h-[306]">
+  <NSImg
+    [src]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
+    [failureImageUri]="
+      item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
+    "
+    class="rounded-tl-lg rounded-tr-lg w-[150] h-[200]"
+  ></NSImg>
+  <StackLayout class="p-2">
+    <FlexboxLayout class="flex-col justify-between h-full w-full">
+      <StackLayout>
+        <Label
+          [text]="
+            (item?.localizedTitle | neoL: language) ||
+            item?.displayTitle ||
+            item?.title
+          "
+          textWrap="true"
+          [maxLines]="2"
+        ></Label>
+        <Label
+          [text]="item?.openingDate | date: 'mediumDate'"
+          class="text-xs font-medium text-neutral-500 mt-0.5"
+          textWrap="true"
+        ></Label>
+      </StackLayout>
+      <FlexboxLayout class="justify-between mt-2">
+        <StackLayout orientation="horizontal">
+          <Label
+            text="&#xeb4d;"
+            class="tabler-icon text-neutral-500 mr-1 text-lg"
+          ></Label>
+          <Label
+            [text]="item?.ratingCount | kilo"
+            class="text-neutral-500 text-sm"
+          ></Label>
+        </StackLayout>
+        @if (item?.rating > 0) {
+          <StackLayout orientation="horizontal">
+            <Label
+              [text]="item?.rating"
+              class="text-neutral-500 text-sm mr-2"
+            ></Label>
+            <ns-rate-indicator
+              [rate]="item?.rating"
+              [size]="18"
+            ></ns-rate-indicator>
+          </StackLayout>
+        }
+      </FlexboxLayout>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>
