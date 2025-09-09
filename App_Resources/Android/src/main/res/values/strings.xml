@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="_common_generic_connection_error_n0wpm">"Unable to connect to the server"</string>
   <string name="_common_generic_error_ZwC57J">"Something went wrong"</string>
   <string name="_common_search_10VhSa">"Search"</string>
   <string name="_common_people_TKIHq">"People"</string>

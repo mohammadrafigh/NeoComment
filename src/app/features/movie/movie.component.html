@@ -1,0 +1,123 @@
+<ActionBar flat="true">
+  <GridLayout
+    columns="auto, *, auto"
+    class="pr-4 w-full"
+    [paddingTop]="statusbarSize + 16"
+  >
+    <Button
+      text="&#xea60;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="location.back()"
+    ></Button>
+    <Label
+      [text]="
+        (movie()?.localizedTitle | neoL: stateService.preference().language) ||
+        movie()?.displayTitle ||
+        movie()?.title
+      "
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+    <Button
+      text="&#xeb21;"
+      class="tabler-icon icon-button"
+      col="2"
+      (tap)="share()"
+    ></Button>
+  </GridLayout>
+</ActionBar>
+
+<ScrollView>
+  <StackLayout>
+    <StackLayout
+      class="m-4"
+      horizontalAlignment="center"
+      [hidden]="!pageLoading()"
+    >
+      <ActivityIndicator [busy]="pageLoading()" class="shrink-0 w-8 h-8" />
+    </StackLayout>
+
+    @if (movie()) {
+      <GridLayout
+        columns="auto, *"
+        rows="auto, auto, *, auto"
+        class="h-[160] w-full m-4 px-4"
+      >
+        <NSImg
+          rowSpan="4"
+          col="0"
+          [src]="movie().coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
+          [failureImageUri]="
+            movie().coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
+          "
+          class="rounded-lg h-[160] w-[120]"
+        ></NSImg>
+        <Label
+          col="1"
+          row="0"
+          [text]="
+            (movie().localizedTitle
+              | neoL: stateService.preference().language) ||
+            movie().displayTitle ||
+            movie().title
+          "
+          class="pl-3 mb-0.5"
+          textWrap="true"
+        ></Label>
+        <StackLayout col="1" row="1" class="pl-3" orientation="horizontal">
+          <Label
+            [text]="movie().year + (movie().duration ? ' - ' : '')"
+            class="text-xs font-medium text-neutral-500"
+          ></Label>
+          @if (movie().duration) {
+            <Label
+              text="&#xff9b;"
+              class="tabler-icon text-lg font-medium text-neutral-500"
+            ></Label>
+            <Label
+              [text]="movie().duration"
+              class="text-xs font-medium text-neutral-500 ml-0.5"
+            ></Label>
+          }
+        </StackLayout>
+        <WrapLayout class="mt-2 pl-3" col="1" row="2">
+          <Label
+            text="&#xeafa;"
+            class="bg-forest/50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
+          ></Label>
+          @for (genre of movie().genres; track genre) {
+            <Label
+              [text]="genre"
+              class="bg-neutral-200 rounded-lg text-xs h-6 mr-2 mb-2 px-2.5"
+            ></Label>
+          }
+        </WrapLayout>
+        <FlexboxLayout col="1" row="3" class="justify-between mt-2 pl-3">
+          <StackLayout orientation="horizontal">
+            <Label
+              text="&#xeb4d;"
+              class="tabler-icon text-neutral-500 mr-1 text-lg"
+            ></Label>
+            <Label
+              [text]="movie().ratingCount | kilo"
+              class="text-neutral-500 text-sm"
+            ></Label>
+          </StackLayout>
+          @if (movie().rating > 0) {
+            <StackLayout orientation="horizontal">
+              <Label
+                [text]="movie().rating"
+                class="text-neutral-500 text-sm mr-2"
+              ></Label>
+              <ns-rate-indicator
+                [rate]="movie().rating"
+                [size]="18"
+              ></ns-rate-indicator>
+            </StackLayout>
+          }
+        </FlexboxLayout>
+      </GridLayout>
+    }
+  </StackLayout>
+</ScrollView>

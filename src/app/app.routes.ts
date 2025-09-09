@@ -1,13 +1,11 @@
 import { Routes } from "@angular/router";
-import { SignInComponent } from "./features/auth/sign-in/sign-in.component";
-import { ExploreComponent } from "./features/explore/explore.component";
-import { SearchPreviewComponent } from "./features/search/search-preview.component";
-import { SearchComponent } from "./features/search/search.component";
+import { MovieComponent } from "./features/movie/movie.component";
 
 export const routes: Routes = [
   { path: "", redirectTo: "/sign-in", pathMatch: "full" },
-  { path: "sign-in", component: SignInComponent },
-  { path: "explore", component: ExploreComponent },
-  { path: "search-preview", component: SearchPreviewComponent },
-  { path: "search", component: SearchComponent },
+  { path: "sign-in", loadComponent: () => import("./features/auth/sign-in/sign-in.component").then((m) => m.SignInComponent) },
+  { path: "explore", loadComponent: () => import("./features/explore/explore.component").then((m) => m.ExploreComponent) },
+  { path: "search-preview", loadComponent: () => import("./features/search/search-preview.component").then((m) => m.SearchPreviewComponent) },
+  { path: "search", loadComponent: () => import("./features/search/search.component").then((m) => m.SearchComponent) },
+  { path: "movies/:uuid", loadComponent: () => import("./features/movie/movie.component").then((m) => m.MovieComponent) },
 ];

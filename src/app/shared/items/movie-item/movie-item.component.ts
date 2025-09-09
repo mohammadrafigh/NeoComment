@@ -1,5 +1,5 @@
 import { Component, Input, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptCommonModule } from "@nativescript/angular";
+import { NativeScriptCommonModule, NativeScriptRouterModule } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { Movie } from "../../../core/models/movie.model";
 import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.component";
@@ -12,6 +12,7 @@ import { NeoDBLocalizePipe } from "../../pipes/neodb-localize.pipe";
   imports: [
     NativeScriptCommonModule,
     NativeScriptLocalizeModule,
+    NativeScriptRouterModule,
     RateIndicatorComponent,
     KiloPipe,
     NeoDBLocalizePipe,

@@ -30,6 +30,7 @@
     "performances": "Performances",
     "people": "People",
     "search": "Search",
-    "generic_error": "Something went wrong"
+    "generic_error": "Something went wrong",
+    "generic_connection_error": "Unable to connect to the server"
   }
 }
