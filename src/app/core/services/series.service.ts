@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
 import { Series, SeriesDTO } from "../models/series.model";
+import { map } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -11,13 +12,17 @@ export class SeriesService {
   private stateService = inject(StateService);
 
   getSeriesDetails(seriesUUID: string) {
-    this.http
+    return this.http
       .get<SeriesDTO>(`${this.stateService.instanceURL()}/api/tv/${seriesUUID}`)
-      .subscribe({
-        next: (seriesDTO: SeriesDTO) => {
-          this.stateService.updateSeries(Series.fromDTO(seriesDTO));
-        },
-        error: (e) => console.error(e),
-      });
+      .pipe(map((seriesDTO: SeriesDTO) => Series.fromDTO(seriesDTO)));
+  }
+
+  getTrendingSeriesDetails(seriesUUID: string) {
+    this.getSeriesDetails(seriesUUID).subscribe({
+      next: (series: Series) => {
+        this.stateService.updateSeries(series);
+      },
+      error: (e) => console.error(e),
+    });
   }
 }

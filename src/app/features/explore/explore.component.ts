@@ -98,35 +98,35 @@ export class ExploreComponent implements OnInit {
       case "book": {
         const item = this.stateService.trendingBooks()[args.index];
         if (!item?.authors) {
-          this.bookService.getBookDetails(item.uuid);
+          this.bookService.getTrendingBookDetails(item.uuid);
         }
         break;
       }
       case "movie": {
         const item = this.stateService.trendingMovies()[args.index];
         if (!item?.year) {
-          this.movieService.getMovieDetails(item.uuid);
+          this.movieService.getTrendingMovieDetails(item.uuid);
         }
         break;
       }
       case "series": {
         const item = this.stateService.trendingSeries()[args.index];
         if (!item?.year) {
-          this.seriesService.getSeriesDetails(item.uuid);
+          this.seriesService.getTrendingSeriesDetails(item.uuid);
         }
         break;
       }
       case "game": {
         const item = this.stateService.trendingGames()[args.index];
         if (!item?.developers) {
-          this.gameService.getGameDetails(item.uuid);
+          this.gameService.getTrendingGameDetails(item.uuid);
         }
         break;
       }
       case "music": {
         const item = this.stateService.trendingMusics()[args.index];
         if (!item?.artists) {
-          this.musicService.getMusicDetails(item.uuid);
+          this.musicService.getTrendingMusicDetails(item.uuid);
         }
         break;
       }

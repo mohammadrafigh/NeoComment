@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
 import { Game, GameDTO } from "../models/game.model";
+import { map } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -11,13 +12,17 @@ export class GameService {
   private stateService = inject(StateService);
 
   getGameDetails(gameUUID: string) {
-    this.http
+    return this.http
       .get<GameDTO>(`${this.stateService.instanceURL()}/api/game/${gameUUID}`)
-      .subscribe({
-        next: (gameDTO: GameDTO) => {
-          this.stateService.updateGame(Game.fromDTO(gameDTO));
-        },
-        error: (e) => console.error(e),
-      });
+      .pipe(map((gameDTO: GameDTO) => Game.fromDTO(gameDTO)));
+  }
+
+  getTrendingGameDetails(gameUUID: string) {
+    this.getGameDetails(gameUUID).subscribe({
+      next: (game: Game) => {
+        this.stateService.updateGame(game);
+      },
+      error: (e) => console.error(e),
+    });
   }
 }
