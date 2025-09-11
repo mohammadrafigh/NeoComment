@@ -27,6 +27,10 @@ export class SignInComponent {
   loading = false;
 
   checkInstance() {
+    if (!this.instanceURL && this.instanceURL.trim().length === 0) {
+      return;
+    }
+
     this.loading = true;
     this.authService
       .registerClient(this.instanceURL)
