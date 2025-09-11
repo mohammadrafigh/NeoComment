@@ -12,9 +12,10 @@
       [(ngModel)]="instanceURL"
     />
     @if (loading) {
-      <ActivityIndicator busy="true" />
+      <ActivityIndicator busy="true" class="mt-4" />
     } @else {
       <Button
+        class="primary-button mt-4"
         (tap)="checkInstance()"
         [text]="'features.sign_in.next' | L"
       ></Button>
