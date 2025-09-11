@@ -11,6 +11,19 @@
   "features.search": {
     "no_result": "Could not find anything"
   },
+  "features.movie": {
+    "cast_and_crew": "Cast and Crew",
+    "directors": "Directors",
+    "writers": "Writers",
+    "director": "Director",
+    "writer": "Writer",
+    "cast": "Cast",
+    "origins": "Origins",
+    "countries": "Countries",
+    "languages": "Languages",
+    "country": "Country",
+    "language": "Language"
+  },
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",
     "authentication_error": "Unable to complete authentication. Please try again."
@@ -31,6 +44,12 @@
     "people": "People",
     "search": "Search",
     "generic_error": "Something went wrong",
-    "generic_connection_error": "Unable to connect to the server"
+    "generic_connection_error": "Unable to connect to the server",
+    "add_to_collection": "Add to Collection",
+    "mark_and_rate": "Mark & Rate",
+    "tags": "Tags",
+    "external_resources": "External Resources",
+    "unknown": "Unknown",
+    "website": "Website"
   }
 }

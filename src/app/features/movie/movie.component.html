@@ -1,8 +1,8 @@
 <ActionBar flat="true">
   <GridLayout
     columns="auto, *, auto"
-    class="pr-4 w-full"
-    [paddingTop]="statusbarSize + 16"
+    class="pr-4 pb-2 w-full"
+    [paddingTop]="statusbarSize + 8"
   >
     <Button
       text="&#xea60;"
@@ -118,6 +118,185 @@
           }
         </FlexboxLayout>
       </GridLayout>
+
+      <FlexboxLayout class="px-4 w-full items-center mb-4">
+        <ns-icon-text-button
+          (pressed)="showCollections()"
+          buttonClass="gray-button w-full mr-2"
+          icon="&#xeb0b;"
+          [text]="'common.add_to_collection' | L"
+        >
+        </ns-icon-text-button>
+
+        <ns-icon-text-button
+          (pressed)="showMarkAndRate()"
+          class="w-full"
+          buttonClass="primary-button w-full"
+          icon="&#xf972;"
+          [text]="'common.mark_and_rate' | L"
+        >
+        </ns-icon-text-button>
+      </FlexboxLayout>
+
+      @if (movie().localizedDescription.length > 0) {
+        <Label
+          [text]="
+            movie().localizedDescription
+              | neoL: stateService.preference().language
+          "
+          [maxLines]="descriptionCollapsed() ? 5 : 100"
+          textWrap="true"
+          class="mb-6 px-4"
+          (tap)="descriptionCollapsed.set(!descriptionCollapsed())"
+        ></Label>
+      }
+
+      @if (movie().tags.length > 0) {
+        <Label [text]="'common.tags' | L" class="h1 mx-4 mb-2"></Label>
+        <CollectionView
+          [items]="movie().tags"
+          colWidth="auto"
+          orientation="horizontal"
+          class="pr-2 pl-4 mb-6"
+        >
+          <ng-template let-item="item">
+            <StackLayout class="pr-2">
+              <Label
+                [text]="item"
+                class="text-xs bg-neutral-200 rounded-lg px-2.5 py-1"
+              ></Label>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+
+      @if (
+        movie().actors.length > 0 ||
+        movie().directors.length > 0 ||
+        movie().playwrights.length > 0
+      ) {
+        <Label
+          [text]="'features.movie.cast_and_crew' | L"
+          class="h1 mx-4 mb-2"
+        ></Label>
+        <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
+          <Label
+            [text]="
+              (movie().directors.length > 1
+                ? 'features.movie.directors'
+                : 'features.movie.director'
+              ) | L
+            "
+            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="0"
+          ></Label>
+          <Label
+            [text]="
+              movie().directors.length > 0 ? movie().directors.join(', ') : '-'
+            "
+            textWrap="true"
+            col="1"
+            row="0"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="
+              (movie().playwrights.length > 1
+                ? 'features.movie.writers'
+                : 'features.movie.writer'
+              ) | L
+            "
+            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="1"
+          ></Label>
+          <Label
+            [text]="
+              movie().playwrights.length > 0
+                ? movie().playwrights.join(', ')
+                : '-'
+            "
+            textWrap="true"
+            col="1"
+            row="1"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="'features.movie.cast' | L"
+            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="2"
+          ></Label>
+          <Label
+            [text]="movie().actors.length > 0 ? movie().actors.join(', ') : '-'"
+            textWrap="true"
+            col="1"
+            row="2"
+            class="mb-2"
+          ></Label>
+        </GridLayout>
+      }
+
+      @if (movie().areas.length > 0 || movie().languages.length > 0) {
+        <Label
+          [text]="'features.movie.origins' | L"
+          class="h1 mx-4 mb-2"
+        ></Label>
+        <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto">
+          <Label
+            [text]="
+              (movie().areas.length > 1
+                ? 'features.movie.countries'
+                : 'features.movie.country'
+              ) | L
+            "
+            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="0"
+          ></Label>
+          <Label
+            [text]="movie().areas.length > 0 ? movie().areas.join(', ') : '-'"
+            textWrap="true"
+            col="1"
+            row="0"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="
+              (movie().languages.length > 1
+                ? 'features.movie.languages'
+                : 'features.movie.language'
+              ) | L
+            "
+            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="1"
+          ></Label>
+          <Label
+            [text]="
+              movie().languages.length > 0 ? movie().languages.join(', ') : '-'
+            "
+            textWrap="true"
+            col="1"
+            row="1"
+            class="mb-2"
+          ></Label>
+        </GridLayout>
+      }
+
+      @if (movie().externalResources.length > 0) {
+        <Label
+          [text]="'common.external_resources' | L"
+          class="h1 mx-4 mb-2"
+        ></Label>
+        <ns-external-resources
+          [externalResources]="movie().externalResources"
+          [site]="movie().site"
+          [localURL]="stateService.instanceURL() + movie().url"
+          [language]="stateService.preference().language"
+        ></ns-external-resources>
+      }
     }
   </StackLayout>
 </ScrollView>

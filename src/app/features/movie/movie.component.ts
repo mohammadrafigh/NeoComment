@@ -25,6 +25,8 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 import { KiloPipe } from "~/app/shared/pipes/kilo.pipe";
 import { Location } from "@angular/common";
 import { RateIndicatorComponent } from "~/app/shared/rate-indicator/rate-indicator.component";
+import { IconTextButtonComponent } from "~/app/shared/icon-text-button/icon-text-button.component";
+import { ExternalResourcesComponent } from "~/app/shared/external-resources/external-resources.component";
 
 @Component({
   selector: "ns-movie",
@@ -36,7 +38,9 @@ import { RateIndicatorComponent } from "~/app/shared/rate-indicator/rate-indicat
     NativeScriptLocalizeModule,
     CollectionViewModule,
     RateIndicatorComponent,
+    IconTextButtonComponent,
     CollectionItemComponent,
+    ExternalResourcesComponent,
     NeoDBLocalizePipe,
     KiloPipe,
   ],
@@ -52,6 +56,7 @@ export class MovieComponent implements OnInit {
   statusbarSize: number = global.statusbarSize;
   pageLoading = signal(false);
   movie = signal<Movie>(null);
+  descriptionCollapsed = signal(true);
 
   ngOnInit(): void {
     this.getMovieDetails();
@@ -73,6 +78,14 @@ export class MovieComponent implements OnInit {
   }
 
   share() {
+    // TODO: Mohammad 09-09-2025: Implement it
+  }
+
+  showCollections() {
+    // TODO: Mohammad 09-09-2025: Implement it
+  }
+
+  showMarkAndRate() {
     // TODO: Mohammad 09-09-2025: Implement it
   }
 }

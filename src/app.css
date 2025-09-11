@@ -26,6 +26,12 @@
     @apply text-neutral-700;
   }
 
+  Button {
+    android-elevation: 0;
+    android-dynamic-elevation-offset: 0;
+    @apply rounded-full h-10;
+  }
+
   TextField {
     @apply border-none rounded-full bg-neutral-200 h-12 px-4 text-neutral-500;
   }
@@ -35,9 +41,23 @@
   }
 
   .icon-button {
-    @apply text-center rounded-full w-10 h-10 min-w-10 min-h-10 text-neutral-500 highlighted:bg-neutral-200;
-    android-elevation: 0;
-    android-dynamic-elevation-offset: 0;
+    @apply text-center w-10 min-w-10 min-h-10 text-neutral-500 highlighted:bg-neutral-200;
+  }
+
+  .gray-button {
+    @apply text-neutral-700 bg-neutral-200 highlighted:bg-neutral-300;
+  }
+
+  .gray-button.pressed {
+    @apply bg-neutral-300;
+  }
+
+  .primary-button {
+    @apply text-neutral-700 bg-forest highlighted:bg-forest/80;
+  }
+
+  .primary-button.pressed {
+    @apply bg-forest/80;
   }
 
   .textfield-with-icon-container {

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="_common_website_5brez">"Website"</string>
+  <string name="_common_unknown_Z1GNsja">"Unknown"</string>
+  <string name="_common_external_resources_16pPOf">"External Resources"</string>
+  <string name="_common_tags_Z2khgmj">"Tags"</string>
+  <string name="_common_mark_and_rate_2obkjP">"Mark &amp; Rate"</string>
+  <string name="_common_add_to_collection_1g46e4">"Add to Collection"</string>
   <string name="_common_generic_connection_error_n0wpm">"Unable to connect to the server"</string>
   <string name="_common_generic_error_ZwC57J">"Something went wrong"</string>
   <string name="_common_search_10VhSa">"Search"</string>
@@ -16,6 +22,17 @@
   <string name="_core_user_service_get_user_error_28n28">"Unable to get user info"</string>
   <string name="_core_auth_service_authentication_error_EM4WQ">"Unable to complete authentication. Please try again."</string>
   <string name="_core_auth_service_unavailable_instance_Z22pryR">"The instance is unavailable"</string>
+  <string name="_features_movie_language_e6nUQ">"Language"</string>
+  <string name="_features_movie_country_1Gp7vh">"Country"</string>
+  <string name="_features_movie_languages_25316n">"Languages"</string>
+  <string name="_features_movie_countries_1S52xW">"Countries"</string>
+  <string name="_features_movie_origins_ZQBhCK">"Origins"</string>
+  <string name="_features_movie_cast_Z12i0gp">"Cast"</string>
+  <string name="_features_movie_writer_ePyMj">"Writer"</string>
+  <string name="_features_movie_director_2qphY5">"Director"</string>
+  <string name="_features_movie_writers_2s0wKB">"Writers"</string>
+  <string name="_features_movie_directors_ZQ81HA">"Directors"</string>
+  <string name="_features_movie_cast_and_crew_Z128LYs">"Cast and Crew"</string>
   <string name="_features_search_no_result_wbnfd">"Could not find anything"</string>
   <string name="_features_explore_page_title_ZrpHT6">"Explore"</string>
   <string name="_features_sign_in_next_Vzyp">"Next"</string>
