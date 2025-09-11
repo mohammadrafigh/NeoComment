@@ -52,6 +52,7 @@
               screenWidth >= 1050 ? '33%' : screenWidth >= 700 ? '50%' : '100%'
             "
             class="bg-forest/15 p-2 h-full"
+            (itemTap)="navigateToItem($event)"
             (loadMoreItems)="loadMore(category.key)"
           >
             <ng-template let-item="item">
@@ -107,6 +108,7 @@
               screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'
             "
             class="bg-forest/15 p-2 h-full"
+            (itemTap)="navigateToItem($event)"
             (loadMoreItems)="loadMore(category.key)"
           >
             <ng-template let-item="item" cvTemplateKey="movie">

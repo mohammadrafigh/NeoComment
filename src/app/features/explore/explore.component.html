@@ -51,7 +51,7 @@
     [items]="trendingCategories"
     [itemTemplateSelector]="templateSelector"
   >
-    <ng-template cvTemplateKey="books" let-item="category">
+    <ng-template cvTemplateKey="books" let-category="item">
       <StackLayout>
         <Label
           [text]="'common.books' | L"
@@ -63,6 +63,7 @@
           colWidth="333"
           rowHeight="150"
           class="bg-forest/15 py-4 px-2 h-[182]"
+          (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'book')"
         >
           <ng-template let-item="item">
@@ -77,7 +78,7 @@
       </StackLayout>
     </ng-template>
 
-    <ng-template cvTemplateKey="movies" let-item="category">
+    <ng-template cvTemplateKey="movies" let-category="item">
       <StackLayout>
         <Label
           [text]="'common.movies' | L"
@@ -89,6 +90,7 @@
           colWidth="166"
           rowHeight="306"
           class="bg-forest/15 py-4 px-2 h-[338]"
+          (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'movie')"
         >
           <ng-template let-item="item">
@@ -103,7 +105,7 @@
       </StackLayout>
     </ng-template>
 
-    <ng-template cvTemplateKey="series" let-item="category">
+    <ng-template cvTemplateKey="series" let-category="item">
       <StackLayout>
         <Label
           [text]="'common.series' | L"
@@ -115,6 +117,7 @@
           colWidth="166"
           rowHeight="306"
           class="bg-forest/15 py-4 px-2 h-[338]"
+          (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'series')"
         >
           <ng-template let-item="item">
@@ -129,7 +132,7 @@
       </StackLayout>
     </ng-template>
 
-    <ng-template cvTemplateKey="games" let-item="category">
+    <ng-template cvTemplateKey="games" let-category="item">
       <StackLayout>
         <Label
           [text]="'common.games' | L"
@@ -141,6 +144,7 @@
           colWidth="166"
           rowHeight="306"
           class="bg-forest/15 py-4 px-2 h-[338]"
+          (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'game')"
         >
           <ng-template let-item="item">
@@ -155,7 +159,7 @@
       </StackLayout>
     </ng-template>
 
-    <ng-template cvTemplateKey="musics" let-item="category">
+    <ng-template cvTemplateKey="musics" let-category="item">
       <StackLayout>
         <Label
           [text]="'common.musics' | L"
@@ -167,6 +171,7 @@
           colWidth="166"
           rowHeight="256"
           class="bg-forest/15 py-4 px-2 h-[288]"
+          (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'music')"
         >
           <ng-template let-item="item">
@@ -181,7 +186,7 @@
       </StackLayout>
     </ng-template>
 
-    <ng-template cvTemplateKey="podcasts" let-item="category">
+    <ng-template cvTemplateKey="podcasts" let-category="item">
       <StackLayout>
         <Label
           [text]="'common.podcasts' | L"
@@ -193,6 +198,7 @@
           colWidth="166"
           rowHeight="246"
           class="bg-forest/15 py-4 px-2 h-[278]"
+          (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'podcast')"
         >
           <ng-template let-item="item">
@@ -207,7 +213,7 @@
       </StackLayout>
     </ng-template>
 
-    <ng-template cvTemplateKey="collections" let-item="category">
+    <ng-template cvTemplateKey="collections" let-category="item">
       <StackLayout>
         <Label
           [text]="'common.collections' | L"
@@ -219,6 +225,7 @@
           colWidth="166"
           rowHeight="246"
           class="bg-forest/15 py-4 px-2 h-[278]"
+          (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'collection')"
         >
           <ng-template let-item="item">

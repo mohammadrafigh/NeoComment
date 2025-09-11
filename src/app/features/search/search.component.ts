@@ -35,6 +35,7 @@ import { GameItemComponent } from "../../shared/items/game-item/game-item.compon
 import { PodcastItemComponent } from "../../shared/items/podcast-item/podcast-item.component";
 import { PerformanceItemComponent } from "../../shared/items/performance-item/performance-item.component";
 import { StateService } from "~/app/core/services/state.service";
+import { SEARCH_CATEGORIES } from "./search-categories";
 
 @Component({
   selector: "ns-search",
@@ -76,19 +77,7 @@ export class SearchComponent implements OnInit {
     people?: FediSearchResult;
   }>({});
   query = signal<string>(null);
-  categories = new Map([
-    ["book", { icon: "\u{eff2}", title: localize("common.books") }],
-    ["movie", { icon: "\u{eafa}", title: localize("common.movies") }],
-    ["tv", { icon: "\u{ea8d}", title: localize("common.series") }],
-    ["game", { icon: "\u{eb63}", title: localize("common.games") }],
-    ["music", { icon: "\u{eafc}", title: localize("common.musics") }],
-    ["podcast", { icon: "\u{f1e9}", title: localize("common.podcasts") }],
-    [
-      "performance",
-      { icon: "\u{f263}", title: localize("common.performances") },
-    ],
-    ["people", { icon: "\u{eb4d}", title: localize("common.people") }],
-  ]);
+  categories = SEARCH_CATEGORIES;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
@@ -139,7 +128,10 @@ export class SearchComponent implements OnInit {
                 newValue.people = result;
                 return newValue;
               } else {
-                newValue.people.accounts = [...oldValue.people.accounts, ...result.accounts];
+                newValue.people.accounts = [
+                  ...oldValue.people.accounts,
+                  ...result.accounts,
+                ];
                 newValue.people.currentPage = page;
                 return newValue;
               }
@@ -159,7 +151,10 @@ export class SearchComponent implements OnInit {
                 newValue[category] = result;
                 return newValue;
               } else {
-                newValue[category].data = [...oldValue[category].data, ...result.data];
+                newValue[category].data = [
+                  ...oldValue[category].data,
+                  ...result.data,
+                ];
                 newValue[category].currentPage = page;
                 return newValue;
               }
@@ -172,6 +167,11 @@ export class SearchComponent implements OnInit {
 
   templateSelector(item: any) {
     return item.category;
+  }
+
+  navigateToItem(event: any) {
+    const item = event.item;
+    this.router.navigate([this.categories.get(item.category).path + item.uuid]);
   }
 
   loadMore(category: string) {

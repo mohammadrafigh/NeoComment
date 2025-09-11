@@ -26,6 +26,7 @@ import { FediSearchResult } from "~/app/core/models/fediverse/fedi-search-result
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 import { ActivatedRoute, Router } from "@angular/router";
 import { localize } from "@nativescript/localize";
+import { SEARCH_CATEGORIES } from "./search-categories";
 
 @Component({
   selector: "ns-search-preview",
@@ -56,19 +57,7 @@ export class SearchPreviewComponent implements OnInit, OnDestroy {
   searchSubscription: Subscription;
   itemSearchResult = signal<ItemSearchResult | null>(null);
   fediSearchResult = signal<FediSearchResult | null>(null);
-  categories = new Map([
-    ["book", { icon: "\u{eff2}", title: localize("common.books") }],
-    ["movie", { icon: "\u{eafa}", title: localize("common.movies") }],
-    ["tv", { icon: "\u{ea8d}", title: localize("common.series") }],
-    ["game", { icon: "\u{eb63}", title: localize("common.games") }],
-    ["music", { icon: "\u{eafc}", title: localize("common.musics") }],
-    ["podcast", { icon: "\u{f1e9}", title: localize("common.podcasts") }],
-    [
-      "performance",
-      { icon: "\u{f263}", title: localize("common.performances") },
-    ],
-    ["people", { icon: "\u{eb4d}", title: localize("common.people") }],
-  ]);
+  categories = SEARCH_CATEGORIES;
   urlRegex = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\/?#].*)?$/i;
 
   constructor() {
@@ -115,7 +104,10 @@ export class SearchPreviewComponent implements OnInit, OnDestroy {
         .searchThroughItems(query)
         .pipe(finalize(() => this.loading.set(false)))
         .subscribe({
-          next: (result) => this.itemSearchResult.set(result),
+          next: (result) => {
+            result.data = result.data.slice(0, 5);
+            this.itemSearchResult.set(result);
+          },
           error: (e) => errorHandler,
         });
 
@@ -142,6 +134,11 @@ export class SearchPreviewComponent implements OnInit, OnDestroy {
         },
       }),
     } as any);
+  }
+
+  navigateToItem(event: any) {
+    const item = event.item;
+    this.router.navigate([this.categories.get(item.category).path + item.uuid]);
   }
 
   keepOrder(a: any, b: any) {
