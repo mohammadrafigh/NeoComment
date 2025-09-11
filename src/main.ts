@@ -127,10 +127,7 @@ function hasTablerIconClass(view: View): boolean {
 const originalButtonOnLoaded = Button.prototype.onLoaded;
 Button.prototype.onLoaded = function () {
   originalButtonOnLoaded.call(this);
-  if (
-    hasTablerIconClass(this) &&
-    this.nativeViewProtected?.setIncludeFontPadding
-  ) {
+  if (this.nativeViewProtected?.setIncludeFontPadding) {
     this.nativeViewProtected.setIncludeFontPadding(false);
   }
 };
