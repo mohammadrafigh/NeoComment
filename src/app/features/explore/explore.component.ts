@@ -143,7 +143,13 @@ export class ExploreComponent implements OnInit {
 
   navigateToItem(event: any, path: string) {
     const item = event.item;
-    this.router.navigate([`/${path}/` + item.uuid]);
+    this.router.navigate([`/${path}/` + item.uuid], {
+      transition: SharedTransition.custom(new PageTransition(), {
+        pageReturn: {
+          duration: 150,
+        },
+      }),
+    } as any);
   }
 
   searchClicked() {

@@ -86,7 +86,7 @@ export class SearchComponent implements OnInit {
         this.search(params.query, category, 0);
       }
 
-      SharedTransition.events().on(SharedTransition.finishedEvent, (event) => {
+      SharedTransition.events().once(SharedTransition.finishedEvent, (event: any) => {
         if (event.data.action === "present") {
           (this.tabs.nativeElement as TabView).selectedIndex = Array.from(
             this.categories.keys(),
@@ -171,7 +171,16 @@ export class SearchComponent implements OnInit {
 
   navigateToItem(event: any) {
     const item = event.item;
-    this.router.navigate([this.categories.get(item.category).path + item.uuid]);
+    this.router.navigate(
+      [this.categories.get(item.category).path + item.uuid],
+      {
+        transition: SharedTransition.custom(new PageTransition(), {
+          pageReturn: {
+            duration: 150,
+          },
+        }),
+      } as any,
+    );
   }
 
   loadMore(category: string) {
@@ -192,6 +201,18 @@ export class SearchComponent implements OnInit {
       category,
       this.itemSearchResults()[category].currentPage + 1,
     );
+  }
+
+  onTabChange(args: any) {
+    const tabView = args.object as TabView;
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        category: Array.from(this.categories.keys())[tabView.selectedIndex],
+      },
+      queryParamsHandling: "merge",
+      replaceUrl: true,
+    });
   }
 
   keepOrder(a: any, b: any) {

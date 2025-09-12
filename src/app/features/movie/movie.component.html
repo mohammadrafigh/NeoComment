@@ -45,6 +45,7 @@
         class="h-[160] w-full m-4 px-4"
       >
         <NSImg
+          [sharedTransitionTag]="'itemImage' + movie().uuid"
           rowSpan="4"
           col="0"
           [src]="movie().coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"

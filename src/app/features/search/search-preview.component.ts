@@ -73,7 +73,7 @@ export class SearchPreviewComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((params) => (this.searchQuery = params.query));
 
-    SharedTransition.events().on(SharedTransition.finishedEvent, (event) => {
+    SharedTransition.events().once(SharedTransition.finishedEvent, (event: any) => {
       if (event.data.action === "present") {
         this.searchInput.nativeElement.focus();
       }
@@ -138,7 +138,16 @@ export class SearchPreviewComponent implements OnInit, OnDestroy {
 
   navigateToItem(event: any) {
     const item = event.item;
-    this.router.navigate([this.categories.get(item.category).path + item.uuid]);
+    this.router.navigate(
+      [this.categories.get(item.category).path + item.uuid],
+      {
+        transition: SharedTransition.custom(new PageTransition(), {
+          pageReturn: {
+            duration: 150,
+          },
+        }),
+      } as any,
+    );
   }
 
   keepOrder(a: any, b: any) {

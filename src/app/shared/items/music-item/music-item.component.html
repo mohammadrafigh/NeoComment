@@ -1,5 +1,6 @@
 <StackLayout class="rounded-lg bg-white w-[150] h-[256]">
   <NSImg
+    [sharedTransitionTag]="'itemImage' + item?.uuid"
     [src]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
     [failureImageUri]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'"
     class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"

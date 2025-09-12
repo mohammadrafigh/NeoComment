@@ -29,7 +29,7 @@
 </ActionBar>
 
 <GridLayout>
-  <TabView #tabs>
+  <TabView #tabs (selectedIndexChanged)="onTabChange($event)">
     @for (category of categories | keyvalue: keepOrder; track category.key) {
       <StackLayout *tabItem="{ title: category.value.title }">
         <ContentView
