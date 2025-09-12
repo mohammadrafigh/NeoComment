@@ -27,6 +27,7 @@ import { Location } from "@angular/common";
 import { RateIndicatorComponent } from "~/app/shared/rate-indicator/rate-indicator.component";
 import { IconTextButtonComponent } from "~/app/shared/icon-text-button/icon-text-button.component";
 import { ExternalResourcesComponent } from "~/app/shared/external-resources/external-resources.component";
+import { RatingsChartComponent } from "~/app/shared/ratings-chart/ratings-chart.component";
 
 @Component({
   selector: "ns-movie",
@@ -41,6 +42,7 @@ import { ExternalResourcesComponent } from "~/app/shared/external-resources/exte
     IconTextButtonComponent,
     CollectionItemComponent,
     ExternalResourcesComponent,
+    RatingsChartComponent,
     NeoDBLocalizePipe,
     KiloPipe,
   ],

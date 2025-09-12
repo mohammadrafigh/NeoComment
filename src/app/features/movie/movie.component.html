@@ -29,13 +29,13 @@
 </ActionBar>
 
 <ScrollView>
-  <StackLayout>
+  <StackLayout class="pb-4">
     <StackLayout
       class="m-4"
       horizontalAlignment="center"
       [hidden]="!pageLoading()"
     >
-      <ActivityIndicator [busy]="pageLoading()" class="shrink-0 w-8 h-8" />
+      <ActivityIndicator [busy]="pageLoading()" />
     </StackLayout>
 
     @if (movie()) {
@@ -286,17 +286,29 @@
         </GridLayout>
       }
 
-      @if (movie().externalResources.length > 0) {
-        <Label
-          [text]="'common.external_resources' | L"
-          class="h1 mx-4 mb-2"
-        ></Label>
-        <ns-external-resources
-          [externalResources]="movie().externalResources"
-          [site]="movie().site"
-          [localURL]="stateService.instanceURL() + movie().url"
-          [language]="stateService.preference().language"
-        ></ns-external-resources>
+      <Label
+        [text]="'common.external_resources' | L"
+        class="h1 mx-4 mb-2"
+      ></Label>
+      <ns-external-resources
+        [externalResources]="movie().externalResources"
+        [site]="movie().site"
+        [localURL]="stateService.instanceURL() + movie().url"
+        [language]="stateService.preference().language"
+      ></ns-external-resources>
+
+      <Label
+        [text]="'common.user_ratings' | L"
+        class="h1 mx-4 mb-2 mt-6"
+      ></Label>
+      @if (movie().rating > 0) {
+        <StackLayout class="mx-4">
+          <ns-ratings-chart
+            [rating]="movie().rating"
+            [ratingCount]="movie().ratingCount"
+            [ratingDistribution]="movie().ratingDistribution"
+          ></ns-ratings-chart>
+        </StackLayout>
       }
     }
   </StackLayout>
