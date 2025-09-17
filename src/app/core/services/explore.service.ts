@@ -3,11 +3,16 @@ import { HttpClient } from "@angular/common/http";
 import { BaseItem, BaseItemDTO } from "../models/base-item.model";
 import { StateService } from "./state.service";
 import {
-  TrendingCollection,
-  TrendingCollectionDTO,
-} from "../models/trending-collection.model";
+  Collection,
+  CollectionDTO,
+} from "../models/collection.model";
 import { forkJoin, Observable, tap } from "rxjs";
 import { Book } from "../models/book.model";
+import { Movie } from "../models/movie.model";
+import { Series } from "../models/series.model";
+import { Music } from "../models/music.model";
+import { Game } from "../models/game.model";
+import { Podcast } from "../models/podcast.model";
 
 interface TrendingType {
   path: string;
@@ -29,27 +34,27 @@ export class ExploreService {
     },
     {
       path: "movie",
-      type: BaseItem,
+      type: Movie,
       setter: this.stateService.setTrendingMovies.bind(this.stateService),
     },
     {
       path: "tv",
-      type: BaseItem,
+      type: Series,
       setter: this.stateService.setTrendingSeries.bind(this.stateService),
     },
     {
       path: "music",
-      type: BaseItem,
+      type: Music,
       setter: this.stateService.setTrendingMusics.bind(this.stateService),
     },
     {
       path: "game",
-      type: BaseItem,
+      type: Game,
       setter: this.stateService.setTrendingGames.bind(this.stateService),
     },
     {
       path: "podcast",
-      type: BaseItem,
+      type: Podcast,
       setter: this.stateService.setTrendingPodcasts.bind(this.stateService),
     },
   ];
@@ -86,13 +91,13 @@ export class ExploreService {
   getTrendingCollections() {
     return this.http
       .get<
-        TrendingCollectionDTO[]
+        CollectionDTO[]
       >(`${this.stateService.instanceURL()}/api/trending/collection`)
       .pipe(
         tap({
-          next: (trendingCollectionsDTO: TrendingCollectionDTO[]) => {
+          next: (trendingCollectionsDTO: CollectionDTO[]) => {
             const trendingCollections = trendingCollectionsDTO.map((c) =>
-              TrendingCollection.fromDTO(c),
+              Collection.fromDTO(c),
             );
             this.stateService.setTrendingCollections(trendingCollections);
           },

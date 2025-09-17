@@ -10,7 +10,7 @@ import { Game } from "../models/game.model";
 import { Series } from "../models/series.model";
 import { Music } from "../models/music.model";
 import { Podcast } from "../models/podcast.model";
-import { TrendingCollection } from "../models/trending-collection.model";
+import { Collection } from "../models/collection.model";
 
 @Injectable({
   providedIn: "root",
@@ -38,7 +38,7 @@ export class StateService {
   trendingMusics = this._trendingMusics.asReadonly();
   private _trendingPodcasts = signal<Podcast[]>([]);
   trendingPodcasts = this._trendingPodcasts.asReadonly();
-  private _trendingCollections = signal<TrendingCollection[]>([]);
+  private _trendingCollections = signal<Collection[]>([]);
   trendingCollections = this._trendingCollections.asReadonly();
 
   constructor() {
@@ -142,7 +142,7 @@ export class StateService {
     this._trendingPodcasts.set(podcasts);
   }
 
-  setTrendingCollections(collections: TrendingCollection[]) {
+  setTrendingCollections(collections: Collection[]) {
     this._trendingCollections.set(collections);
   }
 

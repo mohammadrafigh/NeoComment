@@ -5,7 +5,7 @@ import {
 } from "@angular/core";
 import { NativeScriptCommonModule } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
-import { TrendingCollection } from "../../../core/models/trending-collection.model";
+import { Collection } from "../../../core/models/collection.model";
 import { KiloPipe } from "../../pipes/kilo.pipe";
 
 @Component({
@@ -15,5 +15,5 @@ import { KiloPipe } from "../../pipes/kilo.pipe";
   schemas: [NO_ERRORS_SCHEMA],
 })
 export class CollectionItemComponent {
-  @Input() item: TrendingCollection;
+  @Input() item: Collection;
 }

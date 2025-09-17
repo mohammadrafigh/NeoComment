@@ -1,4 +1,4 @@
-export interface TrendingCollectionDTO {
+export interface CollectionDTO {
   uuid: string;
   url: string;
   visibility: number;
@@ -11,7 +11,7 @@ export interface TrendingCollectionDTO {
   is_dynamic: boolean;
 }
 
-export class TrendingCollection {
+export class Collection {
   uuid: string;
   url: string;
   visibility: number;
@@ -23,8 +23,8 @@ export class TrendingCollection {
   htmlContent: string;
   isDynamic: boolean;
 
-  static fromDTO(dto: TrendingCollectionDTO): TrendingCollection {
-    const trendingCollection = new TrendingCollection();
+  static fromDTO(dto: CollectionDTO): Collection {
+    const trendingCollection = new Collection();
     trendingCollection.uuid = dto.uuid;
     trendingCollection.url = dto.url;
     trendingCollection.visibility = dto.visibility;
@@ -38,7 +38,7 @@ export class TrendingCollection {
     return trendingCollection;
   }
 
-  static toDTO(trendingCollection: TrendingCollection): TrendingCollectionDTO {
+  static toDTO(trendingCollection: Collection): CollectionDTO {
     return {
       uuid: trendingCollection.uuid,
       url: trendingCollection.url,

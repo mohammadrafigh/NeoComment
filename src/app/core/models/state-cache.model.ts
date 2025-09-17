@@ -1,6 +1,6 @@
 import { Preference } from "./preference.model";
 import { User } from "./user.model";
-import { TrendingCollection } from "./trending-collection.model";
+import { Collection } from "./collection.model";
 import { Book } from "./book.model";
 import { Movie } from "./movie.model";
 import { Series } from "./series.model";
@@ -19,5 +19,5 @@ export class StateCache {
   trendingGames: Game[];
   trendingMusics: Music[];
   trendingPodcasts: Podcast[];
-  trendingCollections: TrendingCollection[];
+  trendingCollections: Collection[];
 }
