@@ -302,7 +302,7 @@
         class="h1 mx-4 mb-2 mt-6"
       ></Label>
       @if (movie().rating > 0) {
-        <StackLayout class="mx-4">
+        <StackLayout class="mx-4 mb-4">
           <ns-ratings-chart
             [rating]="movie().rating"
             [ratingCount]="movie().ratingCount"
@@ -310,6 +310,11 @@
           ></ns-ratings-chart>
         </StackLayout>
       }
+      <StackLayout class="p-4 bg-forest/15">
+        @for (comment of comments(); track comment.id) {
+          <ns-post [post]="comment"></ns-post>
+        }
+      </StackLayout>
     }
   </StackLayout>
 </ScrollView>

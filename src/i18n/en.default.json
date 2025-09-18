@@ -22,7 +22,11 @@
     "countries": "Countries",
     "languages": "Languages",
     "country": "Country",
-    "language": "Language"
+    "language": "Language",
+    "to_watch": "To Watch",
+    "watching": "Watching",
+    "watched": "Watched",
+    "stopped": "Stopped"
   },
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",

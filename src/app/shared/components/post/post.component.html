@@ -1,0 +1,91 @@
+<StackLayout class="rounded-lg bg-white px-3 pt-3 pb-2 mb-4">
+  <GridLayout rows="*, auto, auto, *" columns="48, *, 76" class="mb-2 h-10">
+    <NSImg
+      row="0"
+      rowSpan="4"
+      col="0"
+      [src]="post.account.avatar"
+      failureImageUri="font://&#xeb4d;"
+      class="tabler-icon text-neutral-500 text-4xl rounded-full w-10 h-10 mr-2"
+      [decodeWidth]="200"
+      [decodeHeight]="200"
+    ></NSImg>
+    <FlexboxLayout class="mr-2 items-center" row="1" col="1">
+      <Label
+        class="text-xs font-medium no-font-padding"
+        [text]="post.account.displayName"
+      ></Label>
+      <Label
+        [text]="' - ' + status()"
+        class="text-xs text-neutral-500 shrink-0 no-font-padding"
+      ></Label>
+    </FlexboxLayout>
+    <Label
+      row="2"
+      col="1"
+      [text]="post.createdAt | date: 'MMM dd, yyyy hh:mm a'"
+      class="text-xs text-neutral-500 mr-2 mt-0.5 no-font-padding"
+    ></Label>
+    <FlexboxLayout class="justify-between h-3" row="1" col="2">
+      @for (rateIndicator of rateIndicators(); track $index) {
+        <ns-rate-indicator
+          [rate]="rateIndicator"
+          [size]="12"
+        ></ns-rate-indicator>
+      }
+    </FlexboxLayout>
+  </GridLayout>
+  <StackLayout>
+    @for (line of commentParts(); track $index) {
+      <WrapLayout orientation="horizontal" class="mb-2">
+        @for (part of line; track $index) {
+          @if (part.type === "emoji") {
+            <NSImg
+              [src]="part.url"
+              height="20"
+              width="20"
+              stretch="aspectFit"
+            ></NSImg>
+          } @else {
+            <Label
+              [text]="part.text"
+              class="text-sm"
+              [ngClass]="
+                part.type === 'mention' ||
+                part.type === 'hashtag' ||
+                part.type === 'link'
+                  ? 'text-forest font-medium'
+                  : ''
+              "
+              (tap)="onPartTap(part)"
+              textWrap="true"
+            ></Label>
+          }
+        }
+      </WrapLayout>
+    }
+  </StackLayout>
+  <FlexboxLayout class="border-t-[1] border-neutral-200 justify-between w-full">
+    <StackLayout orientation="horizontal" class="p-2">
+      <Label text="&#xeaed;" class="tabler-icon text-neutral-500 mr-1"></Label>
+      <Label
+        [text]="post.repliesCount | kilo"
+        class="text-neutral-500 text-xs"
+      ></Label>
+    </StackLayout>
+    <StackLayout orientation="horizontal" class="p-2">
+      <Label text="&#xeb72;" class="tabler-icon text-neutral-500 mr-1"></Label>
+      <Label
+        [text]="post.reblogsCount | kilo"
+        class="text-neutral-500 text-xs"
+      ></Label>
+    </StackLayout>
+    <StackLayout orientation="horizontal" class="p-2">
+      <Label text="&#xeabe;" class="tabler-icon text-neutral-500 mr-1"></Label>
+      <Label
+        [text]="post.favouritesCount | kilo"
+        class="text-neutral-500 text-xs"
+      ></Label>
+    </StackLayout>
+  </FlexboxLayout>
+</StackLayout>

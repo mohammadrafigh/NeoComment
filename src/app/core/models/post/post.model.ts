@@ -14,6 +14,33 @@ export interface PostTag {
   url: string;
 }
 
+export interface ExtNeoDBTag {
+  href: string;
+  name: string;
+  type: string;
+  image: string;
+}
+
+export interface ExtNeoDBRelation {
+  id: string;
+  href: string;
+  type: "Status" | "Rating" | "Comment";
+  updated: string;
+  published: string;
+  attributedTo: string;
+  withRegardTo: string;
+  status?: string; // for Status
+  content?: string; // for Comment
+  best?: number; // for Rating
+  value?: number; // for Rating
+  worst?: number; // for Rating
+}
+
+export interface ExtNeoDB {
+  tag?: Array<ExtNeoDBTag>;
+  relatedWith?: Array<ExtNeoDBRelation>;
+}
+
 export interface PostDTO {
   id: string;
   uri: string;
@@ -41,7 +68,7 @@ export interface PostDTO {
   muted: boolean;
   bookmarked: boolean;
   pinned: boolean;
-  ext_neodb: Record<string, any>;
+  ext_neodb: ExtNeoDB;
 }
 
 export class Post {
@@ -71,7 +98,7 @@ export class Post {
   muted: boolean;
   bookmarked: boolean;
   pinned: boolean;
-  extNeodb: Record<string, any>;
+  extNeodb: ExtNeoDB;
 
   static fromDTO(dto: PostDTO): Post {
     const post = new Post();

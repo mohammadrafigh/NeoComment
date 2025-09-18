@@ -23,6 +23,10 @@
   <string name="_core_user_service_get_user_error_28n28">"Unable to get user info"</string>
   <string name="_core_auth_service_authentication_error_EM4WQ">"Unable to complete authentication. Please try again."</string>
   <string name="_core_auth_service_unavailable_instance_Z22pryR">"The instance is unavailable"</string>
+  <string name="_features_movie_stopped_Z1EQp4k">"Stopped"</string>
+  <string name="_features_movie_watched_1SxQrk">"Watched"</string>
+  <string name="_features_movie_watching_Z2ib3Mg">"Watching"</string>
+  <string name="_features_movie_to_watch_rhnG9">"To Watch"</string>
   <string name="_features_movie_language_e6nUQ">"Language"</string>
   <string name="_features_movie_country_1Gp7vh">"Country"</string>
   <string name="_features_movie_languages_25316n">"Languages"</string>
