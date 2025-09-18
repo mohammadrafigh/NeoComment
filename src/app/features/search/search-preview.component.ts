@@ -26,7 +26,7 @@ import { FediSearchResult } from "~/app/core/models/fediverse/fedi-search-result
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 import { ActivatedRoute, Router } from "@angular/router";
 import { localize } from "@nativescript/localize";
-import { SEARCH_CATEGORIES } from "./search-categories";
+import { SEARCH_CATEGORIES } from "../../shared/constants/search-categories";
 
 @Component({
   selector: "ns-search-preview",

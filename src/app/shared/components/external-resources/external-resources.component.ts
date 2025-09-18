@@ -12,7 +12,7 @@ import {
   NativeScriptRouterModule,
 } from "@nativescript/angular";
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
-import { ExternalResource } from "../../core/models/base-item.model";
+import { ExternalResource } from "../../../core/models/base-item.model";
 import { openUrl } from "@nativescript/core/utils";
 import { localize } from "@nativescript/localize";
 

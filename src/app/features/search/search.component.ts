@@ -27,15 +27,15 @@ import { FediSearchResult } from "~/app/core/models/fediverse/fedi-search-result
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 import { ActivatedRoute, Router } from "@angular/router";
 import { localize } from "@nativescript/localize";
-import { BookItemComponent } from "../../shared/items/book-item/book-item.component";
-import { MovieItemComponent } from "../../shared/items/movie-item/movie-item.component";
-import { SeriesItemComponent } from "../../shared/items/series-item/series-item.component";
-import { MusicItemComponent } from "../../shared/items/music-item/music-item.component";
-import { GameItemComponent } from "../../shared/items/game-item/game-item.component";
-import { PodcastItemComponent } from "../../shared/items/podcast-item/podcast-item.component";
-import { PerformanceItemComponent } from "../../shared/items/performance-item/performance-item.component";
+import { BookItemComponent } from "../../shared/components/items/book-item/book-item.component";
+import { MovieItemComponent } from "../../shared/components/items/movie-item/movie-item.component";
+import { SeriesItemComponent } from "../../shared/components/items/series-item/series-item.component";
+import { MusicItemComponent } from "../../shared/components/items/music-item/music-item.component";
+import { GameItemComponent } from "../../shared/components/items/game-item/game-item.component";
+import { PodcastItemComponent } from "../../shared/components/items/podcast-item/podcast-item.component";
+import { PerformanceItemComponent } from "../../shared/components/items/performance-item/performance-item.component";
 import { StateService } from "~/app/core/services/state.service";
-import { SEARCH_CATEGORIES } from "./search-categories";
+import { SEARCH_CATEGORIES } from "../../shared/constants/search-categories";
 
 @Component({
   selector: "ns-search",

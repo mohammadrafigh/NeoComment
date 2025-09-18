@@ -1,5 +1,5 @@
 import { Injectable, ViewContainerRef } from "@angular/core";
-import { MessageComponent } from "../../shared/message/message.component";
+import { MessageComponent } from "../../shared/components/message/message.component";
 
 @Injectable({
   providedIn: "root",
