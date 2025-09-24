@@ -12,11 +12,11 @@
     "@angular/platform-browser": "~20.0.0",
     "@angular/platform-browser-dynamic": "~20.0.0",
     "@angular/router": "~20.0.0",
-    "@nativescript-community/ui-collectionview": "^6.0.4",
+    "@nativescript-community/ui-collectionview": "^6.0.5",
     "@nativescript-community/ui-image": "^4.5.5",
     "@nativescript-community/universal-links": "^3.0.1",
     "@nativescript/angular": "^20.0.0",
-    "@nativescript/core": "8.9.5",
+    "@nativescript/core": "8.9.9",
     "@nativescript/localize": "^5.2.0",
     "@nativescript/secure-storage": "^3.0.3",
     "@triniwiz/nativescript-couchbase": "^1.4.0",
@@ -26,13 +26,13 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~20.0.0",
     "@angular/compiler-cli": "~20.0.0",
-    "@nativescript/android": "8.9.1",
-    "@nativescript/tailwind": "^4.0.3",
+    "@nativescript/android": "8.9.2",
+    "@nativescript/tailwind": "^4.0.5",
     "@nativescript/types": "~8.9.1",
     "@nativescript/webpack": "~5.0.24",
     "@ngtools/webpack": "~20.0.0",
     "prettier": "^3.6.2",
-    "tailwindcss": "~4.1.11",
+    "tailwindcss": "~4.1.13",
     "typescript": "~5.8.3"
   }
 }
