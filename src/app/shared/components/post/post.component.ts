@@ -42,10 +42,6 @@ export class PostComponent implements OnInit {
   commentParts = signal<CommentPart[][]>([]);
   revealContent = signal(false);
 
-  // TODO: Mohammad 09-18-2025: handle
-  // this.post.inReplyToAccountId || this.post.inReplyToId
-  // this.post.mediaAttachments
-  // this.post.extNeodb.tag
   ngOnInit(): void {
     if (this.post.extNeodb.relatedWith) {
       this.setStatus();
@@ -68,7 +64,8 @@ export class PostComponent implements OnInit {
         return this.status.set(localize("features.movie.watched"));
       case "dropped":
         return this.status.set(localize("features.movie.stopped"));
-      // TODO: Mohammad 09-19-2025: Add status for other items
+      default:
+        return null;
     }
   }
 
