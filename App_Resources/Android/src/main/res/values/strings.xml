@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="_common_show_Z2khmuh">"Show"</string>
+  <string name="_common_sensitive_content_Zg6Gpm">"The content is marked as sensitive"</string>
   <string name="_common_user_ratings_Z1Y1ysf">"User Ratings"</string>
   <string name="_common_website_5brez">"Website"</string>
   <string name="_common_unknown_Z1GNsja">"Unknown"</string>

@@ -55,6 +55,8 @@
     "external_resources": "External Resources",
     "unknown": "Unknown",
     "website": "Website",
-    "user_ratings": "User Ratings"
+    "user_ratings": "User Ratings",
+    "sensitive_content": "The content is marked as sensitive",
+    "show": "Show"
   }
 }

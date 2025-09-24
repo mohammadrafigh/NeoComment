@@ -40,15 +40,13 @@ export class PostComponent implements OnInit {
   rateIndicators = signal<number[]>([]);
   status = signal<string>(null);
   commentParts = signal<CommentPart[][]>([]);
+  revealContent = signal(false);
 
   // TODO: Mohammad 09-18-2025: handle
   // this.post.inReplyToAccountId || this.post.inReplyToId
   // this.post.mediaAttachments
   // this.post.extNeodb.tag
-  // this.post.sensitive
-  // this.post.spoilerText
   ngOnInit(): void {
-    console.log(this.post.extNeodb.tag);
     if (this.post.extNeodb.relatedWith) {
       this.setStatus();
       this.setComment();
