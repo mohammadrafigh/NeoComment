@@ -24,6 +24,39 @@
         "musics": "Musica",
         "podcasts": "Podcast",
         "collections": "Collezioni",
-        "search": "Cerca"
+        "search": "Cerca",
+        "performances": "Performance",
+        "people": "Persone",
+        "generic_error": "Qualcosa è andato storto",
+        "generic_connection_error": "Impossibile connettersi al server",
+        "add_to_collection": "Aggiungi alla Collezione",
+        "mark_and_rate": "Segna e Valuta",
+        "tags": "Tag",
+        "external_resources": "Risorse Esterne",
+        "unknown": "Sconosciuto",
+        "website": "Sito web",
+        "user_ratings": "Valutazioni Utente",
+        "sensitive_content": "Il contenuto è segnato come sensibile",
+        "show": "Mostra"
+    },
+    "features.search": {
+        "no_result": "Non è stato trovato nulla"
+    },
+    "features.movie": {
+        "cast_and_crew": "Cast e Crew",
+        "directors": "Registi",
+        "writers": "Scrittori",
+        "director": "Regista",
+        "writer": "Scrittore",
+        "cast": "Cast",
+        "origins": "Origini",
+        "countries": "Paesi",
+        "languages": "Lingue",
+        "country": "Paese",
+        "language": "Lingua",
+        "to_watch": "Da vedere",
+        "watching": "Guardando",
+        "watched": "Guardato",
+        "stopped": "Fermato"
     }
 }
