@@ -16,7 +16,15 @@ import { StateService } from "../../core/services/state.service";
 import { MovieService } from "../../core/services/movie.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { CollectionItemComponent } from "../../shared/components/items/collection-item/collection-item.component";
-import { finalize, forkJoin } from "rxjs";
+import {
+  catchError,
+  concatMap,
+  finalize,
+  forkJoin,
+  from,
+  of,
+  toArray,
+} from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Movie } from "~/app/core/models/movie.model";
 import { MessageService } from "~/app/core/services/message.service";
@@ -178,12 +186,15 @@ export class MovieComponent implements OnInit {
       const id = p.extNeodb.relatedWith.find((r) => r.type === "Collection").id;
       return id.substring(id.lastIndexOf("/") + 1);
     });
-    forkJoin(
-      uuids.map((uuid) => this.collectionService.getCollectionDetails(uuid)),
-    ).subscribe({
-      next: (collections) => this.collections.set(collections),
-      error: (err) => console.dir(err),
-    });
+    from(uuids.map((uuid) => this.collectionService.getCollectionDetails(uuid)))
+      .pipe(
+        concatMap((o) => o.pipe(catchError(() => of(null)))),
+        toArray(),
+      )
+      .subscribe({
+        next: (collections) => this.collections.set(collections),
+        error: (err) => console.dir(err),
+      });
   }
 
   share() {
