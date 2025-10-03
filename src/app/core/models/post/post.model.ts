@@ -24,16 +24,54 @@ export interface ExtNeoDBTag {
 export interface ExtNeoDBRelation {
   id: string;
   href: string;
-  type: "Status" | "Rating" | "Comment";
+  type: "Status" | "Rating" | "Comment" | "Review" | "Note" | "Collection";
   updated: string;
   published: string;
   attributedTo: string;
   withRegardTo: string;
-  status?: string; // for Status
-  content?: string; // for Comment
-  best?: number; // for Rating
-  value?: number; // for Rating
-  worst?: number; // for Rating
+  /**
+   * for Status
+   */
+  status?: string;
+  /**
+   * for Comment, Review, Note and Collection
+   */
+  content?: string;
+  /**
+   * for Rating
+   */
+  best?: number;
+  /**
+   * for Rating
+   */
+  value?: number;
+  /**
+   * for Rating
+   */
+  worst?: number;
+  /**
+   * for Review and Collection
+   */
+  name?: string;
+  /**
+   * for Review and Collection
+   */
+  mediaType?: string;
+  /**
+   * for Note
+   */
+  title?: string;
+  /**
+   * for Note (Seems to be redundant)
+   */
+  sensitive?: boolean;
+  /**
+   * for Note
+   */
+  progress?: {
+    type: string;
+    value: string;
+  };
 }
 
 export interface ExtNeoDB {
@@ -129,6 +167,14 @@ export class Post {
     post.bookmarked = dto.bookmarked;
     post.pinned = dto.pinned;
     post.extNeodb = dto.ext_neodb;
+
+    // Older posts of NeoDB have a single object instead of an array for relatedWith
+    if (
+      post.extNeodb.relatedWith &&
+      !Array.isArray(post.extNeodb.relatedWith)
+    ) {
+      post.extNeodb.relatedWith = [post.extNeodb.relatedWith];
+    }
 
     return post;
   }

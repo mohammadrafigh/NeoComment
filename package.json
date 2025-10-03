@@ -20,6 +20,7 @@
     "@nativescript/localize": "^5.2.0",
     "@nativescript/secure-storage": "^3.0.3",
     "@triniwiz/nativescript-couchbase": "^1.4.0",
+    "json-bigint": "^1.0.0",
     "rxjs": "~7.8.0",
     "zone.js": "~0.15.0"
   },

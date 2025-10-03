@@ -35,18 +35,20 @@ interface CommentPart {
 })
 export class PostComponent implements OnInit {
   @Input() post: Post;
-  @Input() language: string;
   router = inject(Router);
   rateIndicators = signal<number[]>([]);
   status = signal<string>(null);
   commentParts = signal<CommentPart[][]>([]);
   revealContent = signal(false);
+  title = signal<string>(null);
+  noteProgress = signal<{ type: string; value: string }>(null);
 
   ngOnInit(): void {
     if (this.post.extNeodb.relatedWith) {
       this.setStatus();
       this.setComment();
       this.fillRateIndicators();
+      this.setNoteProgress();
     }
   }
 
@@ -71,10 +73,20 @@ export class PostComponent implements OnInit {
 
   setComment() {
     const comment = this.post.extNeodb.relatedWith.find(
-      (relatedObj) => relatedObj.type === "Comment",
-    )?.content;
+      (relatedObj) =>
+        relatedObj.type === "Comment" ||
+        relatedObj.type === "Review" ||
+        relatedObj.type === "Note",
+    );
 
     if (!comment) {
+      return;
+    }
+
+    this.title.set(comment.name ?? comment.title ?? null);
+    const content = comment.content;
+
+    if (!content) {
       return;
     }
 
@@ -92,11 +104,11 @@ export class PostComponent implements OnInit {
     let lastIndex = 0;
     let match;
 
-    while ((match = regex.exec(comment)) !== null) {
+    while ((match = regex.exec(content)) !== null) {
       if (match.index > lastIndex) {
         parts.push({
           type: "text",
-          text: comment.slice(lastIndex, match.index),
+          text: content.slice(lastIndex, match.index),
         });
       }
 
@@ -129,8 +141,8 @@ export class PostComponent implements OnInit {
       lastIndex = regex.lastIndex;
     }
 
-    if (lastIndex < comment.length) {
-      parts.push({ type: "text", text: comment.slice(lastIndex) });
+    if (lastIndex < content.length) {
+      parts.push({ type: "text", text: content.slice(lastIndex) });
     }
 
     const commentParts: CommentPart[][] = [];
@@ -177,6 +189,18 @@ export class PostComponent implements OnInit {
       rateIndicators.push(clampedValue);
     }
     this.rateIndicators.set(rateIndicators);
+  }
+
+  setNoteProgress() {
+    const progress = this.post.extNeodb.relatedWith.find(
+      (relatedObj) => relatedObj.type === "Note",
+    )?.progress;
+
+    if (!progress) {
+      return;
+    }
+
+    this.noteProgress.set(progress);
   }
 
   onPartTap(part: CommentPart) {

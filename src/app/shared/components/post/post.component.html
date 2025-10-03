@@ -1,5 +1,5 @@
 <StackLayout class="rounded-lg bg-white px-3 pt-3 pb-2 mb-4">
-  <GridLayout rows="*, auto, auto, *" columns="48, *, 76" class="mb-2 h-10">
+  <GridLayout rows="*, auto, auto, *" columns="48, *, auto" class="mb-2 h-10">
     <NSImg
       row="0"
       rowSpan="4"
@@ -15,10 +15,12 @@
         class="text-xs font-medium no-font-padding"
         [text]="post.account.displayName"
       ></Label>
-      <Label
-        [text]="' - ' + status()"
-        class="text-xs text-neutral-500 shrink-0 no-font-padding"
-      ></Label>
+      @if (status()) {
+        <Label
+          [text]="' - ' + status()"
+          class="text-xs text-neutral-500 shrink-0 no-font-padding"
+        ></Label>
+      }
     </FlexboxLayout>
     <Label
       row="2"
@@ -26,17 +28,30 @@
       [text]="post.createdAt | date: 'MMM dd, yyyy hh:mm a'"
       class="text-xs text-neutral-500 mr-2 mt-0.5 no-font-padding"
     ></Label>
-    <FlexboxLayout class="justify-between h-3" row="1" col="2">
-      @for (rateIndicator of rateIndicators(); track $index) {
-        <ns-rate-indicator
-          [rate]="rateIndicator"
-          [size]="12"
-        ></ns-rate-indicator>
-      }
-    </FlexboxLayout>
+    @if (noteProgress()?.type || noteProgress()?.value) {
+      <Label
+        rowSpan="2"
+        row="1"
+        col="2"
+        [text]="noteProgress().type + ': ' + noteProgress().value"
+        class="bg-neutral-200 rounded-lg text-xs h-6 px-2.5 no-font-padding"
+      ></Label>
+    } @else {
+      <FlexboxLayout class="justify-between h-3 w-[76]" row="1" col="2">
+        @for (rateIndicator of rateIndicators(); track $index) {
+          <ns-rate-indicator
+            [rate]="rateIndicator"
+            [size]="12"
+          ></ns-rate-indicator>
+        }
+      </FlexboxLayout>
+    }
   </GridLayout>
   <GridLayout columns="*" rows="*">
     <StackLayout row="0" col="0">
+      @if (title()) {
+        <Label class="text-center mb-4 font-bold" [text]="title()"></Label>
+      }
       @for (line of commentParts(); track $index) {
         <WrapLayout orientation="horizontal" class="mb-2">
           @for (part of line; track $index) {
@@ -92,21 +107,21 @@
     <StackLayout orientation="horizontal" class="p-2">
       <Label text="&#xeaed;" class="tabler-icon text-neutral-500 mr-1"></Label>
       <Label
-        [text]="post.repliesCount | kilo"
+        [text]="post.repliesCount ? (post.repliesCount | kilo) : ''"
         class="text-neutral-500 text-xs"
       ></Label>
     </StackLayout>
     <StackLayout orientation="horizontal" class="p-2">
       <Label text="&#xeb72;" class="tabler-icon text-neutral-500 mr-1"></Label>
       <Label
-        [text]="post.reblogsCount | kilo"
+        [text]="post.reblogsCount ? (post.reblogsCount | kilo) : ''"
         class="text-neutral-500 text-xs"
       ></Label>
     </StackLayout>
     <StackLayout orientation="horizontal" class="p-2">
       <Label text="&#xeabe;" class="tabler-icon text-neutral-500 mr-1"></Label>
       <Label
-        [text]="post.favouritesCount | kilo"
+        [text]="post.favouritesCount ? (post.favouritesCount | kilo) : ''"
         class="text-neutral-500 text-xs"
       ></Label>
     </StackLayout>

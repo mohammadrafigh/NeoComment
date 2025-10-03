@@ -130,7 +130,7 @@
         </ns-icon-text-button>
 
         <ns-icon-text-button
-          (pressed)="showMarkAndRate()"
+          (pressed)="showMarkAndRateSheet()"
           class="w-full"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
@@ -298,7 +298,7 @@
       ></ns-external-resources>
 
       <Label
-        [text]="'common.user_ratings' | L"
+        [text]="'common.user_ratings_and_marks' | L"
         class="h1 mx-4 mb-2 mt-6"
       ></Label>
       @if (movie().rating > 0) {
@@ -310,11 +310,79 @@
           ></ns-ratings-chart>
         </StackLayout>
       }
-      <StackLayout class="p-4 bg-forest/15">
+      <StackLayout class="px-4 pt-4 bg-forest/15">
+        <Button
+          [text]="'common.mark_and_rate' | L"
+          class="primary-button w-full mb-4"
+          (tap)="showMarkAndRateSheet()"
+        ></Button>
         @for (comment of comments(); track comment.id) {
           <ns-post [post]="comment"></ns-post>
         }
+        @if (hasMoreComments()) {
+          <Button
+            [text]="'common.show_all' | L"
+            class="basic-button mb-4"
+            (tap)="showAllPosts('mark')"
+          ></Button>
+        }
       </StackLayout>
+
+      <Label [text]="'common.reviews' | L" class="h1 mx-4 mb-2 mt-6"></Label>
+      <StackLayout class="px-4 pt-4 bg-forest/15">
+        <Button
+          [text]="'common.write_review' | L"
+          class="primary-button w-full mb-4"
+          (tap)="showReviewSheet()"
+        ></Button>
+        @for (review of reviews(); track review.id) {
+          <ns-post [post]="review"></ns-post>
+        }
+        @if (hasMoreReviews()) {
+          <Button
+            [text]="'common.show_all' | L"
+            class="basic-button mb-4"
+            (tap)="showAllPosts('review')"
+          ></Button>
+        }
+      </StackLayout>
+
+      <Label [text]="'common.notes' | L" class="h1 mx-4 mb-2 mt-6"></Label>
+      <StackLayout class="px-4 pt-4 bg-forest/15">
+        <Button
+          [text]="'common.write_note' | L"
+          class="primary-button w-full mb-4"
+          (tap)="showNoteSheet()"
+        ></Button>
+        @for (note of notes(); track note.id) {
+          <ns-post [post]="note"></ns-post>
+        }
+        @if (hasMoreNotes()) {
+          <Button
+            [text]="'common.show_all' | L"
+            class="basic-button mb-4"
+            (tap)="showAllPosts('note')"
+          ></Button>
+        }
+      </StackLayout>
+
+      @if (collections().length > 0) {
+        <Label [text]="'common.collections_featuring_item' | L" class="h1 m-4 mb-2"></Label>
+        <CollectionView
+          [items]="collections()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="246"
+          class="bg-forest/15 py-4 px-2 h-[278]"
+          (itemTap)="navigateToCollection($event)"
+        >
+          <ng-template let-item="item" let-index="index">
+            <StackLayout class="px-2">
+              <ns-collection-item [item]="item" [post]="collectionPosts()[index]"></ns-collection-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
     }
   </StackLayout>
 </ScrollView>

@@ -16,8 +16,8 @@ import { StateService } from "../../core/services/state.service";
 import { MovieService } from "../../core/services/movie.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { CollectionItemComponent } from "../../shared/components/items/collection-item/collection-item.component";
-import { finalize } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { finalize, forkJoin } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Movie } from "~/app/core/models/movie.model";
 import { MessageService } from "~/app/core/services/message.service";
 import { localize } from "@nativescript/localize";
@@ -30,8 +30,10 @@ import { ExternalResourcesComponent } from "~/app/shared/components/external-res
 import { RatingsChartComponent } from "~/app/shared/components/ratings-chart/ratings-chart.component";
 import { PostComponent } from "~/app/shared/components/post/post.component";
 import { PostService } from "~/app/core/services/post.service";
+import { CollectionService } from "~/app/core/services/collection.service";
 import { Post } from "~/app/core/models/post/post.model";
 import { Collection } from "~/app/core/models/collection.model";
+import { PageTransition, SharedTransition } from "@nativescript/core";
 
 @Component({
   selector: "ns-movie",
@@ -58,16 +60,23 @@ export class MovieComponent implements OnInit {
   stateService = inject(StateService);
   movieService = inject(MovieService);
   postService = inject(PostService);
+  collectionService = inject(CollectionService);
   messageService = inject(MessageService);
   activatedRoute = inject(ActivatedRoute);
   location = inject(Location);
+  router = inject(Router);
   statusbarSize: number = global.statusbarSize;
   pageLoading = signal(false);
   movie = signal<Movie>(null);
   comments = signal<Post[]>([]);
   reviews = signal<Post[]>([]);
+  notes = signal<Post[]>([]);
+  collectionPosts = signal<Post[]>([]);
   collections = signal<Collection[]>([]);
   descriptionCollapsed = signal(true);
+  hasMoreComments = signal(false);
+  hasMoreReviews = signal(false);
+  hasMoreNotes = signal(false);
 
   ngOnInit(): void {
     this.getMovieDetails();
@@ -91,36 +100,125 @@ export class MovieComponent implements OnInit {
 
   getPosts() {
     const uuid = this.activatedRoute.snapshot.params.uuid;
-    this.postService.getItemPosts(uuid, "comment").subscribe({
-      next: (res) => {
-        // TODO: [Mohammad 09-17-2025]: Put mine and my followings first and only keep 3 comments here and show "show more" if we have more
-        this.comments.set(res.data);
+
+    const userPost$ = this.postService.getUserMarkOnItem(uuid);
+    const itemMarks$ = this.postService.getItemPosts(uuid, "mark");
+    forkJoin([userPost$, itemMarks$]).subscribe({
+      next: ([userPost, postsRes]) => {
+        this.hasMoreComments.set(postsRes.count > 3);
+        const posts = this.processPosts(userPost, postsRes.data);
+        this.comments.set(posts);
       },
       error: (err) => console.dir(err),
     });
-    this.postService.getItemPosts(uuid, "review").subscribe({
-      next: (res) => {
-        // TODO: [Mohammad 09-17-2025]: Put mine and my followings first and only keep 3 comments here and show "show more" if we have more
-        this.reviews.set(res.data);
+
+    const userReview$ = this.postService.getUserReviewOnItem(uuid);
+    const itemReviews$ = this.postService.getItemPosts(uuid, "review");
+    forkJoin([userReview$, itemReviews$]).subscribe({
+      next: ([userPost, postsRes]) => {
+        this.hasMoreReviews.set(postsRes.count > 3);
+        const posts = this.processPosts(userPost, postsRes.data);
+        this.reviews.set(posts);
       },
       error: (err) => console.dir(err),
     });
-    // TODO: [Mohammad 09-17-2025]: Implement collections and notes
-    // this.postService.getItemPosts(uuid, "collection").subscribe({
-    //   next: (response) => console.dir(response, {maxLines: 1000}),
-    //   error: (err) => console.dir(err)
-    // });
+
+    const userNotes$ = this.postService.getUserNotesOnItem(uuid);
+    const itemNotes$ = this.postService.getItemPosts(uuid, "note");
+    forkJoin([userNotes$, itemNotes$]).subscribe({
+      next: ([userPosts, postsRes]) => {
+        this.hasMoreNotes.set(postsRes.count > 3);
+        const posts = this.processNotes(userPosts, postsRes.data);
+        this.notes.set(posts);
+      },
+      error: (err) => console.dir(err),
+    });
+
+    this.postService.getItemPosts(uuid, "collection").subscribe({
+      next: (response) => {
+        const collectionPosts = response.data.slice(0, 10);
+        this.collectionPosts.set(collectionPosts);
+        this.getCollections(collectionPosts);
+      },
+      error: (err) => console.dir(err),
+    });
+  }
+
+  processPosts(userPost: Post, posts: Post[]) {
+    const processedPosts = posts.slice(0, 3);
+    const userPostIndex = processedPosts.findIndex(
+      (p) => p.id === userPost?.id,
+    );
+    if (userPostIndex > -1) {
+      processedPosts.splice(userPostIndex, 1);
+    }
+    if (userPost) {
+      processedPosts.unshift(userPost);
+    }
+
+    return processedPosts;
+  }
+
+  processNotes(userNotes: Post[], notes: Post[]) {
+    const processedPosts = notes.slice(0, 3);
+    for (const note of userNotes) {
+      const userPostIndex = processedPosts.findIndex((p) => p.id === note.id);
+      if (userPostIndex > -1) {
+        processedPosts.splice(userPostIndex, 1);
+      }
+      processedPosts.unshift(note);
+    }
+
+    return processedPosts;
+  }
+
+  getCollections(collectionPosts: Post[]) {
+    const uuids = collectionPosts.map((p) => {
+      const id = p.extNeodb.relatedWith.find((r) => r.type === "Collection").id;
+      return id.substring(id.lastIndexOf("/") + 1);
+    });
+    forkJoin(
+      uuids.map((uuid) => this.collectionService.getCollectionDetails(uuid)),
+    ).subscribe({
+      next: (collections) => this.collections.set(collections),
+      error: (err) => console.dir(err),
+    });
   }
 
   share() {
     // TODO: Mohammad 09-09-2025: Implement it
   }
 
+  navigateToCollection(event: any) {
+    const item = event.item;
+    this.router.navigate([`/collections/` + item.uuid], {
+      transition: SharedTransition.custom(new PageTransition(), {
+        pageReturn: {
+          duration: 150,
+        },
+      }),
+    } as any);
+  }
+
   showCollections() {
     // TODO: Mohammad 09-09-2025: Implement it
   }
 
-  showMarkAndRate() {
+  showMarkAndRateSheet() {
     // TODO: Mohammad 09-09-2025: Implement it
+  }
+
+  showReviewSheet() {
+    // TODO: Mohammad 10-02-2025:
+  }
+
+  showNoteSheet() {
+    // TODO: Mohammad 10-02-2025:
+  }
+
+  showAllPosts(type: string) {
+    this.router.navigate([`/posts/${this.movie().uuid}`], {
+      queryParams: { type },
+    });
   }
 }

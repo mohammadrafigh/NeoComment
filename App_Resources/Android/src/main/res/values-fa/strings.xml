@@ -6,9 +6,15 @@
   <string name="_app_name_1k3Sbz">"NeoComment"</string>
   <string name="app_name">"NeoComment"</string>
   <string name="title_activity_kimera">"NeoComment"</string>
+  <string name="_common_collections_featuring_item_1jsAk8">"Collections Featuring This Item"</string>
+  <string name="_common_write_note_Z1dYOBy">"Write a Note"</string>
+  <string name="_common_notes_Z17lNEQ">"Notes"</string>
+  <string name="_common_write_review_Z1BvJ0j">"Write a Review"</string>
+  <string name="_common_reviews_Z3MwS7">"Reviews"</string>
+  <string name="_common_show_all_Z21fm2E">"Show All"</string>
   <string name="_common_show_Z2khmuh">"Show"</string>
   <string name="_common_sensitive_content_Zg6Gpm">"The content is marked as sensitive"</string>
-  <string name="_common_user_ratings_Z1Y1ysf">"User Ratings"</string>
+  <string name="_common_user_ratings_and_marks_Z298MiD">"User Ratings &amp; Marks"</string>
   <string name="_common_website_5brez">"Website"</string>
   <string name="_common_unknown_Z1GNsja">"Unknown"</string>
   <string name="_common_external_resources_16pPOf">"External Resources"</string>
@@ -48,4 +54,5 @@
   <string name="_features_movie_cast_and_crew_Z128LYs">"Cast and Crew"</string>
   <string name="_features_search_no_result_wbnfd">"Could not find anything"</string>
   <string name="_features_explore_page_title_ZrpHT6">"Explore"</string>
+  <string name="_common_user_ratings_Z1Y1ysf">"common.user_ratings"</string>
 </resources>

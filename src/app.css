@@ -60,6 +60,14 @@
     @apply bg-forest/80;
   }
 
+  .basic-button {
+    @apply text-neutral-700 bg-white highlighted:bg-neutral-50;
+  }
+
+  .basic-button.pressed {
+    @apply highlighted:bg-neutral-50;
+  }
+
   .textfield-with-icon-container {
     @apply rounded-full bg-neutral-200 h-12 px-4;
   }

@@ -1,0 +1,50 @@
+<ActionBar flat="true">
+  <GridLayout
+    columns="auto, *, auto"
+    class="pr-4 pb-2 w-full"
+    [paddingTop]="statusbarSize + 8"
+  >
+    <Button
+      text="&#xea60;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="location.back()"
+    ></Button>
+    <Label
+      [text]="pageTitle()"
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+    <Button
+      [text]="addIcon()"
+      class="tabler-icon icon-button"
+      col="2"
+      (tap)="add()"
+    ></Button>
+  </GridLayout>
+</ActionBar>
+
+<GridLayout>
+  <CollectionView
+    [items]="posts()"
+    colWidth="100%"
+    class="p-2 bg-forest/15 h-full"
+    [class.pb-14]="currentPage < maxPages"
+    (loadMoreItems)="getPosts()"
+  >
+    <ng-template let-item="item">
+      <StackLayout class="p-2">
+        <ns-post [post]="item"></ns-post>
+      </StackLayout>
+    </ng-template>
+  </CollectionView>
+
+  <StackLayout
+    class="m-4"
+    horizontalAlignment="center"
+    verticalAlignment="bottom"
+    [hidden]="!pageLoading()"
+  >
+    <ActivityIndicator [busy]="pageLoading()" />
+  </StackLayout>
+</GridLayout>

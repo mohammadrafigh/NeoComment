@@ -55,8 +55,14 @@
     "external_resources": "External Resources",
     "unknown": "Unknown",
     "website": "Website",
-    "user_ratings": "User Ratings",
+    "user_ratings_and_marks": "User Ratings & Marks",
     "sensitive_content": "The content is marked as sensitive",
-    "show": "Show"
+    "show": "Show",
+    "show_all": "Show All",
+    "reviews": "Reviews",
+    "write_review": "Write a Review",
+    "notes": "Notes",
+    "write_note": "Write a Note",
+    "collections_featuring_item": "Collections Featuring This Item"
   }
 }
