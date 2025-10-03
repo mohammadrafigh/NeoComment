@@ -19,6 +19,7 @@
     "@nativescript/core": "8.9.9",
     "@nativescript/localize": "^5.2.0",
     "@nativescript/secure-storage": "^3.0.3",
+    "@nativescript/social-share": "^2.3.0",
     "@triniwiz/nativescript-couchbase": "^1.4.0",
     "json-bigint": "^1.0.0",
     "rxjs": "~7.8.0",

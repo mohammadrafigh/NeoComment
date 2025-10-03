@@ -34,6 +34,7 @@ import { CollectionService } from "~/app/core/services/collection.service";
 import { Post } from "~/app/core/models/post/post.model";
 import { Collection } from "~/app/core/models/collection.model";
 import { PageTransition, SharedTransition } from "@nativescript/core";
+import { shareText } from "@nativescript/social-share";
 
 @Component({
   selector: "ns-movie",
@@ -186,7 +187,7 @@ export class MovieComponent implements OnInit {
   }
 
   share() {
-    // TODO: Mohammad 09-09-2025: Implement it
+    shareText(this.stateService.instanceURL() + this.movie().url);
   }
 
   navigateToCollection(event: any) {
