@@ -2,22 +2,21 @@
   <NSImg
     [sharedTransitionTag]="'itemImage' + item?.uuid"
     [src]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
-    [failureImageUri]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'"
+    [failureImageUri]="
+      item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
+    "
     class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
   ></NSImg>
   <StackLayout class="p-2">
     <FlexboxLayout class="flex-col justify-between h-full w-full">
       <StackLayout>
+        <Label [text]="item?.title"></Label>
         <Label
-          [text]="item?.title"
-          textWrap="true"
-          [maxLines]="2"
-        ></Label>
-        <!-- <Label
-          [text]="2002"
+          [text]="
+            post?.account.displayName ? 'by ' + post.account.displayName : ''
+          "
           class="text-xs font-medium text-neutral-500 mt-0.5"
-          textWrap="true"
-        ></Label> -->
+        ></Label>
       </StackLayout>
       <FlexboxLayout class="justify-between mt-2">
         <StackLayout orientation="horizontal">
@@ -25,16 +24,16 @@
             text="&#xeabe;"
             class="tabler-icon text-neutral-500 mr-1 text-lg"
           ></Label>
-          <!-- <Label
-            [text]="item?.ratingCount | kilo"
+          <Label
+            [text]="post?.favouritesCount | kilo"
             class="text-neutral-500 text-sm"
-          ></Label> -->
+          ></Label>
         </StackLayout>
         <StackLayout orientation="horizontal">
-          <!-- <Label
-            [text]="item?.rating"
+          <Label
+            [text]="post?.reblogsCount"
             class="text-neutral-500 text-sm mr-2"
-          ></Label> -->
+          ></Label>
           <Label
             text="&#xeb72;"
             class="tabler-icon text-neutral-500 text-lg"

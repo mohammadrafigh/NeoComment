@@ -1,5 +1,9 @@
 <ActionBar flat="true">
-  <GridLayout columns="auto, *, auto" class="pr-4 pb-2 w-full" [paddingTop]="statusbarSize + 8">
+  <GridLayout
+    columns="auto, *, auto"
+    class="pr-4 pb-2 w-full"
+    [paddingTop]="statusbarSize + 8"
+  >
     <Button
       text="&#xfa7e;"
       class="tabler-icon icon-button"
@@ -53,10 +57,7 @@
   >
     <ng-template cvTemplateKey="books" let-category="item">
       <StackLayout>
-        <Label
-          [text]="'common.books' | L"
-          class="h1 m-4 mb-2"
-        ></Label>
+        <Label [text]="'common.books' | L" class="h1 m-4 mb-2"></Label>
         <CollectionView
           [items]="stateService.trendingBooks()"
           orientation="horizontal"
@@ -80,10 +81,7 @@
 
     <ng-template cvTemplateKey="movies" let-category="item">
       <StackLayout>
-        <Label
-          [text]="'common.movies' | L"
-          class="h1 m-4 mb-2"
-        ></Label>
+        <Label [text]="'common.movies' | L" class="h1 m-4 mb-2"></Label>
         <CollectionView
           [items]="stateService.trendingMovies()"
           orientation="horizontal"
@@ -107,10 +105,7 @@
 
     <ng-template cvTemplateKey="series" let-category="item">
       <StackLayout>
-        <Label
-          [text]="'common.series' | L"
-          class="h1 m-4 mb-2"
-        ></Label>
+        <Label [text]="'common.series' | L" class="h1 m-4 mb-2"></Label>
         <CollectionView
           [items]="stateService.trendingSeries()"
           orientation="horizontal"
@@ -134,10 +129,7 @@
 
     <ng-template cvTemplateKey="games" let-category="item">
       <StackLayout>
-        <Label
-          [text]="'common.games' | L"
-          class="h1 m-4 mb-2"
-        ></Label>
+        <Label [text]="'common.games' | L" class="h1 m-4 mb-2"></Label>
         <CollectionView
           [items]="stateService.trendingGames()"
           orientation="horizontal"
@@ -161,10 +153,7 @@
 
     <ng-template cvTemplateKey="musics" let-category="item">
       <StackLayout>
-        <Label
-          [text]="'common.musics' | L"
-          class="h1 m-4 mb-2"
-        ></Label>
+        <Label [text]="'common.musics' | L" class="h1 m-4 mb-2"></Label>
         <CollectionView
           [items]="stateService.trendingMusics()"
           orientation="horizontal"
@@ -188,10 +177,7 @@
 
     <ng-template cvTemplateKey="podcasts" let-category="item">
       <StackLayout>
-        <Label
-          [text]="'common.podcasts' | L"
-          class="h1 m-4 mb-2"
-        ></Label>
+        <Label [text]="'common.podcasts' | L" class="h1 m-4 mb-2"></Label>
         <CollectionView
           [items]="stateService.trendingPodcasts()"
           orientation="horizontal"
@@ -215,10 +201,7 @@
 
     <ng-template cvTemplateKey="collections" let-category="item">
       <StackLayout>
-        <Label
-          [text]="'common.collections' | L"
-          class="h1 m-4 mb-2"
-        ></Label>
+        <Label [text]="'common.collections' | L" class="h1 m-4 mb-2"></Label>
         <CollectionView
           [items]="stateService.trendingCollections()"
           orientation="horizontal"
@@ -230,7 +213,10 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-collection-item [item]="item"></ns-collection-item>
+              <ns-collection-item
+                [item]="item"
+                [post]="collectionPosts()[item?.uuid]"
+              ></ns-collection-item>
             </StackLayout>
           </ng-template>
         </CollectionView>

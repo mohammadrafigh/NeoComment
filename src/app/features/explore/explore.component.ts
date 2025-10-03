@@ -31,6 +31,8 @@ import { CollectionItemComponent } from "../../shared/components/items/collectio
 import { finalize } from "rxjs";
 import { Router } from "@angular/router";
 import { PageTransition, SharedTransition } from "@nativescript/core";
+import { Post } from "~/app/core/models/post/post.model";
+import { PostService } from "~/app/core/services/post.service";
 
 @Component({
   selector: "ns-explore",
@@ -62,6 +64,7 @@ export class ExploreComponent implements OnInit {
   seriesService = inject(SeriesService);
   musicService = inject(MusicService);
   gameService = inject(GameService);
+  postService = inject(PostService);
   router = inject(Router);
   statusbarSize: number = global.statusbarSize;
   loading = signal(false);
@@ -74,6 +77,7 @@ export class ExploreComponent implements OnInit {
     "podcasts",
     "collections",
   ];
+  collectionPosts = signal<Record<string, Post>>({});
 
   ngOnInit(): void {
     this.getAllTrendings();
@@ -131,11 +135,22 @@ export class ExploreComponent implements OnInit {
         break;
       }
       case "podcast": {
-        // Just a placeholder for the future
+        // TODO: Mohammad 10-03-2025: Just a placeholder for the future
         break;
       }
       case "collection": {
         const item = this.stateService.trendingCollections()[args.index];
+        if (!this.collectionPosts()[item?.uuid]) {
+          this.postService.getPost(item.postId).subscribe({
+            next: (post) => {
+              this.collectionPosts.update((postsDict) => ({
+                ...postsDict,
+                [item.uuid]: post,
+              }));
+            },
+            error: (err) => console.dir(err),
+          });
+        }
         break;
       }
     }

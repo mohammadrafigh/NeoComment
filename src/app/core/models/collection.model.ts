@@ -2,7 +2,7 @@ export interface CollectionDTO {
   uuid: string;
   url: string;
   visibility: number;
-  post_id: number;
+  post_id: string;
   created_time: string;
   title: string;
   brief: string;
@@ -15,7 +15,7 @@ export class Collection {
   uuid: string;
   url: string;
   visibility: number;
-  postId: number;
+  postId: string;
   createdTime: string;
   title: string;
   brief: string;
@@ -24,32 +24,32 @@ export class Collection {
   isDynamic: boolean;
 
   static fromDTO(dto: CollectionDTO): Collection {
-    const trendingCollection = new Collection();
-    trendingCollection.uuid = dto.uuid;
-    trendingCollection.url = dto.url;
-    trendingCollection.visibility = dto.visibility;
-    trendingCollection.postId = dto.post_id;
-    trendingCollection.createdTime = dto.created_time;
-    trendingCollection.title = dto.title;
-    trendingCollection.brief = dto.brief;
-    trendingCollection.coverImageURL = dto.cover_image_url;
-    trendingCollection.htmlContent = dto.html_content;
-    trendingCollection.isDynamic = dto.is_dynamic;
-    return trendingCollection;
+    const collection = new Collection();
+    collection.uuid = dto.uuid;
+    collection.url = dto.url;
+    collection.visibility = dto.visibility;
+    collection.postId = dto.post_id;
+    collection.createdTime = dto.created_time;
+    collection.title = dto.title;
+    collection.brief = dto.brief;
+    collection.coverImageURL = dto.cover_image_url;
+    collection.htmlContent = dto.html_content;
+    collection.isDynamic = dto.is_dynamic;
+    return collection;
   }
 
-  static toDTO(trendingCollection: Collection): CollectionDTO {
+  static toDTO(collection: Collection): CollectionDTO {
     return {
-      uuid: trendingCollection.uuid,
-      url: trendingCollection.url,
-      visibility: trendingCollection.visibility,
-      post_id: trendingCollection.postId,
-      created_time: trendingCollection.createdTime,
-      title: trendingCollection.title,
-      brief: trendingCollection.brief,
-      cover_image_url: trendingCollection.coverImageURL,
-      html_content: trendingCollection.htmlContent,
-      is_dynamic: trendingCollection.isDynamic,
+      uuid: collection.uuid,
+      url: collection.url,
+      visibility: collection.visibility,
+      post_id: collection.postId,
+      created_time: collection.createdTime,
+      title: collection.title,
+      brief: collection.brief,
+      cover_image_url: collection.coverImageURL,
+      html_content: collection.htmlContent,
+      is_dynamic: collection.isDynamic,
     };
   }
 }

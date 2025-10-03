@@ -7,6 +7,7 @@ import { NativeScriptCommonModule } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { Collection } from "../../../../core/models/collection.model";
 import { KiloPipe } from "../../../pipes/kilo.pipe";
+import { Post } from "~/app/core/models/post/post.model";
 
 @Component({
   selector: "ns-collection-item",
@@ -16,4 +17,5 @@ import { KiloPipe } from "../../../pipes/kilo.pipe";
 })
 export class CollectionItemComponent {
   @Input() item: Collection;
+  @Input() post: Post;
 }

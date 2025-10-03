@@ -2,17 +2,15 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BaseItem, BaseItemDTO } from "../models/base-item.model";
 import { StateService } from "./state.service";
-import {
-  Collection,
-  CollectionDTO,
-} from "../models/collection.model";
-import { forkJoin, Observable, tap } from "rxjs";
+import { Collection, CollectionDTO } from "../models/collection.model";
+import { forkJoin, map, Observable, tap } from "rxjs";
 import { Book } from "../models/book.model";
 import { Movie } from "../models/movie.model";
 import { Series } from "../models/series.model";
 import { Music } from "../models/music.model";
 import { Game } from "../models/game.model";
 import { Podcast } from "../models/podcast.model";
+import JSONbig from "json-bigint";
 
 interface TrendingType {
   path: string;
@@ -89,22 +87,30 @@ export class ExploreService {
   }
 
   getTrendingCollections() {
-    return this.http
-      .get<
-        CollectionDTO[]
-      >(`${this.stateService.instanceURL()}/api/trending/collection`)
-      .pipe(
-        tap({
-          next: (trendingCollectionsDTO: CollectionDTO[]) => {
-            const trendingCollections = trendingCollectionsDTO.map((c) =>
-              Collection.fromDTO(c),
-            );
-            this.stateService.setTrendingCollections(trendingCollections);
-          },
-          error: (e) => {
-            console.error(e);
-          },
-        }),
-      );
+    return (
+      this.http
+        .get<CollectionDTO[]>(
+          `${this.stateService.instanceURL()}/api/trending/collection`,
+          // TODO: Mohammad 10-03-2025: Remove when NeoDB returned post_id as string
+          { responseType: "text" as "json" },
+        )
+        // TODO: Mohammad 10-03-2025: Remove when NeoDB returned post_id as string
+        .pipe(
+          map(JSONbig({ storeAsString: true, useNativeBigInt: true }).parse),
+        )
+        .pipe(
+          tap({
+            next: (trendingCollectionsDTO: CollectionDTO[]) => {
+              const trendingCollections = trendingCollectionsDTO.map((c) =>
+                Collection.fromDTO(c),
+              );
+              this.stateService.setTrendingCollections(trendingCollections);
+            },
+            error: (e) => {
+              console.error(e);
+            },
+          }),
+        )
+    );
   }
 }
