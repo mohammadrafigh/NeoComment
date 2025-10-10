@@ -6,45 +6,11 @@ import {
   PostsResponseDTO,
 } from "../models/post/posts-response.model";
 import { catchError, forkJoin, map, Observable, of, switchMap } from "rxjs";
-import { BaseItemDTO } from "../models/base-item.model";
 import { Post, PostDTO } from "../models/post/post.model";
+import { ShelfMarkDTO } from "../models/post/shelf-mark.model";
+import { ReviewDTO } from "../models/post/review.model";
+import { NoteDTO } from "../models/post/note.model";
 import JSONbig from "json-bigint";
-
-interface ShelfMarkDTO {
-  shelf_type: "wishlist" | "progress" | "complete" | "dropped";
-  visibility: string;
-  post_id: string;
-  item: BaseItemDTO;
-  created_time: string;
-  comment_text: string;
-  rating_grade: number;
-  tags: string[];
-}
-
-interface ReviewDTO {
-  url: string;
-  api_url: string;
-  visibility: string;
-  post_id: string;
-  item: BaseItemDTO;
-  created_time: string;
-  title: string;
-  body: string;
-  html_content: string;
-}
-
-interface NoteDTO {
-  uuid: string;
-  visibility: string;
-  post_id: string;
-  item: BaseItemDTO;
-  created_time: string;
-  title: string;
-  content: string;
-  sensitive: boolean;
-  progress_type: string;
-  progress_value: string;
-}
 
 interface UserNotesResponseDTO {
   data: Array<NoteDTO>;
