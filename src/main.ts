@@ -31,6 +31,7 @@ import {
   Utils,
   View,
 } from "@nativescript/core";
+import { NativeScriptMaterialBottomSheetModule } from "@nativescript-community/ui-material-bottomsheet/angular";
 
 runNativeScriptAngularApp({
   appModuleBootstrap: () => {
@@ -44,7 +45,11 @@ runNativeScriptAngularApp({
           withInMemoryScrolling({ scrollPositionRestoration: "enabled" }),
         ),
         provideZonelessChangeDetection(),
-        importProvidersFrom(NativeScriptLocalizeModule, TNSImageModule),
+        importProvidersFrom(
+          NativeScriptLocalizeModule,
+          TNSImageModule,
+          NativeScriptMaterialBottomSheetModule,
+        ),
       ],
     });
   },
@@ -119,7 +124,7 @@ if (Application.android) {
 // Workaround for https://github.com/NativeScript/NativeScript/issues/10769
 // Utility to check if the CSS class includes "tabler-icon" or "no-font-padding"
 function hasNoPaddingClasses(view: View): boolean {
-  const classes = (view.className || "").split(" ")
+  const classes = (view.className || "").split(" ");
   return classes.includes("tabler-icon") || classes.includes("no-font-padding");
 }
 
