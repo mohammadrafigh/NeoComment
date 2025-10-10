@@ -9,13 +9,13 @@ android {
   // ndkVersion ""
 
   defaultConfig {
-    minSdkVersion 23
+    minSdkVersion 26
     targetSdkVersion 34
 
     // Version Information
     versionCode 1
     versionName "1.0.0"
-    
+
     generatedDensities = []
   }
 
