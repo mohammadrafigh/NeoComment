@@ -37,7 +37,14 @@
         "website": "Sito web",
         "user_ratings": "Valutazioni Utente",
         "sensitive_content": "Il contenuto è segnato come sensibile",
-        "show": "Mostra"
+        "show": "Mostra",
+        "show_all": "Mostra Tutto",
+        "reviews": "Recensioni",
+        "write_review": "Scrivi una Recensione",
+        "notes": "Note",
+        "write_note": "Scrivi una Nota",
+        "collections_featuring_item": "Collezioni che hanno questo elemento",
+        "user_ratings_and_marks": "Valutazioni e segni degli utenti"
     },
     "features.search": {
         "no_result": "Non è stato trovato nulla"
