@@ -6,6 +6,12 @@
   <string name="_app_name_1k3Sbz">"NeoComment"</string>
   <string name="app_name">"NeoComment"</string>
   <string name="title_activity_kimera">"NeoComment"</string>
+  <string name="_common_modify_review_Z1S76dh">"Modify your review"</string>
+  <string name="_common_review_removal_notice_1DMBGI">"Are you sure you want to remove your review?"</string>
+  <string name="_common_add_content_message_Z2mA0Ce">"Please write your review"</string>
+  <string name="_common_add_title_message_4b2D7">"Please enter a title for your review"</string>
+  <string name="_common_technical_review_1yTnLp">"Write your technical review on"</string>
+  <string name="_common_title_Z16XbuE">"Title"</string>
   <string name="_common_no_Z1Kj7YT">"No"</string>
   <string name="_common_yes_1osyPq">"Yes"</string>
   <string name="_common_mark_removal_notice_1Y4lIA">"Are you sure you want to remove your mark and rate?"</string>
@@ -15,7 +21,7 @@
   <string name="_common_ok_Z1Kj7Ys">"Ok"</string>
   <string name="_common_character_limit_message_ZsD8on">"Some instances cut text over 360 characters"</string>
   <string name="_common_mark_as_sensitive_Z1vL3m8">"Mark as sensitive or a spoiler"</string>
-  <string name="_common_mark_date_ZsLYT5">"Change mark date"</string>
+  <string name="_common_change_date_Z1sflrC">"Change date"</string>
   <string name="_common_crosspost_2i4sJ8">"Crosspost"</string>
   <string name="_common_private_mention_Z1ioPX4">"Private Mention"</string>
   <string name="_common_followers_1xoKxx">"Followers"</string>

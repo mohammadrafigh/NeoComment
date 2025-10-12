@@ -71,7 +71,7 @@
     "followers": "Followers",
     "private_mention": "Private Mention",
     "crosspost": "Crosspost",
-    "mark_date": "Change mark date",
+    "change_date": "Change date",
     "mark_as_sensitive": "Mark as sensitive or a spoiler",
     "character_limit_message": "Some instances cut text over 360 characters",
     "ok": "Ok",
@@ -80,6 +80,12 @@
     "select_mark_message": "Please select a mark",
     "mark_removal_notice": "Are you sure you want to remove your mark and rate?",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "title": "Title",
+    "technical_review": "Write your technical review on",
+    "add_title_message": "Please enter a title for your review",
+    "add_content_message": "Please write your review",
+    "review_removal_notice": "Are you sure you want to remove your review?",
+    "modify_review": "Modify your review"
   }
 }

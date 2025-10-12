@@ -1,0 +1,60 @@
+<GridLayout>
+  <GridLayout rows="56, auto, auto, *" class="rounded-t-2xl bg-neutral-50">
+    <GridLayout
+      row="0"
+      columns="auto, *, auto"
+      class="rounded-t-2xl px-4 w-full bg-white"
+    >
+      <Button
+        text="&#xeb55;"
+        class="tabler-icon icon-button"
+        col="0"
+        (tap)="close()"
+      ></Button>
+      @if (review.postId && !removeLoading()) {
+        <Button
+          text="&#xeb41;"
+          class="tabler-icon icon-button text-red-400 ml-2"
+          col="2"
+          (tap)="remove()"
+          [disabled]="postLoading()"
+        ></Button>
+      }
+      @if (removeLoading()) {
+        <ActivityIndicator col="3" class="w-10 h-10 ml-2" busy="true" />
+      }
+    </GridLayout>
+
+    <StackLayout row="1" class="mt-4">
+      <ns-sender-profile
+        [user]="stateService.user()"
+        [instanceURL]="stateService.instanceURL()"
+      ></ns-sender-profile>
+    </StackLayout>
+
+    <TextField
+      row="2"
+      class="mx-4 mt-4 text-base"
+      [hint]="'common.title' | L"
+      returnKeyType="next"
+      [(ngModel)]="review.title"
+    />
+
+    <StackLayout row="3" class="mt-4">
+      <ns-post-editor
+        [post]="review"
+        [hint]="
+          ('common.technical_review' | L) +
+          ' ' +
+          (item().localizedTitle | neoL: stateService.preference().language)
+        "
+        contentProperty="body"
+        [disableSubmitButton]="removeLoading()"
+        [submitButtonLoading]="postLoading()"
+        (postPressed)="post()"
+      ></ns-post-editor>
+    </StackLayout>
+  </GridLayout>
+
+  <ng-template #messageAnchor></ng-template>
+</GridLayout>

@@ -49,13 +49,14 @@ import {
   BottomSheetService,
   BottomSheetOptions,
 } from "@nativescript-community/ui-material-bottomsheet/angular";
-import { MarkAndRateComponent } from "~/app/shared/components/mark-and-rate/mark-and-rate.component";
+import { MarkAndRateComponent } from "~/app/shared/components/post/mark-and-rate/mark-and-rate.component";
 import { ShelfMark } from "~/app/core/models/post/shelf-mark.model";
 import { Review } from "~/app/core/models/post/review.model";
 import { Note } from "~/app/core/models/post/note.model";
 import { ShelfService } from "~/app/core/services/shelf.service";
 import { ReviewService } from "~/app/core/services/review.service";
 import { NoteService } from "~/app/core/services/note.service";
+import { ReviewComponent } from "~/app/shared/components/post/review/review.component";
 
 @Component({
   selector: "ns-movie",
@@ -340,7 +341,36 @@ export class MovieComponent implements OnInit {
   }
 
   showReviewSheet() {
-    // TODO: Mohammad 10-02-2025:
+    const options: BottomSheetOptions = {
+      viewContainerRef: this.containerRef,
+      context: { item: this.movie(), review: this.userReview },
+      dismissOnDraggingDownSheet: false,
+      transparent: true,
+    };
+
+    this.bottomSheet
+      .show(ReviewComponent, options)
+      .subscribe((result: { review: Review; isRemoved: boolean }) => {
+        if (!result) {
+          return;
+        }
+
+        if (result.isRemoved) {
+          this.userReview = null;
+          this.reviews.update((reviews) => reviews.slice(1));
+          return;
+        }
+
+        this.getUserReviewAndPost(this.movie().uuid).subscribe({
+          next: (userReviewAndPost) => {
+            const { review, userPost } = userReviewAndPost ?? {};
+            const posts = this.processPosts(userPost, this.reviews());
+            this.reviews.set(posts);
+            this.userReview = review;
+          },
+          error: (err) => console.dir(err),
+        });
+      });
   }
 
   showNoteSheet() {
@@ -349,6 +379,10 @@ export class MovieComponent implements OnInit {
 
   setUserMark(shelfMark?: ShelfMark) {
     this.userMark = shelfMark;
+
+    if (!this.userMark) {
+      return this.userStatus.set(null);
+    }
 
     switch (this.userMark?.shelfType) {
       case "wishlist":

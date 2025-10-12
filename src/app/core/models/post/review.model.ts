@@ -1,27 +1,65 @@
 import { BaseItemDTO, BaseItem } from "../base-item.model";
 
 export interface ReviewDTO {
-  url: string;
-  api_url: string;
+  /**
+   * We don't have it in POST
+   */
+  url?: string;
+  /**
+   * We don't have it in POST
+   */
+  api_url?: string;
   visibility: number;
-  post_id: string;
-  item: BaseItemDTO;
+  /**
+   * We don't have it in POST
+   */
+  post_id?: string;
+  /**
+   * We don't have it in POST
+   */
+  item?: BaseItemDTO;
   created_time: string;
   title: string;
   body: string;
-  html_content: string;
+  /**
+   * We don't have it in POST
+   */
+  html_content?: string;
+  /**
+   * We don't have it in GET
+   */
+  post_to_fediverse?: boolean;
 }
 
 export class Review {
-  url: string;
-  apiURL: string;
+  /**
+   * We don't have it in POST
+   */
+  url?: string;
+  /**
+   * We don't have it in POST
+   */
+  apiURL?: string;
   visibility: number;
-  postId: string;
-  item: BaseItem;
+  /**
+   * We don't have it in POST
+   */
+  postId?: string;
+  /**
+   * We don't have it in POST
+   */
+  item?: BaseItem;
   createdTime: string;
   title: string;
   body: string;
-  htmlContent: string;
+  /**
+   * We don't have it in POST
+   */
+  htmlContent?: string;
+  /**
+   * We don't have it in GET
+   */
+  postToFediverse?: boolean;
 
   static fromDTO(dto: ReviewDTO): Review {
     const review = new Review();
@@ -34,7 +72,23 @@ export class Review {
     review.title = dto.title;
     review.body = dto.body;
     review.htmlContent = dto.html_content;
+    review.postToFediverse = dto.post_to_fediverse;
 
     return review;
+  }
+
+  /**
+   *
+   * @param review object to prepare for sending to instance
+   * @returns
+   */
+  static toDTO(review: Review): ReviewDTO {
+    return {
+      visibility: review.visibility,
+      created_time: review.createdTime,
+      title: review.title,
+      body: review.body,
+      post_to_fediverse: review.postToFediverse,
+    };
   }
 }

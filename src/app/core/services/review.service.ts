@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import JSONbig from "json-bigint";
 import { Review, ReviewDTO } from "../models/post/review.model";
 
@@ -32,19 +32,22 @@ export class ReviewService {
     );
   }
 
-  // saveReview(
-  //   itemUUID: string,
-  //   review: Review,
-  // ): Observable<{ message: string }> {
-  //   return this.http.post<{ message: string }>(
-  //     `${this.stateService.instanceURL()}/api/me/review/item/${itemUUID}`,
-  //     Review.toDTO(review),
-  //   ).pipe(tap({ error: (err) => console.dir(err) }));
-  // }
+  saveReview(
+    itemUUID: string,
+    review: Review,
+  ): Observable<{ message: string }> {
+    return this.http
+      .post<{
+        message: string;
+      }>(`${this.stateService.instanceURL()}/api/me/review/item/${itemUUID}`, Review.toDTO(review))
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
 
-  // removeReview(itemUUID: string): Observable<{ message: string }> {
-  //   return this.http.delete<{ message: string }>(
-  //     `${this.stateService.instanceURL()}/api/me/review/item/${itemUUID}`,
-  //   ).pipe(tap({ error: (err) => console.dir(err) }));
-  // }
+  removeReview(itemUUID: string): Observable<{ message: string }> {
+    return this.http
+      .delete<{
+        message: string;
+      }>(`${this.stateService.instanceURL()}/api/me/review/item/${itemUUID}`)
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
 }

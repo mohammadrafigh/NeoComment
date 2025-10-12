@@ -331,7 +331,7 @@
       <Label [text]="'common.reviews' | L" class="h1 mx-4 mb-2 mt-6"></Label>
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
-          [text]="'common.write_review' | L"
+          [text]="(userReview ? 'common.modify_review' : 'common.write_review') | L"
           class="primary-button w-full mb-4"
           (tap)="showReviewSheet()"
         ></Button>

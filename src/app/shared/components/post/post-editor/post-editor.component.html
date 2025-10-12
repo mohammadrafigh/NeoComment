@@ -1,0 +1,78 @@
+<GridLayout rows="*, auto, 56">
+  <ScrollView row="0">
+    <StackLayout>
+      <TextView
+        #contentInput
+        (loaded)="addSpoilerAction()"
+        [hint]="hint"
+        [(ngModel)]="post[contentProperty]"
+        class="h-full px-4 placeholder-neutral-400 text-base"
+      />
+    </StackLayout>
+  </ScrollView>
+
+  <StackLayout class="px-4 my-2" row="1" horizontalAlignment="left">
+    <ns-icon-text-button
+      (pressed)="toggleVisibility()"
+      buttonClass="gray-button h-8 px-4"
+      [icon]="
+        post.visibility === 0
+          ? '&#xec08;'
+          : post.visibility === 1
+            ? '&#xeae2;'
+            : '&#xea2b;'
+      "
+      [text]="
+        'common.' +
+          (post.visibility === 0
+            ? 'public'
+            : post.visibility === 1
+              ? 'followers'
+              : 'private_mention') | L
+      "
+    >
+    </ns-icon-text-button>
+  </StackLayout>
+
+  <GridLayout
+    row="2"
+    columns="auto, auto, auto, *, 56"
+    class="px-4 w-full bg-white"
+  >
+    <Button
+      text="&#xf977;"
+      [nsTooltip]="'common.mark_as_sensitive' | L"
+      class="tabler-icon icon-button mr-2"
+      col="0"
+      (tap)="wrapSpoilerContent()"
+    ></Button>
+    <Button
+      text="&#xee21;"
+      [nsTooltip]="'common.change_date' | L"
+      class="tabler-icon icon-button mr-2"
+      [class.text-forest]="hasCustomDate()"
+      col="1"
+      (tap)="showDatePicker()"
+    ></Button>
+    <Button
+      [text]="post.postToFediverse ? '&#xebec;' : '&#xf1a9;'"
+      [nsTooltip]="'common.crosspost' | L"
+      class="tabler-icon icon-button"
+      [class.text-forest]="post.postToFediverse"
+      col="2"
+      (tap)="post.postToFediverse = !post.postToFediverse"
+    ></Button>
+    @if (!submitButtonLoading) {
+      <Button
+        text="&#xfd5d;"
+        class="tabler-icon w-14 primary-button text-neutral-500"
+        col="4"
+        (tap)="onPostPressed()"
+        [disabled]="disableSubmitButton"
+      ></Button>
+    }
+    @if (submitButtonLoading) {
+      <ActivityIndicator col="4" class="w-10 h-10" busy="true" />
+    }
+  </GridLayout>
+</GridLayout>

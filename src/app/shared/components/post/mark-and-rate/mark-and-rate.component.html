@@ -1,6 +1,6 @@
 <GridLayout>
   <GridLayout
-    rows="56, auto, auto, auto, *, auto, 56"
+    rows="56, auto, auto, auto, *"
     class="rounded-t-2xl bg-neutral-50"
   >
     <GridLayout
@@ -14,7 +14,12 @@
         col="0"
         (tap)="close()"
       ></Button>
-      <StackLayout col="1" class="mx-2" [hidden]="!showCharCounterHint()" verticalAlignment="center">
+      <StackLayout
+        col="1"
+        class="mx-2"
+        [hidden]="!showCharCounterHint()"
+        verticalAlignment="center"
+      >
         <Label
           [text]="'common.character_limit_message' | L"
           class="text-neutral-50 text-center no-font-padding text-xs bg-neutral-500 px-2 py-1 rounded-full"
@@ -43,35 +48,12 @@
       }
     </GridLayout>
 
-    <GridLayout
-      rows="*, auto, auto, *"
-      columns="52, *"
-      row="1"
-      class="px-4 mt-4 h-10"
-    >
-      <NSImg
-        row="0"
-        rowSpan="4"
-        col="0"
-        [src]="stateService.user().avatar"
-        failureImageUri="font://&#xeb4d;"
-        class="tabler-icon text-neutral-500 text-4xl rounded-full w-10 h-10 mr-3"
-        [decodeWidth]="200"
-        [decodeHeight]="200"
-      ></NSImg>
-      <Label
-        class="no-font-padding"
-        row="1"
-        col="1"
-        [text]="stateService.user().displayName"
-      ></Label>
-      <Label
-        row="2"
-        col="1"
-        [text]="userHandle()"
-        class="text-xs text-neutral-500 mt-0.5 no-font-padding"
-      ></Label>
-    </GridLayout>
+    <StackLayout row="1" class="mt-4">
+      <ns-sender-profile
+        [user]="stateService.user()"
+        [instanceURL]="stateService.instanceURL()"
+      ></ns-sender-profile>
+    </StackLayout>
 
     <FlexboxLayout row="2" class="px-4 mt-4">
       <Label
@@ -140,86 +122,20 @@
       </FlexboxLayout>
     </GridLayout>
 
-    <ScrollView row="4" class="mt-4">
-      <StackLayout>
-        <TextView
-          #commentInput
-          (loaded)="addSpoilerAction()"
-          [hint]="
-            ('common.leave_comment' | L) +
-            ' ' +
-            (item().localizedTitle | neoL: stateService.preference().language)
-          "
-          [(ngModel)]="shelfMark.commentText"
-          class="h-full px-4 placeholder-neutral-400 text-base"
-        />
-      </StackLayout>
-    </ScrollView>
-
-    <StackLayout class="px-4 my-2" row="5" horizontalAlignment="left">
-      <ns-icon-text-button
-        (pressed)="toggleVisibility()"
-        buttonClass="gray-button h-8 px-4"
-        [icon]="
-          shelfMark.visibility === 0
-            ? '&#xec08;'
-            : shelfMark.visibility === 1
-              ? '&#xeae2;'
-              : '&#xea2b;'
+    <StackLayout row="4" class="mt-4">
+      <ns-post-editor
+        [post]="shelfMark"
+        [hint]="
+          ('common.leave_comment' | L) +
+          ' ' +
+          (item().localizedTitle | neoL: stateService.preference().language)
         "
-        [text]="
-          'common.' +
-            (shelfMark.visibility === 0
-              ? 'public'
-              : shelfMark.visibility === 1
-                ? 'followers'
-                : 'private_mention') | L
-        "
-      >
-      </ns-icon-text-button>
+        contentProperty="commentText"
+        [disableSubmitButton]="removeLoading()"
+        [submitButtonLoading]="postLoading()"
+        (postPressed)="post()"
+      ></ns-post-editor>
     </StackLayout>
-
-    <GridLayout
-      row="6"
-      columns="auto, auto, auto, *, 56"
-      class="px-4 w-full bg-white"
-    >
-      <Button
-        text="&#xf977;"
-        [nsTooltip]="'common.mark_as_sensitive' | L"
-        class="tabler-icon icon-button mr-2"
-        col="0"
-        (tap)="wrapSpoilerContent()"
-      ></Button>
-      <Button
-        text="&#xee21;"
-        [nsTooltip]="'common.mark_date' | L"
-        class="tabler-icon icon-button mr-2"
-        [class.text-forest]="hasCustomDate()"
-        col="1"
-        (tap)="showDatePicker()"
-      ></Button>
-      <Button
-        [text]="shelfMark.postToFediverse ? '&#xebec;' : '&#xf1a9;'"
-        [nsTooltip]="'common.crosspost' | L"
-        class="tabler-icon icon-button"
-        [class.text-forest]="shelfMark.postToFediverse"
-        col="2"
-        (tap)="shelfMark.postToFediverse = !shelfMark.postToFediverse"
-      ></Button>
-      @if (!postLoading()) {
-        <Button
-          text="&#xfd5d;"
-          class="tabler-icon w-14 primary-button text-neutral-500"
-          col="4"
-          (tap)="post()"
-          [disabled]="removeLoading()"
-        ></Button>
-      }
-      @if (postLoading()) {
-        <ActivityIndicator col="4" class="w-10 h-10" busy="true" />
-      }
-    </GridLayout>
   </GridLayout>
 
   <ng-template #messageAnchor></ng-template>
