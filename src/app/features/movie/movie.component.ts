@@ -3,6 +3,7 @@ import {
   Component,
   NO_ERRORS_SCHEMA,
   OnInit,
+  ViewContainerRef,
   inject,
   signal,
 } from "@angular/core";
@@ -22,6 +23,7 @@ import {
   finalize,
   forkJoin,
   from,
+  map,
   of,
   toArray,
 } from "rxjs";
@@ -43,6 +45,17 @@ import { Post } from "~/app/core/models/post/post.model";
 import { Collection } from "~/app/core/models/collection.model";
 import { PageTransition, SharedTransition } from "@nativescript/core";
 import { shareText } from "@nativescript/social-share";
+import {
+  BottomSheetService,
+  BottomSheetOptions,
+} from "@nativescript-community/ui-material-bottomsheet/angular";
+import { MarkAndRateComponent } from "~/app/shared/components/mark-and-rate/mark-and-rate.component";
+import { ShelfMark } from "~/app/core/models/post/shelf-mark.model";
+import { Review } from "~/app/core/models/post/review.model";
+import { Note } from "~/app/core/models/post/note.model";
+import { ShelfService } from "~/app/core/services/shelf.service";
+import { ReviewService } from "~/app/core/services/review.service";
+import { NoteService } from "~/app/core/services/note.service";
 
 @Component({
   selector: "ns-movie",
@@ -69,11 +82,16 @@ export class MovieComponent implements OnInit {
   stateService = inject(StateService);
   movieService = inject(MovieService);
   postService = inject(PostService);
+  shelfService = inject(ShelfService);
+  reviewService = inject(ReviewService);
+  noteService = inject(NoteService);
   collectionService = inject(CollectionService);
   messageService = inject(MessageService);
   activatedRoute = inject(ActivatedRoute);
   location = inject(Location);
   router = inject(Router);
+  bottomSheet = inject(BottomSheetService);
+  containerRef = inject(ViewContainerRef);
   statusbarSize: number = global.statusbarSize;
   pageLoading = signal(false);
   movie = signal<Movie>(null);
@@ -86,6 +104,10 @@ export class MovieComponent implements OnInit {
   hasMoreComments = signal(false);
   hasMoreReviews = signal(false);
   hasMoreNotes = signal(false);
+  userStatus = signal(null);
+  userMark: ShelfMark;
+  userReview: Review;
+  userNotes: Note[];
 
   ngOnInit(): void {
     this.getMovieDetails();
@@ -107,41 +129,109 @@ export class MovieComponent implements OnInit {
       });
   }
 
+  getUserMarkAndPost(uuid: string) {
+    const userMark$ = this.shelfService.getMarkByItem(uuid);
+    return userMark$
+      .pipe(
+        concatMap((shelfMark) =>
+          this.postService
+            .getPostForMark(shelfMark)
+            .pipe(catchError((err) => of(null)))
+            .pipe(map((userPost) => ({ shelfMark, userPost }))),
+        ),
+      )
+      .pipe(catchError((err) => of(null)));
+  }
+
+  getMarks(uuid: string) {
+    const userMarkAndPost$ = this.getUserMarkAndPost(uuid);
+    const itemMarks$ = this.postService.getItemPosts(uuid, "mark");
+    forkJoin({
+      userMarkAndPost: userMarkAndPost$,
+      itemMarks: itemMarks$,
+    }).subscribe({
+      next: ({ userMarkAndPost, itemMarks }) => {
+        const { shelfMark, userPost } = userMarkAndPost ?? {};
+        this.hasMoreComments.set(itemMarks.count > 3);
+        const posts = this.processPosts(userPost, itemMarks.data);
+        this.comments.set(posts);
+        this.setUserMark(shelfMark);
+      },
+      error: (err) => console.dir(err),
+    });
+  }
+
+  getUserReviewAndPost(uuid: string) {
+    const userReview$ = this.reviewService.getReviewByItem(uuid);
+    return userReview$
+      .pipe(
+        concatMap((review) =>
+          this.postService
+            .getPostForReview(review)
+            .pipe(catchError((err) => of(null)))
+            .pipe(map((userPost) => ({ review, userPost }))),
+        ),
+      )
+      .pipe(catchError((err) => of(null)));
+  }
+
+  getReviews(uuid: string) {
+    const userReviewAndPost$ = this.getUserReviewAndPost(uuid);
+    const itemReviews$ = this.postService.getItemPosts(uuid, "review");
+    forkJoin({
+      userReviewAndPost: userReviewAndPost$,
+      itemReviews: itemReviews$,
+    }).subscribe({
+      next: ({ userReviewAndPost, itemReviews }) => {
+        const { review, userPost } = userReviewAndPost ?? {};
+        this.hasMoreReviews.set(itemReviews.count > 3);
+        const posts = this.processPosts(userPost, itemReviews.data);
+        this.reviews.set(posts);
+        this.userReview = review;
+      },
+      error: (err) => console.dir(err),
+    });
+  }
+
+  getUserNotesAndPosts(uuid: string) {
+    // Hopefully user doesn't have more than 20 notes on a single item!
+    const userNotes$ = this.noteService.getNotesByItem(uuid, 20);
+    return userNotes$
+      .pipe(
+        concatMap((notesRes) =>
+          this.postService
+            .getPostsForNotes(notesRes.data)
+            .pipe(catchError((err) => of(null)))
+            .pipe(map((userPosts) => ({ notes: notesRes.data, userPosts }))),
+        ),
+      )
+      .pipe(catchError((err) => of(null)));
+  }
+
+  getNotes(uuid: string) {
+    const userNotesAndPosts$ = this.getUserNotesAndPosts(uuid);
+    const itemNotes$ = this.postService.getItemPosts(uuid, "note");
+    forkJoin({
+      userNotesAndPosts: userNotesAndPosts$,
+      itemNotes: itemNotes$,
+    }).subscribe({
+      next: ({ userNotesAndPosts, itemNotes }) => {
+        const { notes, userPosts } = userNotesAndPosts ?? {};
+        this.hasMoreNotes.set(itemNotes.count > 3);
+        const posts = this.processNotes(userPosts, itemNotes.data);
+        this.notes.set(posts);
+        this.userNotes = notes;
+      },
+      error: (err) => console.dir(err),
+    });
+  }
+
   getPosts() {
     const uuid = this.activatedRoute.snapshot.params.uuid;
 
-    const userPost$ = this.postService.getUserMarkOnItem(uuid);
-    const itemMarks$ = this.postService.getItemPosts(uuid, "mark");
-    forkJoin([userPost$, itemMarks$]).subscribe({
-      next: ([userPost, postsRes]) => {
-        this.hasMoreComments.set(postsRes.count > 3);
-        const posts = this.processPosts(userPost, postsRes.data);
-        this.comments.set(posts);
-      },
-      error: (err) => console.dir(err),
-    });
-
-    const userReview$ = this.postService.getUserReviewOnItem(uuid);
-    const itemReviews$ = this.postService.getItemPosts(uuid, "review");
-    forkJoin([userReview$, itemReviews$]).subscribe({
-      next: ([userPost, postsRes]) => {
-        this.hasMoreReviews.set(postsRes.count > 3);
-        const posts = this.processPosts(userPost, postsRes.data);
-        this.reviews.set(posts);
-      },
-      error: (err) => console.dir(err),
-    });
-
-    const userNotes$ = this.postService.getUserNotesOnItem(uuid);
-    const itemNotes$ = this.postService.getItemPosts(uuid, "note");
-    forkJoin([userNotes$, itemNotes$]).subscribe({
-      next: ([userPosts, postsRes]) => {
-        this.hasMoreNotes.set(postsRes.count > 3);
-        const posts = this.processNotes(userPosts, postsRes.data);
-        this.notes.set(posts);
-      },
-      error: (err) => console.dir(err),
-    });
+    this.getMarks(uuid);
+    this.getReviews(uuid);
+    this.getNotes(uuid);
 
     this.postService.getItemPosts(uuid, "collection").subscribe({
       next: (response) => {
@@ -217,7 +307,36 @@ export class MovieComponent implements OnInit {
   }
 
   showMarkAndRateSheet() {
-    // TODO: Mohammad 09-09-2025: Implement it
+    const options: BottomSheetOptions = {
+      viewContainerRef: this.containerRef,
+      context: { item: this.movie(), shelfMark: this.userMark },
+      dismissOnDraggingDownSheet: false,
+      transparent: true,
+    };
+
+    this.bottomSheet
+      .show(MarkAndRateComponent, options)
+      .subscribe((result: { shelfMark: ShelfMark; isRemoved: boolean }) => {
+        if (!result) {
+          return;
+        }
+
+        if (result.isRemoved) {
+          this.setUserMark(null);
+          this.comments.update((comments) => comments.slice(1));
+          return;
+        }
+
+        this.getUserMarkAndPost(this.movie().uuid).subscribe({
+          next: (userMarkAndPost) => {
+            const { shelfMark, userPost } = userMarkAndPost ?? {};
+            const posts = this.processPosts(userPost, this.comments());
+            this.comments.set(posts);
+            this.setUserMark(shelfMark);
+          },
+          error: (err) => console.dir(err),
+        });
+      });
   }
 
   showReviewSheet() {
@@ -226,6 +345,23 @@ export class MovieComponent implements OnInit {
 
   showNoteSheet() {
     // TODO: Mohammad 10-02-2025:
+  }
+
+  setUserMark(shelfMark?: ShelfMark) {
+    this.userMark = shelfMark;
+
+    switch (this.userMark?.shelfType) {
+      case "wishlist":
+        return this.userStatus.set(localize("features.movie.to_watch"));
+      case "progress":
+        return this.userStatus.set(localize("features.movie.watching"));
+      case "complete":
+        return this.userStatus.set(localize("features.movie.watched"));
+      case "dropped":
+        return this.userStatus.set(localize("features.movie.stopped"));
+      default:
+        return null;
+    }
   }
 
   showAllPosts(type: string) {

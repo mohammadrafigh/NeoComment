@@ -1,0 +1,226 @@
+<GridLayout>
+  <GridLayout
+    rows="56, auto, auto, auto, *, auto, 56"
+    class="rounded-t-2xl bg-neutral-50"
+  >
+    <GridLayout
+      row="0"
+      columns="auto, *, auto, auto"
+      class="rounded-t-2xl px-4 w-full bg-white"
+    >
+      <Button
+        text="&#xeb55;"
+        class="tabler-icon icon-button"
+        col="0"
+        (tap)="close()"
+      ></Button>
+      <StackLayout col="1" class="mx-2" [hidden]="!showCharCounterHint()" verticalAlignment="center">
+        <Label
+          [text]="'common.character_limit_message' | L"
+          class="text-neutral-50 text-center no-font-padding text-xs bg-neutral-500 px-2 py-1 rounded-full"
+          textWrap="true"
+          [maxLines]="2"
+        ></Label>
+      </StackLayout>
+      <Button
+        col="2"
+        [text]="shelfMark.commentText?.length ?? 0"
+        class="text-neutral-500 no-font-padding basic-button px-2 min-w-10"
+        [class.text-orange-400]="shelfMark.commentText?.length > 360"
+        (tap)="showCharCounterHint.set(!showCharCounterHint())"
+      ></Button>
+      @if (shelfMark.postId && !removeLoading()) {
+        <Button
+          text="&#xeb41;"
+          class="tabler-icon icon-button text-red-400 ml-2"
+          col="3"
+          (tap)="remove()"
+          [disabled]="postLoading()"
+        ></Button>
+      }
+      @if (removeLoading()) {
+        <ActivityIndicator col="3" class="w-10 h-10 ml-2" busy="true" />
+      }
+    </GridLayout>
+
+    <GridLayout
+      rows="*, auto, auto, *"
+      columns="52, *"
+      row="1"
+      class="px-4 mt-4 h-10"
+    >
+      <NSImg
+        row="0"
+        rowSpan="4"
+        col="0"
+        [src]="stateService.user().avatar"
+        failureImageUri="font://&#xeb4d;"
+        class="tabler-icon text-neutral-500 text-4xl rounded-full w-10 h-10 mr-3"
+        [decodeWidth]="200"
+        [decodeHeight]="200"
+      ></NSImg>
+      <Label
+        class="no-font-padding"
+        row="1"
+        col="1"
+        [text]="stateService.user().displayName"
+      ></Label>
+      <Label
+        row="2"
+        col="1"
+        [text]="userHandle()"
+        class="text-xs text-neutral-500 mt-0.5 no-font-padding"
+      ></Label>
+    </GridLayout>
+
+    <FlexboxLayout row="2" class="px-4 mt-4">
+      <Label
+        [text]="'features.' + item().category + '.to_watch' | L"
+        class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
+        [ngClass]="
+          shelfMark.shelfType === 'wishlist' ? 'bg-forest' : 'bg-neutral-200'
+        "
+        (tap)="shelfMark.shelfType = 'wishlist'"
+      ></Label>
+      <Label
+        [text]="'features.' + item().category + '.watching' | L"
+        class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
+        [ngClass]="
+          shelfMark.shelfType === 'progress' ? 'bg-forest' : 'bg-neutral-200'
+        "
+        (tap)="shelfMark.shelfType = 'progress'"
+      ></Label>
+      <Label
+        [text]="'features.' + item().category + '.watched' | L"
+        class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
+        [ngClass]="
+          shelfMark.shelfType === 'complete' ? 'bg-forest' : 'bg-neutral-200'
+        "
+        (tap)="shelfMark.shelfType = 'complete'"
+      ></Label>
+      <Label
+        [text]="'features.' + item().category + '.stopped' | L"
+        class="text-xs rounded-lg px-2.5 py-1 grow text-center"
+        [ngClass]="
+          shelfMark.shelfType === 'dropped' ? 'bg-forest' : 'bg-neutral-200'
+        "
+        (tap)="shelfMark.shelfType = 'dropped'"
+      ></Label>
+    </FlexboxLayout>
+
+    <GridLayout
+      row="3"
+      [hidden]="!shelfMark.shelfType || shelfMark.shelfType === 'wishlist'"
+      rows="auto, auto"
+      columns="*, auto, *"
+      class="px-4 mt-4"
+    >
+      <FlexboxLayout row="0" col="1" class="justify-center">
+        @for (rate of rates; track $index) {
+          <StackLayout
+            [class.mr-2]="$index < 9"
+            (tap)="shelfMark.ratingGrade = $index + 1"
+          >
+            <ns-rate-indicator
+              [rate]="$index < shelfMark.ratingGrade ? 10 : 0"
+              [size]="24"
+            ></ns-rate-indicator>
+          </StackLayout>
+        }
+      </FlexboxLayout>
+      <FlexboxLayout row="1" col="1" class="justify-between mt-2">
+        <Label
+          [text]="'common.bad' | L"
+          class="text-xs text-neutral-500"
+        ></Label>
+        <Label
+          [text]="'common.wow' | L"
+          class="text-xs text-neutral-500"
+        ></Label>
+      </FlexboxLayout>
+    </GridLayout>
+
+    <ScrollView row="4" class="mt-4">
+      <StackLayout>
+        <TextView
+          #commentInput
+          (loaded)="addSpoilerAction()"
+          [hint]="
+            ('common.leave_comment' | L) +
+            ' ' +
+            (item().localizedTitle | neoL: stateService.preference().language)
+          "
+          [(ngModel)]="shelfMark.commentText"
+          class="h-full px-4 placeholder-neutral-400 text-base"
+        />
+      </StackLayout>
+    </ScrollView>
+
+    <StackLayout class="px-4 my-2" row="5" horizontalAlignment="left">
+      <ns-icon-text-button
+        (pressed)="toggleVisibility()"
+        buttonClass="gray-button h-8 px-4"
+        [icon]="
+          shelfMark.visibility === 0
+            ? '&#xec08;'
+            : shelfMark.visibility === 1
+              ? '&#xeae2;'
+              : '&#xea2b;'
+        "
+        [text]="
+          'common.' +
+            (shelfMark.visibility === 0
+              ? 'public'
+              : shelfMark.visibility === 1
+                ? 'followers'
+                : 'private_mention') | L
+        "
+      >
+      </ns-icon-text-button>
+    </StackLayout>
+
+    <GridLayout
+      row="6"
+      columns="auto, auto, auto, *, 56"
+      class="px-4 w-full bg-white"
+    >
+      <Button
+        text="&#xf977;"
+        [nsTooltip]="'common.mark_as_sensitive' | L"
+        class="tabler-icon icon-button mr-2"
+        col="0"
+        (tap)="wrapSpoilerContent()"
+      ></Button>
+      <Button
+        text="&#xee21;"
+        [nsTooltip]="'common.mark_date' | L"
+        class="tabler-icon icon-button mr-2"
+        [class.text-forest]="hasCustomDate()"
+        col="1"
+        (tap)="showDatePicker()"
+      ></Button>
+      <Button
+        [text]="shelfMark.postToFediverse ? '&#xebec;' : '&#xf1a9;'"
+        [nsTooltip]="'common.crosspost' | L"
+        class="tabler-icon icon-button"
+        [class.text-forest]="shelfMark.postToFediverse"
+        col="2"
+        (tap)="shelfMark.postToFediverse = !shelfMark.postToFediverse"
+      ></Button>
+      @if (!postLoading()) {
+        <Button
+          text="&#xfd5d;"
+          class="tabler-icon w-14 primary-button text-neutral-500"
+          col="4"
+          (tap)="post()"
+          [disabled]="removeLoading()"
+        ></Button>
+      }
+      @if (postLoading()) {
+        <ActivityIndicator col="4" class="w-10 h-10" busy="true" />
+      }
+    </GridLayout>
+  </GridLayout>
+
+  <ng-template #messageAnchor></ng-template>
+</GridLayout>

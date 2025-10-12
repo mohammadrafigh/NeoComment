@@ -134,7 +134,7 @@
           class="w-full"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
-          [text]="'common.mark_and_rate' | L"
+          [text]="userStatus() ? userStatus() + ' - ' + userMark.ratingGrade : 'common.mark_and_rate' | L"
         >
         </ns-icon-text-button>
       </FlexboxLayout>
@@ -312,11 +312,11 @@
       }
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
-          [text]="'common.mark_and_rate' | L"
+          [text]="userStatus() ? userStatus() + ' - ' + userMark.ratingGrade : 'common.mark_and_rate' | L"
           class="primary-button w-full mb-4"
           (tap)="showMarkAndRateSheet()"
         ></Button>
-        @for (comment of comments(); track comment.id) {
+        @for (comment of comments(); track comment) {
           <ns-post [post]="comment"></ns-post>
         }
         @if (hasMoreComments()) {
@@ -335,7 +335,7 @@
           class="primary-button w-full mb-4"
           (tap)="showReviewSheet()"
         ></Button>
-        @for (review of reviews(); track review.id) {
+        @for (review of reviews(); track review) {
           <ns-post [post]="review"></ns-post>
         }
         @if (hasMoreReviews()) {
@@ -354,7 +354,7 @@
           class="primary-button w-full mb-4"
           (tap)="showNoteSheet()"
         ></Button>
-        @for (note of notes(); track note.id) {
+        @for (note of notes(); track note) {
           <ns-post [post]="note"></ns-post>
         }
         @if (hasMoreNotes()) {

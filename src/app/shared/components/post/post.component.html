@@ -71,7 +71,9 @@
                   part.type === 'hashtag' ||
                   part.type === 'link'
                     ? 'text-forest font-medium'
-                    : ''
+                    : part.type === 'spoiler' && !revealContent()
+                      ? 'text-transparent text-shadow-[0_0_8_black]'
+                      : ''
                 "
                 (tap)="onPartTap(part)"
                 textWrap="true"
@@ -81,7 +83,8 @@
         </WrapLayout>
       }
     </StackLayout>
-    @if ((post.sensitive || post.spoilerText) && !revealContent()) {
+    <!-- TODO: Mohammad 10-12-2025: Could be useful for replies -->
+    <!-- @if ((post.sensitive) && !revealContent()) {
       <FlexboxLayout
         class="min-h-full bg-neutral-100 flex-col rounded-lg justify-center p-4 mb-2"
         row="0"
@@ -90,18 +93,14 @@
       >
         <Label
           class="text-center"
-          [text]="
-            post.spoilerText
-              ? post.spoilerText
-              : ('common.sensitive_content' | L)
-          "
+          [text]="'common.sensitive_content' | L"
         ></Label>
         <Label
           [text]="'common.show' | L"
           class="text-center text-forest font-bold mt-4"
         ></Label>
       </FlexboxLayout>
-    }
+    } -->
   </GridLayout>
   <FlexboxLayout class="border-t-[1] border-neutral-200 justify-between w-full">
     <StackLayout orientation="horizontal" class="p-2">

@@ -36,6 +36,10 @@
     @apply border-none rounded-full bg-neutral-200 h-12 px-4 text-neutral-500;
   }
 
+  TextView {
+    @apply border-b-[1] border-b-transparent text-neutral-500;
+  }
+
   .h1 {
     @apply text-base font-medium;
   }
@@ -61,11 +65,11 @@
   }
 
   .basic-button {
-    @apply text-neutral-700 bg-white highlighted:bg-neutral-50;
+    @apply text-neutral-700 bg-white highlighted:bg-neutral-200;
   }
 
   .basic-button.pressed {
-    @apply highlighted:bg-neutral-50;
+    @apply highlighted:bg-neutral-200;
   }
 
   .textfield-with-icon-container {

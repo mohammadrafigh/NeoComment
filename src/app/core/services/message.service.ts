@@ -13,8 +13,9 @@ export class MessageService {
     this.anchorRef = anchorRef;
   }
 
-  showSimpleMessage(message: string): void {
-    const componentRef = this.anchorRef.createComponent(MessageComponent);
+  showSimpleMessage(message: string, anchorRef?: ViewContainerRef): void {
+    const anchor = anchorRef ?? this.anchorRef;
+    const componentRef = anchor.createComponent(MessageComponent);
     componentRef.setInput("message", message);
     componentRef.setInput("backgroundColor", "bg-gray-700");
     componentRef.setInput("textColor", "text-neutral-50");
@@ -24,8 +25,9 @@ export class MessageService {
     }, this.DURATION);
   }
 
-  showSuccessMessage(message: string): void {
-    const componentRef = this.anchorRef.createComponent(MessageComponent);
+  showSuccessMessage(message: string, anchorRef?: ViewContainerRef): void {
+    const anchor = anchorRef ?? this.anchorRef;
+    const componentRef = anchor.createComponent(MessageComponent);
     componentRef.setInput("message", message);
     componentRef.setInput("backgroundColor", "bg-green-300");
     componentRef.setInput("textColor", "text-neutral-950");
@@ -35,8 +37,9 @@ export class MessageService {
     }, this.DURATION);
   }
 
-  showWarningMessage(message: string): void {
-    const componentRef = this.anchorRef.createComponent(MessageComponent);
+  showWarningMessage(message: string, anchorRef?: ViewContainerRef): void {
+    const anchor = anchorRef ?? this.anchorRef;
+    const componentRef = anchor.createComponent(MessageComponent);
     componentRef.setInput("message", message);
     componentRef.setInput("backgroundColor", "bg-orange-300");
     componentRef.setInput("textColor", "text-neutral-950");
@@ -46,8 +49,9 @@ export class MessageService {
     }, this.DURATION);
   }
 
-  showErrorMessage(message: string): void {
-    const componentRef = this.anchorRef.createComponent(MessageComponent);
+  showErrorMessage(message: string, anchorRef?: ViewContainerRef): void {
+    const anchor = anchorRef ?? this.anchorRef;
+    const componentRef = anchor.createComponent(MessageComponent);
     componentRef.setInput("message", message);
     componentRef.setInput("backgroundColor", "bg-red-300");
     componentRef.setInput("textColor", "text-neutral-950");

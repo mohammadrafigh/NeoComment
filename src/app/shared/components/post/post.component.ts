@@ -3,8 +3,9 @@ import {
   inject,
   Input,
   NO_ERRORS_SCHEMA,
-  OnInit,
+  OnChanges,
   signal,
+  SimpleChanges,
 } from "@angular/core";
 import { NativeScriptCommonModule } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
@@ -18,7 +19,7 @@ import { SEARCH_CATEGORIES } from "../../constants/search-categories";
 
 interface CommentPart {
   text?: string;
-  type: "text" | "mention" | "hashtag" | "link" | "emoji";
+  type: "text" | "mention" | "hashtag" | "link" | "emoji" | "spoiler";
   url?: string; // for links and emojis
 }
 
@@ -33,7 +34,7 @@ interface CommentPart {
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnChanges {
   @Input() post: Post;
   router = inject(Router);
   rateIndicators = signal<number[]>([]);
@@ -43,7 +44,7 @@ export class PostComponent implements OnInit {
   title = signal<string>(null);
   noteProgress = signal<{ type: string; value: string }>(null);
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.post.extNeodb.relatedWith) {
       this.setStatus();
       this.setComment();
@@ -57,6 +58,7 @@ export class PostComponent implements OnInit {
       (relatedObj) => relatedObj.type === "Status",
     )?.status;
 
+    // TODO: Mohammad 10-12-2025: Add text for other item types
     switch (status) {
       case "wishlist":
         return this.status.set(localize("features.movie.to_watch"));
@@ -94,9 +96,10 @@ export class PostComponent implements OnInit {
     const hashtagRegex = /#\w+/g;
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const emojiRegex = /:([a-zA-Z0-9_]+):/g;
+    const spoilerRegex = />!([\s\S]*?)!</g;
 
     const regex = new RegExp(
-      `${mentionRegex.source}|${hashtagRegex.source}|${urlRegex.source}|${emojiRegex.source}`,
+      `${urlRegex.source}|${mentionRegex.source}|${hashtagRegex.source}|${emojiRegex.source}|${spoilerRegex.source}`,
       "gu",
     );
 
@@ -129,13 +132,16 @@ export class PostComponent implements OnInit {
         parts.push({ type: "link", text: token, url: token });
       } else if (token.startsWith(":")) {
         // Emojis
-        const shortcode = match[1];
+        const shortcode = match.slice(1).find(Boolean);
         const found = this.post.emojis.find((e) => e.shortcode === shortcode);
         if (found) {
           parts.push({ type: "emoji", url: found.url });
         } else {
           parts.push({ type: "text", text: token });
         }
+      } else if (token.startsWith(">!")) {
+        // Spoilers
+        parts.push({ type: "spoiler", text: match.slice(1).find(Boolean) ?? '' });
       }
 
       lastIndex = regex.lastIndex;
@@ -148,7 +154,10 @@ export class PostComponent implements OnInit {
     const commentParts: CommentPart[][] = [];
     let currentLine: CommentPart[] = [];
     for (let part of parts) {
-      if (part.type === "text" && part.text.includes("\n")) {
+      if (
+        (part.type === "text" || part.type === "spoiler") &&
+        part.text.includes("\n")
+      ) {
         const split = part.text.split("\n");
         split.forEach((chunk, i) => {
           if (chunk.length > 0) {
@@ -173,7 +182,7 @@ export class PostComponent implements OnInit {
       (relatedObj) => relatedObj.type === "Rating",
     );
 
-    if (!ratingRelation) {
+    if (!ratingRelation || !ratingRelation.value) {
       return;
     }
 
@@ -220,6 +229,8 @@ export class PostComponent implements OnInit {
       });
     } else if (part.type === "link") {
       openUrl(part.url);
+    } else if (part.type === "spoiler") {
+      this.revealContent.set(!this.revealContent());
     }
   }
 }

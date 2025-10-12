@@ -66,8 +66,8 @@ export class ShelfMark {
       shelf_type: shelfMark.shelfType,
       visibility: shelfMark.visibility,
       created_time: shelfMark.createdTime,
-      comment_text: shelfMark.commentText,
-      rating_grade: shelfMark.ratingGrade,
+      comment_text: shelfMark.commentText ?? undefined,
+      rating_grade: shelfMark.ratingGrade ?? undefined,
       tags: shelfMark.tags,
       post_to_fediverse: shelfMark.postToFediverse,
     };
