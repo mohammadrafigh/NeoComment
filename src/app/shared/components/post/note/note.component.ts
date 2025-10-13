@@ -58,7 +58,7 @@ export class NoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.item.set(this.params.context.item);
-    this.note = cloneDeep(this.params.context.review) ?? new Note();
+    this.note = cloneDeep(this.params.context.note) ?? new Note();
 
     for (const type of CATEGORIES.get(this.item().category).noteProgressTypes) {
       this.progressTypes.set(localize(`common.${type}`), type);

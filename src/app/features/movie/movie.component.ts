@@ -374,7 +374,11 @@ export class MovieComponent implements OnInit {
       });
   }
 
-  showNoteSheet(note?: Note) {
+  showNoteSheet(notePost?: Post) {
+    let note: Note;
+    if (notePost) {
+      note = this.userNotes.find(n => n.postId === notePost.id);
+    }
     const options: BottomSheetOptions = {
       viewContainerRef: this.containerRef,
       context: { item: this.movie(), note },
