@@ -114,31 +114,62 @@
       </FlexboxLayout>
     } -->
   </GridLayout>
-  <FlexboxLayout class="border-t-[1] border-neutral-200 justify-between w-full">
-    <StackLayout orientation="horizontal" class="p-2">
-      <Label text="&#xeaed;" class="tabler-icon text-neutral-500 mr-1"></Label>
-      <Label
+  <FlexboxLayout class="border-t-[1] border-neutral-200 w-full">
+    <StackLayout
+      [ngClass]="post.account.id === fediAccount().id ? 'w-1/4' : 'w-1/3'"
+    >
+      <ns-icon-text-button
+        (pressed)="reply()"
+        buttonClass="basic-button"
+        textClass="text-xs ml-1"
+        icon="&#xeaed;"
         [text]="post.repliesCount ? (post.repliesCount | kilo) : ''"
-        class="text-neutral-500 text-xs"
-      ></Label>
+      >
+      </ns-icon-text-button>
     </StackLayout>
-    <StackLayout orientation="horizontal" class="p-2">
-      <Label text="&#xeb72;" class="tabler-icon text-neutral-500 mr-1"></Label>
-      <Label
+    <StackLayout
+      [ngClass]="post.account.id === fediAccount().id ? 'w-1/4' : 'w-1/3'"
+    >
+      <ns-icon-text-button
+        (pressed)="toggleBoost()"
+        [disabled]="
+          boosting() ||
+          post.visibility === 'private' ||
+          post.visibility === 'direct'
+        "
+        buttonClass="basic-button"
+        [iconClass]="post.reblogged ? 'text-forest' : ''"
+        textClass="text-xs ml-1"
+        icon="&#xeb72;"
         [text]="post.reblogsCount ? (post.reblogsCount | kilo) : ''"
-        class="text-neutral-500 text-xs"
-      ></Label>
+      >
+      </ns-icon-text-button>
     </StackLayout>
-    <StackLayout orientation="horizontal" class="p-2">
-      <Label text="&#xeabe;" class="tabler-icon text-neutral-500 mr-1"></Label>
-      <Label
+    <StackLayout
+      [ngClass]="post.account.id === fediAccount().id ? 'w-1/4' : 'w-1/3'"
+    >
+      <ns-icon-text-button
+        (pressed)="toggleLike()"
+        [disabled]="liking()"
+        buttonClass="basic-button"
+        [iconClass]="post.favourited ? 'text-forest' : ''"
+        textClass="text-xs ml-1"
+        [icon]="post.favourited ? '&#xf67c;' : '&#xeabe;'"
         [text]="post.favouritesCount ? (post.favouritesCount | kilo) : ''"
-        class="text-neutral-500 text-xs"
-      ></Label>
+      >
+      </ns-icon-text-button>
     </StackLayout>
     <!-- TODO: Mohammad 10-13-2025: Could be a 3 dots later when we have added report, bookmark, mute, block, share, etc. -->
     @if (post.account.id === fediAccount().id) {
-      <Button text="&#xeb04;" class="tabler-icon icon-button" (tap)="onEditPressed()"></Button>
+      <StackLayout
+        [ngClass]="post.account.id === fediAccount().id ? 'w-1/4' : 'w-1/3'"
+      >
+        <Button
+          text="&#xeb04;"
+          class="tabler-icon icon-button"
+          (tap)="onEditPressed()"
+        ></Button>
+      </StackLayout>
     }
   </FlexboxLayout>
 </StackLayout>

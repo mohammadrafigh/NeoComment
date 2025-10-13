@@ -183,4 +183,32 @@ export class PostService {
       ),
     );
   }
+
+  likePost(id: string) {
+    return this.http.post<any>(
+      `${this.stateService.instanceURL()}/api/v1/statuses/${id}/favourite`,
+      null,
+    );
+  }
+
+  unlikePost(id: string) {
+    return this.http.post<any>(
+      `${this.stateService.instanceURL()}/api/v1/statuses/${id}/unfavourite`,
+      null,
+    );
+  }
+
+  boostPost(id: string, visibility?: "public" | "unlisted" | "private") {
+    return this.http.post<any>(
+      `${this.stateService.instanceURL()}/api/v1/statuses/${id}/reblog`,
+      { visibility },
+    );
+  }
+
+  unboostPost(id: string) {
+    return this.http.post<any>(
+      `${this.stateService.instanceURL()}/api/v1/statuses/${id}/unreblog`,
+      null,
+    );
+  }
 }

@@ -65,11 +65,19 @@
   }
 
   .basic-button {
-    @apply text-neutral-700 bg-white highlighted:bg-neutral-200;
+    @apply text-neutral-500 bg-white highlighted:bg-neutral-200;
+  }
+
+  .basic-button Label {
+    @apply text-neutral-500;
+  }
+
+  .basic-button.disabled Label {
+    @apply text-neutral-300;
   }
 
   .basic-button.pressed {
-    @apply highlighted:bg-neutral-200;
+    @apply bg-neutral-200;
   }
 
   .textfield-with-icon-container {

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   inject,
@@ -19,6 +20,10 @@ import { openUrl } from "@nativescript/core/utils";
 import { Router } from "@angular/router";
 import { CATEGORIES } from "../../constants/categories";
 import { StateService } from "~/app/core/services/state.service";
+import { PostService } from "~/app/core/services/post.service";
+import { IconTextButtonComponent } from "../icon-text-button/icon-text-button.component";
+import { MessageService } from "~/app/core/services/message.service";
+import { finalize } from "rxjs";
 
 interface CommentPart {
   text?: string;
@@ -33,6 +38,7 @@ interface CommentPart {
     NativeScriptCommonModule,
     NativeScriptLocalizeModule,
     RateIndicatorComponent,
+    IconTextButtonComponent,
     KiloPipe,
   ],
   schemas: [NO_ERRORS_SCHEMA],
@@ -41,13 +47,18 @@ export class PostComponent implements OnChanges {
   @Input() post: Post;
   @Output() editPressed = new EventEmitter();
   router = inject(Router);
+  postService = inject(PostService);
   fediAccount = inject(StateService).fediAccount;
+  messageService = inject(MessageService);
+  cdr = inject(ChangeDetectorRef);
   rateIndicators = signal<number[]>([]);
   status = signal<string>(null);
   commentParts = signal<CommentPart[][]>([]);
   revealContent = signal(false);
   title = signal<string>(null);
   noteProgress = signal<{ type: string; value: string }>(null);
+  liking = signal(false);
+  boosting = signal(false);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.post.extNeodb.relatedWith) {
@@ -146,7 +157,10 @@ export class PostComponent implements OnChanges {
         }
       } else if (token.startsWith(">!")) {
         // Spoilers
-        parts.push({ type: "spoiler", text: match.slice(1).find(Boolean) ?? '' });
+        parts.push({
+          type: "spoiler",
+          text: match.slice(1).find(Boolean) ?? "",
+        });
       }
 
       lastIndex = regex.lastIndex;
@@ -241,5 +255,99 @@ export class PostComponent implements OnChanges {
 
   onEditPressed() {
     this.editPressed.emit();
+  }
+
+  toggleLike() {
+    this.liking.set(true);
+    if (this.post.favourited) {
+      this.applyUnlike();
+      this.postService
+        .unlikePost(this.post.id)
+        .pipe(finalize(() => this.liking.set(false)))
+        .subscribe({
+          error: () => {
+            this.messageService.showErrorMessage(
+              localize("common.generic_error"),
+            );
+            // revert
+            this.applyLike();
+          },
+        });
+    } else {
+      this.applyLike();
+      this.postService
+        .likePost(this.post.id)
+        .pipe(finalize(() => this.liking.set(false)))
+        .subscribe({
+          error: () => {
+            this.messageService.showErrorMessage(
+              localize("common.generic_error"),
+            );
+            // revert
+            this.applyUnlike();
+          },
+        });
+    }
+  }
+
+  applyLike() {
+    this.post.favourited = true;
+    this.post.favouritesCount++;
+    this.cdr.detectChanges();
+  }
+
+  applyUnlike() {
+    this.post.favourited = false;
+    this.post.favouritesCount--;
+    this.cdr.detectChanges();
+  }
+
+  toggleBoost() {
+    this.boosting.set(true);
+    if (this.post.reblogged) {
+      this.applyUnboost();
+      this.postService
+        .unboostPost(this.post.id)
+        .pipe(finalize(() => this.boosting.set(false)))
+        .subscribe({
+          error: () => {
+            this.messageService.showErrorMessage(
+              localize("common.generic_error"),
+            );
+            // revert
+            this.applyBoost();
+          },
+        });
+    } else {
+      this.applyBoost();
+      this.postService
+        .boostPost(this.post.id)
+        .pipe(finalize(() => this.boosting.set(false)))
+        .subscribe({
+          error: () => {
+            this.messageService.showErrorMessage(
+              localize("common.generic_error"),
+            );
+            // revert
+            this.applyUnboost();
+          },
+        });
+    }
+  }
+
+  applyBoost() {
+    this.post.reblogged = true;
+    this.post.reblogsCount++;
+    this.cdr.detectChanges();
+  }
+
+  applyUnboost() {
+    this.post.reblogged = false;
+    this.post.reblogsCount--;
+    this.cdr.detectChanges();
+  }
+
+  reply() {
+    // TODO: Mohammad 10-13-2025:
   }
 }
