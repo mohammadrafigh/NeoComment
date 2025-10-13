@@ -49,7 +49,6 @@ export class NoteService {
   }
 
   saveNote(itemUUID: string, note: Note): Observable<Note> {
-    console.dir(JSON.stringify(Note.toDTO(note)));
     return this.http
       .post<NoteDTO>(
         `${this.stateService.instanceURL()}/api/me/note/item/${itemUUID}/`,
