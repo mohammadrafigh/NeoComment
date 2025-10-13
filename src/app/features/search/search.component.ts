@@ -35,7 +35,7 @@ import { GameItemComponent } from "../../shared/components/items/game-item/game-
 import { PodcastItemComponent } from "../../shared/components/items/podcast-item/podcast-item.component";
 import { PerformanceItemComponent } from "../../shared/components/items/performance-item/performance-item.component";
 import { StateService } from "~/app/core/services/state.service";
-import { SEARCH_CATEGORIES } from "../../shared/constants/search-categories";
+import { CATEGORIES } from "../../shared/constants/categories";
 
 @Component({
   selector: "ns-search",
@@ -77,7 +77,7 @@ export class SearchComponent implements OnInit {
     people?: FediSearchResult;
   }>({});
   query = signal<string>(null);
-  categories = SEARCH_CATEGORIES;
+  categories = CATEGORIES;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {

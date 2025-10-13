@@ -33,7 +33,9 @@
         rowSpan="2"
         row="1"
         col="2"
-        [text]="noteProgress().type + ': ' + noteProgress().value"
+        [text]="
+          ('common.' + noteProgress().type | L) + ': ' + noteProgress().value
+        "
         class="bg-neutral-200 rounded-lg text-xs h-6 px-2.5 no-font-padding"
       ></Label>
     } @else {

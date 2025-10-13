@@ -15,7 +15,7 @@ import { KiloPipe } from "../../pipes/kilo.pipe";
 import { localize } from "@nativescript/localize";
 import { openUrl } from "@nativescript/core/utils";
 import { Router } from "@angular/router";
-import { SEARCH_CATEGORIES } from "../../constants/search-categories";
+import { CATEGORIES } from "../../constants/categories";
 
 interface CommentPart {
   text?: string;
@@ -217,7 +217,7 @@ export class PostComponent implements OnChanges {
       console.log("Mention tapped:", part.text, part.url);
       // TODO: Mohammad 09-19-2025: navigate to profile
     } else if (part.type === "hashtag") {
-      const category = SEARCH_CATEGORIES.get(
+      const category = CATEGORIES.get(
         this.post.extNeodb.tag[0].type.toLowerCase(),
       )?.categoryInApp;
 

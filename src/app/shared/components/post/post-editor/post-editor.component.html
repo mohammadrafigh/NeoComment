@@ -46,14 +46,16 @@
       col="0"
       (tap)="wrapSpoilerContent()"
     ></Button>
-    <Button
-      text="&#xee21;"
-      [nsTooltip]="'common.change_date' | L"
-      class="tabler-icon icon-button mr-2"
-      [class.text-forest]="hasCustomDate()"
-      col="1"
-      (tap)="showDatePicker()"
-    ></Button>
+    @if (allowChangingDate) {
+      <Button
+        text="&#xee21;"
+        [nsTooltip]="'common.change_date' | L"
+        class="tabler-icon icon-button mr-2"
+        [class.text-forest]="hasCustomDate()"
+        col="1"
+        (tap)="showDatePicker()"
+      ></Button>
+    }
     <Button
       [text]="post.postToFediverse ? '&#xebec;' : '&#xf1a9;'"
       [nsTooltip]="'common.crosspost' | L"

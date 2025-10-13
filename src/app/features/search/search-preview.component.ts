@@ -26,7 +26,7 @@ import { FediSearchResult } from "~/app/core/models/fediverse/fedi-search-result
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 import { ActivatedRoute, Router } from "@angular/router";
 import { localize } from "@nativescript/localize";
-import { SEARCH_CATEGORIES } from "../../shared/constants/search-categories";
+import { CATEGORIES } from "../../shared/constants/categories";
 
 @Component({
   selector: "ns-search-preview",
@@ -57,7 +57,7 @@ export class SearchPreviewComponent implements OnInit, OnDestroy {
   searchSubscription: Subscription;
   itemSearchResult = signal<ItemSearchResult | null>(null);
   fediSearchResult = signal<FediSearchResult | null>(null);
-  categories = SEARCH_CATEGORIES;
+  categories = CATEGORIES;
   urlRegex = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\/?#].*)?$/i;
 
   constructor() {

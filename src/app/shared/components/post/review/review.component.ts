@@ -73,7 +73,7 @@ export class ReviewComponent implements OnInit {
 
     if (!this.review.body || this.review.body.trim().length === 0) {
       this.messageService.showErrorMessage(
-        localize("common.add_content_message"),
+        localize("common.add_review_content_message"),
         this.messageAnchor,
       );
       return;

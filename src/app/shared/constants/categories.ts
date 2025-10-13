@@ -1,6 +1,6 @@
 import { localize } from "@nativescript/localize";
 
-export const SEARCH_CATEGORIES = new Map([
+export const CATEGORIES = new Map([
   [
     "book",
     {
@@ -8,6 +8,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.books"),
       path: "/books/",
       categoryInApp: "books",
+      noteProgressTypes: ["page", "chapter", "percentage"],
     },
   ],
   [
@@ -17,6 +18,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.movies"),
       path: "/movies/",
       categoryInApp: "movies",
+      noteProgressTypes: ["part", "timestamp", "percentage"],
     },
   ],
   [
@@ -26,6 +28,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.series"),
       path: "/series/",
       categoryInApp: "series",
+      noteProgressTypes: ["part", "episode", "percentage"],
     },
   ],
   [
@@ -35,6 +38,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.games"),
       path: "/games/",
       categoryInApp: "games",
+      noteProgressTypes: ["cycle"],
     },
   ],
   [
@@ -44,6 +48,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.musics"),
       path: "/musics/",
       categoryInApp: "musics",
+      noteProgressTypes: ["track", "timestamp", "percentage"],
     },
   ],
   [
@@ -53,6 +58,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.podcasts"),
       path: "/podcasts/",
       categoryInApp: "podcasts",
+      noteProgressTypes: ["episode"],
     },
   ],
   [
@@ -62,6 +68,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.performances"),
       path: "/performances/",
       categoryInApp: "performances",
+      noteProgressTypes: ["part", "timestamp", "percentage"],
     },
   ],
   [
@@ -71,6 +78,7 @@ export const SEARCH_CATEGORIES = new Map([
       title: localize("common.people"),
       path: "/users/",
       categoryInApp: "users",
+      noteProgressTypes: null,
     },
   ],
 ]);

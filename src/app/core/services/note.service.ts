@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import JSONbig from "json-bigint";
 import { Note, NoteDTO } from "../models/post/note.model";
 
@@ -48,19 +48,33 @@ export class NoteService {
     );
   }
 
-  // saveNote(
-  //   itemUUID: string,
-  //   note: Note,
-  // ): Observable<{ message: string }> {
-  //   return this.http.post<{ message: string }>(
-  //     `${this.stateService.instanceURL()}/api/me/note/item/${itemUUID}`,
-  //     Note.toDTO(note),
-  //   ).pipe(tap({ error: (err) => console.dir(err) }));
-  // }
+  saveNote(itemUUID: string, note: Note): Observable<Note> {
+    console.dir(JSON.stringify(Note.toDTO(note)));
+    return this.http
+      .post<NoteDTO>(
+        `${this.stateService.instanceURL()}/api/me/note/item/${itemUUID}/`,
+        Note.toDTO(note),
+      )
+      .pipe(map((noteDTO) => Note.fromDTO(noteDTO)))
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
 
-  // removeNote(itemUUID: string): Observable<{ message: string }> {
-  //   return this.http.delete<{ message: string }>(
-  //     `${this.stateService.instanceURL()}/api/me/note/item/${itemUUID}`,
-  //   ).pipe(tap({ error: (err) => console.dir(err) }));
-  // }
+  updateNote(note: Note): Observable<{ message: string }> {
+    return this.http
+      .put<{
+        message: string;
+      }>(
+        `${this.stateService.instanceURL()}/api/me/note/${note.uuid}`,
+        Note.toDTO(note),
+      )
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
+
+  removeNote(noteUUID: string): Observable<{ message: string }> {
+    return this.http
+      .delete<{
+        message: string;
+      }>(`${this.stateService.instanceURL()}/api/me/note/${noteUUID}`)
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
 }

@@ -57,6 +57,7 @@ import { ShelfService } from "~/app/core/services/shelf.service";
 import { ReviewService } from "~/app/core/services/review.service";
 import { NoteService } from "~/app/core/services/note.service";
 import { ReviewComponent } from "~/app/shared/components/post/review/review.component";
+import { NoteComponent } from "~/app/shared/components/post/note/note.component";
 
 @Component({
   selector: "ns-movie",
@@ -373,8 +374,39 @@ export class MovieComponent implements OnInit {
       });
   }
 
-  showNoteSheet() {
-    // TODO: Mohammad 10-02-2025:
+  showNoteSheet(note?: Note) {
+    const options: BottomSheetOptions = {
+      viewContainerRef: this.containerRef,
+      context: { item: this.movie(), note },
+      dismissOnDraggingDownSheet: false,
+      transparent: true,
+    };
+
+    this.bottomSheet
+      .show(NoteComponent, options)
+      .subscribe((result: { note: Note; isRemoved: boolean }) => {
+        if (!result) {
+          return;
+        }
+
+        if (result.isRemoved) {
+          this.userNotes = this.userNotes.filter((n) => n.uuid !== note.uuid);
+          this.notes.update((notes) =>
+            notes.filter((n) => n.id !== note.postId),
+          );
+          return;
+        }
+
+        this.getUserNotesAndPosts(this.movie().uuid).subscribe({
+          next: (userNotesAndPosts) => {
+            const { notes, userPosts } = userNotesAndPosts ?? {};
+            const posts = this.processNotes(userPosts, this.notes());
+            this.notes.set(posts);
+            this.userNotes = notes;
+          },
+          error: (err) => console.dir(err),
+        });
+      });
   }
 
   setUserMark(shelfMark?: ShelfMark) {

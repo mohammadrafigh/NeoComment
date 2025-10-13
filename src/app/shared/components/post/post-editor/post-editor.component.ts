@@ -44,6 +44,7 @@ export class PostEditorComponent {
   @Input() contentProperty: string;
   @Input() disableSubmitButton = false;
   @Input() submitButtonLoading = false;
+  @Input() allowChangingDate = true;
   @Output() postPressed = new EventEmitter();
   viewContainerRef = inject(ViewContainerRef);
   modalService = inject(ModalDialogService);

@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="_common_track_Z16W5q4">"Track"</string>
+  <string name="_common_cycle_Z184k39">"Cycle"</string>
+  <string name="_common_episode_1Spk3d">"Episode"</string>
+  <string name="_common_timestamp_H4hrs">"Timestamp"</string>
+  <string name="_common_part_Z2khMid">"Part"</string>
+  <string name="_common_percentage_Z1yBRyA">"Percentage"</string>
+  <string name="_common_chapter_ZtQH02">"Chapter"</string>
+  <string name="_common_page_Z2khMo3">"Page"</string>
+  <string name="_common_none_Z2khYIG">"None"</string>
+  <string name="_common_progress_2h5J2d">"Progress"</string>
+  <string name="_common_progress_type_Z7s1JO">"Progress Type"</string>
+  <string name="_common_note_removal_notice_1s1rEI">"Are you sure you want to remove your note?"</string>
+  <string name="_common_add_note_content_message_17R5T0">"Please write your note"</string>
+  <string name="_common_leave_note_ZvdcWR">"Write a note on"</string>
   <string name="_common_modify_review_Z1S76dh">"Modify your review"</string>
   <string name="_common_review_removal_notice_1DMBGI">"Are you sure you want to remove your review?"</string>
-  <string name="_common_add_content_message_Z2mA0Ce">"Please write your review"</string>
-  <string name="_common_add_title_message_4b2D7">"Please enter a title for your review"</string>
+  <string name="_common_add_review_content_message_Z6PJ2h">"Please write your review"</string>
+  <string name="_common_add_title_message_4b2D7">"Please enter a title"</string>
   <string name="_common_technical_review_1yTnLp">"Write your technical review on"</string>
   <string name="_common_title_Z16XbuE">"Title"</string>
   <string name="_common_no_Z1Kj7YT">"No"</string>

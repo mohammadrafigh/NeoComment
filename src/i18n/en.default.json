@@ -83,9 +83,23 @@
     "no": "No",
     "title": "Title",
     "technical_review": "Write your technical review on",
-    "add_title_message": "Please enter a title for your review",
-    "add_content_message": "Please write your review",
+    "add_title_message": "Please enter a title",
+    "add_review_content_message": "Please write your review",
     "review_removal_notice": "Are you sure you want to remove your review?",
-    "modify_review": "Modify your review"
+    "modify_review": "Modify your review",
+    "leave_note": "Write a note on",
+    "add_note_content_message": "Please write your note",
+    "note_removal_notice": "Are you sure you want to remove your note?",
+    "progress_type": "Progress Type",
+    "progress": "Progress",
+    "none": "None",
+    "page": "Page",
+    "chapter": "Chapter",
+    "percentage": "Percentage",
+    "part": "Part",
+    "timestamp": "Timestamp",
+    "episode": "Episode",
+    "cycle": "Cycle",
+    "track": "Track"
   }
 }

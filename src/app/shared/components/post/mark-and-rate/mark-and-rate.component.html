@@ -133,6 +133,7 @@
         contentProperty="commentText"
         [disableSubmitButton]="removeLoading()"
         [submitButtonLoading]="postLoading()"
+        [allowChangingDate]="true"
         (postPressed)="post()"
       ></ns-post-editor>
     </StackLayout>
