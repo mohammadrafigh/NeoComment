@@ -136,5 +136,9 @@
         class="text-neutral-500 text-xs"
       ></Label>
     </StackLayout>
+    <!-- TODO: Mohammad 10-13-2025: Could be a 3 dots later when we have added report, bookmark, mute, block, share, etc. -->
+    @if (post.account.id === fediAccount().id) {
+      <Button text="&#xeb04;" class="tabler-icon icon-button" (tap)="onEditPressed()"></Button>
+    }
   </FlexboxLayout>
 </StackLayout>

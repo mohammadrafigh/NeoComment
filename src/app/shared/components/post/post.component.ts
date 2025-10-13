@@ -1,9 +1,11 @@
 import {
   Component,
+  EventEmitter,
   inject,
   Input,
   NO_ERRORS_SCHEMA,
   OnChanges,
+  Output,
   signal,
   SimpleChanges,
 } from "@angular/core";
@@ -16,6 +18,7 @@ import { localize } from "@nativescript/localize";
 import { openUrl } from "@nativescript/core/utils";
 import { Router } from "@angular/router";
 import { CATEGORIES } from "../../constants/categories";
+import { StateService } from "~/app/core/services/state.service";
 
 interface CommentPart {
   text?: string;
@@ -36,7 +39,9 @@ interface CommentPart {
 })
 export class PostComponent implements OnChanges {
   @Input() post: Post;
+  @Output() editPressed = new EventEmitter();
   router = inject(Router);
+  fediAccount = inject(StateService).fediAccount;
   rateIndicators = signal<number[]>([]);
   status = signal<string>(null);
   commentParts = signal<CommentPart[][]>([]);
@@ -232,5 +237,9 @@ export class PostComponent implements OnChanges {
     } else if (part.type === "spoiler") {
       this.revealContent.set(!this.revealContent());
     }
+  }
+
+  onEditPressed() {
+    this.editPressed.emit();
   }
 }

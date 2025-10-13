@@ -11,6 +11,7 @@ import { Series } from "../models/series.model";
 import { Music } from "../models/music.model";
 import { Podcast } from "../models/podcast.model";
 import { Collection } from "../models/collection.model";
+import { FediAccount } from "../models/fediverse/fedi-account.model";
 
 @Injectable({
   providedIn: "root",
@@ -24,6 +25,8 @@ export class StateService {
   instanceURL = this._instanceURL.asReadonly();
   private _user = signal<User>(null);
   user = this._user.asReadonly();
+  private _fediAccount = signal<FediAccount>(null);
+  fediAccount = this._fediAccount.asReadonly();
   private _preference = signal<Preference>(null);
   preference = this._preference.asReadonly();
   private _trendingBooks = signal<Book[]>([]);
@@ -51,6 +54,7 @@ export class StateService {
           // Hydration of signals (state chunks)
           this._instanceURL.set(stateCache.instanceURL || null);
           this._user.set(stateCache.user || null);
+          this._fediAccount.set(stateCache.fediAccount || null);
           this._preference.set(stateCache.preference || null);
           this._trendingBooks.set(stateCache.trendingBooks || []);
           this._trendingMovies.set(stateCache.trendingMovies || []);
@@ -70,6 +74,7 @@ export class StateService {
           id: this.activeSessionId(),
           instanceURL: this.instanceURL(),
           user: this.user(),
+          fediAccount: this.fediAccount(),
           preference: this.preference(),
           trendingBooks: this.trendingBooks(),
           trendingMovies: this.trendingMovies(),
@@ -112,6 +117,10 @@ export class StateService {
 
   setUser(user: User) {
     this._user.set(user);
+  }
+
+  setFediAccount(fediAccount: FediAccount) {
+    this._fediAccount.set(fediAccount);
   }
 
   setPreference(preference: Preference) {

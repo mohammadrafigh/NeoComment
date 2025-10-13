@@ -6,6 +6,7 @@ import { User, UserDTO } from "../models/user.model";
 import { Preference, PreferenceDTO } from "../models/preference.model";
 import { StateService } from "./state.service";
 import { localize } from "@nativescript/localize";
+import { FediAccount, FediAccountDTO } from "../models/fediverse/fedi-account.model";
 
 @Injectable({
   providedIn: "root",
@@ -20,6 +21,7 @@ export class UserService {
     effect(() => {
       if (this.authService.signedIn() && this.stateService.instanceURL()) {
         this.getUserInfo();
+        this.getFediAccount();
         this.getPreference();
       }
     });
@@ -31,6 +33,22 @@ export class UserService {
       .subscribe({
         next: (user: UserDTO) => {
           this.stateService.setUser(User.fromDTO(user));
+        },
+        error: (e) => {
+          console.error(e);
+          this.messageService.showErrorMessage(
+            localize("core.user_service.get_user_error"),
+          );
+        },
+      });
+  }
+
+  getFediAccount() {
+    this.http
+      .get<FediAccountDTO>(`${this.stateService.instanceURL()}/api/v1/accounts/verify_credentials`)
+      .subscribe({
+        next: (fediAccount: FediAccountDTO) => {
+          this.stateService.setFediAccount(FediAccount.fromDTO(fediAccount));
         },
         error: (e) => {
           console.error(e);

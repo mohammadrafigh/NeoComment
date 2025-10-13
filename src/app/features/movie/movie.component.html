@@ -317,7 +317,7 @@
           (tap)="showMarkAndRateSheet()"
         ></Button>
         @for (comment of comments(); track comment) {
-          <ns-post [post]="comment"></ns-post>
+          <ns-post [post]="comment" (editPressed)="showMarkAndRateSheet()"></ns-post>
         }
         @if (hasMoreComments()) {
           <Button
@@ -336,7 +336,7 @@
           (tap)="showReviewSheet()"
         ></Button>
         @for (review of reviews(); track review) {
-          <ns-post [post]="review"></ns-post>
+          <ns-post [post]="review" (editPressed)="showReviewSheet()"></ns-post>
         }
         @if (hasMoreReviews()) {
           <Button
@@ -355,7 +355,7 @@
           (tap)="showNoteSheet()"
         ></Button>
         @for (note of notes(); track note) {
-          <ns-post [post]="note"></ns-post>
+          <ns-post [post]="note" (editPressed)="showNoteSheet(note)"></ns-post>
         }
         @if (hasMoreNotes()) {
           <Button
