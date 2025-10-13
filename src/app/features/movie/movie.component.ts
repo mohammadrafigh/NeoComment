@@ -246,13 +246,9 @@ export class MovieComponent implements OnInit {
   }
 
   processPosts(userPost: Post, posts: Post[]) {
-    const processedPosts = posts.slice(0, 3);
-    const userPostIndex = processedPosts.findIndex(
-      (p) => p.id === userPost?.id,
-    );
-    if (userPostIndex > -1) {
-      processedPosts.splice(userPostIndex, 1);
-    }
+    const processedPosts = posts
+      .slice(0, 3)
+      .filter((p) => p.account.id !== this.stateService.fediAccount().id);
     if (userPost) {
       processedPosts.unshift(userPost);
     }
@@ -261,14 +257,11 @@ export class MovieComponent implements OnInit {
   }
 
   processNotes(userNotes: Post[], notes: Post[]) {
-    const processedPosts = notes.slice(0, 3);
-    for (const note of userNotes) {
-      const userPostIndex = processedPosts.findIndex((p) => p.id === note.id);
-      if (userPostIndex > -1) {
-        processedPosts.splice(userPostIndex, 1);
-      }
-      processedPosts.unshift(note);
-    }
+    let processedPosts = notes
+      .slice(0, 3)
+      .filter((n) => n.account.id !== this.stateService.fediAccount().id);
+    // NeoDB returns notes from older to newer so we reverse them
+    processedPosts = [...userNotes.reverse(), ...processedPosts];
 
     return processedPosts;
   }
