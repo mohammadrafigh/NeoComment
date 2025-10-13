@@ -22,12 +22,22 @@
         ></Label>
       }
     </FlexboxLayout>
-    <Label
-      row="2"
-      col="1"
-      [text]="post.createdAt | date: 'MMM dd, yyyy hh:mm a'"
-      class="text-xs text-neutral-500 mr-2 mt-0.5 no-font-padding"
-    ></Label>
+    <StackLayout row="2" col="1" class="mt-0.5" orientation="horizontal">
+      <Label
+        [text]="
+          post.visibility === 'public' || post.visibility === 'unlisted'
+            ? '&#xec08;'
+            : post.visibility === 'private'
+              ? '&#xeae2;'
+              : '&#xea2b;'
+        "
+        class="tabler-icon text-xs text-neutral-500 mr-1"
+      ></Label>
+      <Label
+        [text]="post.createdAt | date: 'MMM dd, yyyy hh:mm a'"
+        class="text-xs text-neutral-500 mr-2 no-font-padding"
+      ></Label>
+    </StackLayout>
     @if (noteProgress()?.type || noteProgress()?.value) {
       <Label
         rowSpan="2"
