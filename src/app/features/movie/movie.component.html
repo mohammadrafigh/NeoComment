@@ -134,7 +134,7 @@
           class="w-full"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
-          [text]="userStatus() ? userStatus() + ' - ' + userMark.ratingGrade : 'common.mark_and_rate' | L"
+          [text]="userStatus() ? userStatus() + (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '') : 'common.mark_and_rate' | L"
         >
         </ns-icon-text-button>
       </FlexboxLayout>
@@ -312,7 +312,7 @@
       }
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
-          [text]="userStatus() ? userStatus() + ' - ' + userMark.ratingGrade : 'common.mark_and_rate' | L"
+          [text]="userStatus() ? userStatus() + (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '') : 'common.mark_and_rate' | L"
           class="primary-button w-full mb-4"
           (tap)="showMarkAndRateSheet()"
         ></Button>
