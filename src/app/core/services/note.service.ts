@@ -1,9 +1,15 @@
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, ViewContainerRef } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
 import { map, Observable, tap } from "rxjs";
 import JSONbig from "json-bigint";
 import { Note, NoteDTO } from "../models/post/note.model";
+import { BaseItem } from "../models/base-item.model";
+import {
+  BottomSheetOptions,
+  BottomSheetService,
+} from "@nativescript-community/ui-material-bottomsheet/angular";
+import { NoteComponent } from "~/app/shared/components/post/note/note.component";
 
 interface UserNotesResponseDTO {
   data: Array<NoteDTO>;
@@ -23,6 +29,7 @@ export interface UserNotesResponse {
 export class NoteService {
   private http = inject(HttpClient);
   private stateService = inject(StateService);
+  private bottomSheet = inject(BottomSheetService);
 
   getNotesByItem(
     itemUUID: string,
@@ -75,5 +82,16 @@ export class NoteService {
         message: string;
       }>(`${this.stateService.instanceURL()}/api/me/note/${noteUUID}`)
       .pipe(tap({ error: (err) => console.dir(err) }));
+  }
+
+  showNoteSheet(containerRef: ViewContainerRef, item: BaseItem, note?: Note) {
+    const options: BottomSheetOptions = {
+      viewContainerRef: containerRef,
+      context: { item, note },
+      dismissOnDraggingDownSheet: false,
+      transparent: true,
+    };
+
+    return this.bottomSheet.show(NoteComponent, options);
   }
 }

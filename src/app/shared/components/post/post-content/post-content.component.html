@@ -1,0 +1,55 @@
+<GridLayout columns="*" rows="*">
+  <StackLayout row="0" col="0">
+    @if (title()) {
+      <Label class="text-center mb-4 font-bold" [text]="title()"></Label>
+    }
+    @for (line of commentParts(); track $index) {
+      <WrapLayout orientation="horizontal" class="mb-2">
+        @for (part of line; track $index) {
+          @if (part.type === "emoji") {
+            <NSImg
+              [src]="part.url"
+              height="20"
+              width="20"
+              stretch="aspectFit"
+            ></NSImg>
+          } @else {
+            <Label
+              [text]="part.text"
+              class="text-sm"
+              [ngClass]="
+                part.type === 'mention' ||
+                part.type === 'hashtag' ||
+                part.type === 'link'
+                  ? 'text-forest font-medium'
+                  : part.type === 'spoiler' && !revealContent()
+                    ? 'text-transparent text-shadow-[0_0_8_black]'
+                    : ''
+              "
+              (tap)="onPartTap(part)"
+              textWrap="true"
+            ></Label>
+          }
+        }
+      </WrapLayout>
+    }
+  </StackLayout>
+  <!-- TODO: Mohammad 10-12-2025: Could be useful for replies -->
+  <!-- @if ((post.sensitive) && !revealContent()) {
+        <FlexboxLayout
+          class="min-h-full bg-neutral-100 flex-col rounded-lg justify-center p-4 mb-2"
+          row="0"
+          col="0"
+          (tap)="revealContent.set(true)"
+        >
+          <Label
+            class="text-center"
+            [text]="'common.sensitive_content' | L"
+          ></Label>
+          <Label
+            [text]="'common.show' | L"
+            class="text-center text-forest font-bold mt-4"
+          ></Label>
+        </FlexboxLayout>
+      } -->
+</GridLayout>

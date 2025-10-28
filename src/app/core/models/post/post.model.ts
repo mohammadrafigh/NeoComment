@@ -170,7 +170,7 @@ export class Post {
 
     // Older posts of NeoDB have a single object instead of an array for relatedWith
     if (
-      post.extNeodb.relatedWith &&
+      post.extNeodb?.relatedWith &&
       !Array.isArray(post.extNeodb.relatedWith)
     ) {
       post.extNeodb.relatedWith = [post.extNeodb.relatedWith];

@@ -1,15 +1,21 @@
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, ViewContainerRef } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
 import {
   PostsResponse,
   PostsResponseDTO,
 } from "../models/post/posts-response.model";
-import { forkJoin, map, Observable } from "rxjs";
+import { forkJoin, map, Observable, tap } from "rxjs";
 import { Post, PostDTO } from "../models/post/post.model";
 import { ShelfMark } from "../models/post/shelf-mark.model";
 import { Review } from "../models/post/review.model";
 import { Note } from "../models/post/note.model";
+import { Status } from "../models/post/status.model";
+import { PostReplyComponent } from "../../shared/components/post/post-reply/post-reply.component";
+import {
+  BottomSheetOptions,
+  BottomSheetService,
+} from "@nativescript-community/ui-material-bottomsheet/angular";
 
 @Injectable({
   providedIn: "root",
@@ -17,6 +23,7 @@ import { Note } from "../models/post/note.model";
 export class PostService {
   private http = inject(HttpClient);
   private stateService = inject(StateService);
+  private bottomSheet = inject(BottomSheetService);
 
   getPost(id: string) {
     return this.http
@@ -211,4 +218,62 @@ export class PostService {
       null,
     );
   }
+
+  // ----------------------- Reply (status post) -----------------------
+  publishPost(status: Status): Observable<Post> {
+    return this.http
+      .post<PostDTO>(
+        `${this.stateService.instanceURL()}/api/v1/statuses`,
+        Status.toDTO(status),
+      )
+      .pipe(
+        map((postDTO: PostDTO) => {
+          return Post.fromDTO(postDTO);
+        }),
+      )
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
+
+  updatePost(status: Status): Observable<Post> {
+    return this.http
+      .put<PostDTO>(
+        `${this.stateService.instanceURL()}/api/v1/statuses/${status.id}`,
+        Status.toDTO(status),
+      )
+      .pipe(
+        map((postDTO: PostDTO) => {
+          return Post.fromDTO(postDTO);
+        }),
+      )
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
+
+  removePost(postId: string): Observable<Post> {
+    return this.http
+      .delete<PostDTO>(
+        `${this.stateService.instanceURL()}/api/v1/statuses/${postId}`,
+      )
+      .pipe(
+        map((postDTO: PostDTO) => {
+          return Post.fromDTO(postDTO);
+        }),
+      )
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
+
+  showPostSheet(
+    containerRef: ViewContainerRef,
+    replyingPost: Post,
+    status?: Status,
+  ) {
+    const options: BottomSheetOptions = {
+      viewContainerRef: containerRef,
+      context: { status, replyingPost },
+      dismissOnDraggingDownSheet: false,
+      transparent: true,
+    };
+
+    return this.bottomSheet.show(PostReplyComponent, options);
+  }
+  // -------------------------------------------------------------------
 }

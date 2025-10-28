@@ -1,0 +1,78 @@
+<GridLayout>
+  <GridLayout rows="56, auto, auto, *" class="rounded-t-2xl bg-neutral-50">
+    <GridLayout
+      row="0"
+      columns="auto, *, auto, auto"
+      class="rounded-t-2xl px-4 w-full bg-white"
+    >
+      <Button
+        text="&#xeb55;"
+        class="tabler-icon icon-button"
+        col="0"
+        (tap)="close()"
+      ></Button>
+      <StackLayout
+        col="1"
+        class="mx-2"
+        [hidden]="!showCharCounterHint()"
+        verticalAlignment="center"
+      >
+        <Label
+          [text]="'common.character_limit_message' | L"
+          class="text-neutral-50 text-center no-font-padding text-xs bg-neutral-500 px-2 py-1 rounded-full"
+          textWrap="true"
+          [maxLines]="2"
+        ></Label>
+      </StackLayout>
+      <Button
+        col="2"
+        [text]="status.status?.length ?? 0"
+        class="text-neutral-500 no-font-padding basic-button px-2 min-w-10"
+        [class.text-orange-400]="status.status?.length > 360"
+        (tap)="showCharCounterHint.set(!showCharCounterHint())"
+      ></Button>
+      @if (!isNew() && !removeLoading()) {
+        <Button
+          text="&#xeb41;"
+          class="tabler-icon icon-button text-red-400 ml-2"
+          col="3"
+          (tap)="remove()"
+          [disabled]="postLoading()"
+        ></Button>
+      }
+      @if (removeLoading()) {
+        <ActivityIndicator col="3" class="w-10 h-10 ml-2" busy="true" />
+      }
+    </GridLayout>
+
+    <GridLayout row="1" class="mt-4 px-4">
+      <ScrollView class="h-24">
+        <StackLayout>
+          <ns-post-content [post]="replyingPost()"></ns-post-content>
+        </StackLayout>
+      </ScrollView>
+    </GridLayout>
+
+    <StackLayout row="2" class="mt-4">
+      <ns-sender-profile
+        [user]="stateService.user()"
+        [instanceURL]="stateService.instanceURL()"
+      ></ns-sender-profile>
+    </StackLayout>
+
+    <StackLayout row="3" class="mt-4">
+      <ns-post-editor
+        [post]="status"
+        [hint]="'common.write_your_reply' | L"
+        contentProperty="status"
+        [disableSubmitButton]="removeLoading()"
+        [submitButtonLoading]="postLoading()"
+        [allowChangingDate]="false"
+        [showCrosspost]="false"
+        (postPressed)="post()"
+      ></ns-post-editor>
+    </StackLayout>
+  </GridLayout>
+
+  <ng-template #messageAnchor></ng-template>
+</GridLayout>

@@ -1,9 +1,15 @@
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, ViewContainerRef } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
 import { map, Observable, tap } from "rxjs";
 import JSONbig from "json-bigint";
 import { Review, ReviewDTO } from "../models/post/review.model";
+import {
+  BottomSheetOptions,
+  BottomSheetService,
+} from "@nativescript-community/ui-material-bottomsheet/angular";
+import { BaseItem } from "../models/base-item.model";
+import { ReviewComponent } from "~/app/shared/components/post/review/review.component";
 
 @Injectable({
   providedIn: "root",
@@ -11,6 +17,7 @@ import { Review, ReviewDTO } from "../models/post/review.model";
 export class ReviewService {
   private http = inject(HttpClient);
   private stateService = inject(StateService);
+  private bottomSheet = inject(BottomSheetService);
 
   getReviewByItem(itemUUID: string): Observable<Review> {
     return (
@@ -39,7 +46,10 @@ export class ReviewService {
     return this.http
       .post<{
         message: string;
-      }>(`${this.stateService.instanceURL()}/api/me/review/item/${itemUUID}`, Review.toDTO(review))
+      }>(
+        `${this.stateService.instanceURL()}/api/me/review/item/${itemUUID}`,
+        Review.toDTO(review),
+      )
       .pipe(tap({ error: (err) => console.dir(err) }));
   }
 
@@ -49,5 +59,20 @@ export class ReviewService {
         message: string;
       }>(`${this.stateService.instanceURL()}/api/me/review/item/${itemUUID}`)
       .pipe(tap({ error: (err) => console.dir(err) }));
+  }
+
+  showReviewSheet(
+    containerRef: ViewContainerRef,
+    item: BaseItem,
+    review?: Review,
+  ) {
+    const options: BottomSheetOptions = {
+      viewContainerRef: containerRef,
+      context: { item, review },
+      dismissOnDraggingDownSheet: false,
+      transparent: true,
+    };
+
+    return this.bottomSheet.show(ReviewComponent, options);
   }
 }

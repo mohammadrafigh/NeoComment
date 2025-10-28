@@ -134,7 +134,12 @@
           class="w-full"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
-          [text]="userStatus() ? userStatus() + (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '') : 'common.mark_and_rate' | L"
+          [text]="
+            userStatus()
+              ? userStatus() +
+                (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '')
+              : ('common.mark_and_rate' | L)
+          "
         >
         </ns-icon-text-button>
       </FlexboxLayout>
@@ -312,12 +317,21 @@
       }
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
-          [text]="userStatus() ? userStatus() + (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '') : 'common.mark_and_rate' | L"
+          [text]="
+            userStatus()
+              ? userStatus() +
+                (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '')
+              : ('common.mark_and_rate' | L)
+          "
           class="primary-button w-full mb-4"
           (tap)="showMarkAndRateSheet()"
         ></Button>
         @for (comment of comments(); track comment) {
-          <ns-post [post]="comment" (editPressed)="showMarkAndRateSheet()"></ns-post>
+          <ns-post
+            [post]="comment"
+            (editPressed)="showMarkAndRateSheet()"
+            (replyAdded)="updateNotesList($event)"
+          ></ns-post>
         }
         @if (hasMoreComments()) {
           <Button
@@ -331,12 +345,18 @@
       <Label [text]="'common.reviews' | L" class="h1 mx-4 mb-2 mt-6"></Label>
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
-          [text]="(userReview ? 'common.modify_review' : 'common.write_review') | L"
+          [text]="
+            (userReview ? 'common.modify_review' : 'common.write_review') | L
+          "
           class="primary-button w-full mb-4"
           (tap)="showReviewSheet()"
         ></Button>
         @for (review of reviews(); track review) {
-          <ns-post [post]="review" (editPressed)="showReviewSheet()"></ns-post>
+          <ns-post
+            [post]="review"
+            (editPressed)="showReviewSheet()"
+            (replyAdded)="updateNotesList($event)"
+          ></ns-post>
         }
         @if (hasMoreReviews()) {
           <Button
@@ -355,7 +375,11 @@
           (tap)="showNoteSheet()"
         ></Button>
         @for (note of notes(); track note) {
-          <ns-post [post]="note" (editPressed)="showNoteSheet(note)"></ns-post>
+          <ns-post
+            [post]="note"
+            (editPressed)="showNoteSheet(note)"
+            (replyAdded)="updateNotesList($event)"
+          ></ns-post>
         }
         @if (hasMoreNotes()) {
           <Button
@@ -367,7 +391,10 @@
       </StackLayout>
 
       @if (collections().length > 0) {
-        <Label [text]="'common.collections_featuring_item' | L" class="h1 mx-4 mb-2 mt-6"></Label>
+        <Label
+          [text]="'common.collections_featuring_item' | L"
+          class="h1 mx-4 mb-2 mt-6"
+        ></Label>
         <CollectionView
           [items]="collections()"
           orientation="horizontal"
@@ -378,7 +405,10 @@
         >
           <ng-template let-item="item" let-index="index">
             <StackLayout class="px-2">
-              <ns-collection-item [item]="item" [post]="collectionPosts()[index]"></ns-collection-item>
+              <ns-collection-item
+                [item]="item"
+                [post]="collectionPosts()[index]"
+              ></ns-collection-item>
             </StackLayout>
           </ng-template>
         </CollectionView>

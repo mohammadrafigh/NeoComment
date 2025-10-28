@@ -24,6 +24,7 @@ import { isAndroid } from "@nativescript/core";
 import { Review } from "~/app/core/models/post/review.model";
 import { ShelfMark } from "~/app/core/models/post/shelf-mark.model";
 import { Note } from "~/app/core/models/post/note.model";
+import { Status } from "~/app/core/models/post/status.model";
 
 @Component({
   selector: "ns-post-editor",
@@ -39,16 +40,27 @@ import { Note } from "~/app/core/models/post/note.model";
 })
 export class PostEditorComponent {
   @ViewChild("contentInput") contentInput: ElementRef;
-  @Input() post: ShelfMark | Review | Note;
+  @Input() post: ShelfMark | Review | Note | Status;
   @Input() hint: string;
   @Input() contentProperty: string;
   @Input() disableSubmitButton = false;
   @Input() submitButtonLoading = false;
   @Input() allowChangingDate = true;
+  @Input() showCrosspost = true;
   @Output() postPressed = new EventEmitter();
   viewContainerRef = inject(ViewContainerRef);
   modalService = inject(ModalDialogService);
   hasCustomDate = signal(false);
+
+  initContentInput() {
+    this.addSpoilerAction();
+
+    if (isAndroid) {
+      const nativeTextView = this.contentInput.nativeElement.android;
+      nativeTextView.setSelection(this.post[this.contentProperty]?.length);
+      this.contentInput.nativeElement.focus();
+    }
+  }
 
   addSpoilerAction() {
     if (isAndroid) {
@@ -100,20 +112,22 @@ export class PostEditorComponent {
   }
 
   async showDatePicker() {
-    const options: ModalDialogOptions = {
-      viewContainerRef: this.viewContainerRef,
-      fullscreen: false,
-      context: { date: this.post.createdTime },
-    };
+    if (!(this.post instanceof Status)) {
+      const options: ModalDialogOptions = {
+        viewContainerRef: this.viewContainerRef,
+        fullscreen: false,
+        context: { date: this.post.createdTime },
+      };
 
-    const result = await this.modalService.showModal(
-      DatePickerDialogComponent,
-      options,
-    );
+      const result = await this.modalService.showModal(
+        DatePickerDialogComponent,
+        options,
+      );
 
-    if (result) {
-      this.hasCustomDate.set(result !== this.post.createdTime);
-      this.post.createdTime = result;
+      if (result) {
+        this.hasCustomDate.set(result !== this.post.createdTime);
+        this.post.createdTime = result;
+      }
     }
   }
 

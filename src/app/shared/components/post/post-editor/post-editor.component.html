@@ -3,7 +3,7 @@
     <StackLayout>
       <TextView
         #contentInput
-        (loaded)="addSpoilerAction()"
+        (loaded)="initContentInput()"
         [hint]="hint"
         [(ngModel)]="post[contentProperty]"
         class="h-full px-4 placeholder-neutral-400 text-base"
@@ -56,14 +56,16 @@
         (tap)="showDatePicker()"
       ></Button>
     }
-    <Button
-      [text]="post.postToFediverse ? '&#xebec;' : '&#xf1a9;'"
-      [nsTooltip]="'common.crosspost' | L"
-      class="tabler-icon icon-button"
-      [class.text-forest]="post.postToFediverse"
-      col="2"
-      (tap)="post.postToFediverse = !post.postToFediverse"
-    ></Button>
+    @if (showCrosspost) {
+      <Button
+        [text]="$any(post).postToFediverse ? '&#xebec;' : '&#xf1a9;'"
+        [nsTooltip]="'common.crosspost' | L"
+        class="tabler-icon icon-button"
+        [class.text-forest]="$any(post).postToFediverse"
+        col="2"
+        (tap)="$any(post).postToFediverse = !$any(post).postToFediverse"
+      ></Button>
+    }
     @if (!submitButtonLoading) {
       <Button
         text="&#xfd5d;"

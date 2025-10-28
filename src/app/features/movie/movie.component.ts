@@ -45,19 +45,13 @@ import { Post } from "~/app/core/models/post/post.model";
 import { Collection } from "~/app/core/models/collection.model";
 import { PageTransition, SharedTransition } from "@nativescript/core";
 import { shareText } from "@nativescript/social-share";
-import {
-  BottomSheetService,
-  BottomSheetOptions,
-} from "@nativescript-community/ui-material-bottomsheet/angular";
-import { MarkAndRateComponent } from "~/app/shared/components/post/mark-and-rate/mark-and-rate.component";
+import { BottomSheetService } from "@nativescript-community/ui-material-bottomsheet/angular";
 import { ShelfMark } from "~/app/core/models/post/shelf-mark.model";
 import { Review } from "~/app/core/models/post/review.model";
 import { Note } from "~/app/core/models/post/note.model";
 import { ShelfService } from "~/app/core/services/shelf.service";
 import { ReviewService } from "~/app/core/services/review.service";
 import { NoteService } from "~/app/core/services/note.service";
-import { ReviewComponent } from "~/app/shared/components/post/review/review.component";
-import { NoteComponent } from "~/app/shared/components/post/note/note.component";
 
 @Component({
   selector: "ns-movie",
@@ -302,15 +296,8 @@ export class MovieComponent implements OnInit {
   }
 
   showMarkAndRateSheet() {
-    const options: BottomSheetOptions = {
-      viewContainerRef: this.containerRef,
-      context: { item: this.movie(), shelfMark: this.userMark },
-      dismissOnDraggingDownSheet: false,
-      transparent: true,
-    };
-
-    this.bottomSheet
-      .show(MarkAndRateComponent, options)
+    this.shelfService
+      .showMarkAndRateSheet(this.containerRef, this.movie(), this.userMark)
       .subscribe((result: { shelfMark: ShelfMark; isRemoved: boolean }) => {
         if (!result) {
           return;
@@ -335,15 +322,8 @@ export class MovieComponent implements OnInit {
   }
 
   showReviewSheet() {
-    const options: BottomSheetOptions = {
-      viewContainerRef: this.containerRef,
-      context: { item: this.movie(), review: this.userReview },
-      dismissOnDraggingDownSheet: false,
-      transparent: true,
-    };
-
-    this.bottomSheet
-      .show(ReviewComponent, options)
+    this.reviewService
+      .showReviewSheet(this.containerRef, this.movie(), this.userReview)
       .subscribe((result: { review: Review; isRemoved: boolean }) => {
         if (!result) {
           return;
@@ -370,17 +350,11 @@ export class MovieComponent implements OnInit {
   showNoteSheet(notePost?: Post) {
     let note: Note;
     if (notePost) {
-      note = this.userNotes.find(n => n.postId === notePost.id);
+      note = this.userNotes.find((n) => n.postId === notePost.id);
     }
-    const options: BottomSheetOptions = {
-      viewContainerRef: this.containerRef,
-      context: { item: this.movie(), note },
-      dismissOnDraggingDownSheet: false,
-      transparent: true,
-    };
 
-    this.bottomSheet
-      .show(NoteComponent, options)
+    this.noteService
+      .showNoteSheet(this.containerRef, this.movie(), note)
       .subscribe((result: { note: Note; isRemoved: boolean }) => {
         if (!result) {
           return;
@@ -394,16 +368,20 @@ export class MovieComponent implements OnInit {
           return;
         }
 
-        this.getUserNotesAndPosts(this.movie().uuid).subscribe({
-          next: (userNotesAndPosts) => {
-            const { notes, userPosts } = userNotesAndPosts ?? {};
-            const posts = this.processNotes(userPosts, this.notes());
-            this.notes.set(posts);
-            this.userNotes = notes;
-          },
-          error: (err) => console.dir(err),
-        });
+        this.updateNotesList();
       });
+  }
+
+  updateNotesList(post?: Post) {
+    this.getUserNotesAndPosts(this.movie().uuid).subscribe({
+      next: (userNotesAndPosts) => {
+        const { notes, userPosts } = userNotesAndPosts ?? {};
+        const posts = this.processNotes(userPosts, this.notes());
+        this.notes.set(posts);
+        this.userNotes = notes;
+      },
+      error: (err) => console.dir(err),
+    });
   }
 
   setUserMark(shelfMark?: ShelfMark) {
