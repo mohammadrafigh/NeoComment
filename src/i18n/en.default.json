@@ -100,6 +100,9 @@
     "timestamp": "Timestamp",
     "episode": "Episode",
     "cycle": "Cycle",
-    "track": "Track"
+    "track": "Track",
+    "add_reply_message": "Please write your reply",
+    "reply_removal_notice": "Are you sure you want to remove your reply",
+    "write_your_reply": "Write your reply"
   }
 }

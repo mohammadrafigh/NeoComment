@@ -17,7 +17,7 @@ import {
   NativeScriptFormsModule,
 } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
-import { IconTextButtonComponent } from "../../icon-text-button/icon-text-button.component";
+import { IconTextButtonComponent } from "~/app/shared/components/icon-text-button/icon-text-button.component";
 import { TooltipDirective } from "~/app/shared/directives/tooltip.directive";
 import { DatePickerDialogComponent } from "~/app/shared/components/date-picker/date-picker.component";
 import { isAndroid } from "@nativescript/core";

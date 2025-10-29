@@ -11,11 +11,7 @@
       (tap)="location.back()"
     ></Button>
     <Label
-      [text]="
-        (movie()?.localizedTitle | neoL: stateService.preference().language) ||
-        movie()?.displayTitle ||
-        movie()?.title
-      "
+      [text]="itemTitle()"
       class="font-medium text-lg text-center"
       col="1"
     ></Label>
@@ -57,12 +53,7 @@
         <Label
           col="1"
           row="0"
-          [text]="
-            (movie().localizedTitle
-              | neoL: stateService.preference().language) ||
-            movie().displayTitle ||
-            movie().title
-          "
+          [text]="itemTitle()"
           class="pl-3 mb-0.5"
           textWrap="true"
         ></Label>
@@ -130,14 +121,23 @@
         </ns-icon-text-button>
 
         <ns-icon-text-button
-          (pressed)="showMarkAndRateSheet()"
+          (pressed)="
+            postEditorsService.showMarkAndRateSheet(containerRef, {
+              itemUUID: movie().uuid,
+              itemCategory: movie().category,
+              itemTitle: itemTitle(),
+              shelfMark: postsStateService.userMark(),
+            })
+          "
           class="w-full"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
           [text]="
-            userStatus()
-              ? userStatus() +
-                (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '')
+            postsStateService.userStatus()
+              ? postsStateService.userStatus() +
+                (postsStateService.userMark().ratingGrade
+                  ? ' - ' + postsStateService.userMark().ratingGrade
+                  : '')
               : ('common.mark_and_rate' | L)
           "
         >
@@ -318,22 +318,49 @@
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
           [text]="
-            userStatus()
-              ? userStatus() +
-                (userMark.ratingGrade ? ' - ' + userMark.ratingGrade : '')
+            postsStateService.userStatus()
+              ? postsStateService.userStatus() +
+                (postsStateService.userMark().ratingGrade
+                  ? ' - ' + postsStateService.userMark().ratingGrade
+                  : '')
               : ('common.mark_and_rate' | L)
           "
           class="primary-button w-full mb-4"
-          (tap)="showMarkAndRateSheet()"
+          (tap)="
+            postEditorsService.showMarkAndRateSheet(containerRef, {
+              itemUUID: movie().uuid,
+              itemCategory: movie().category,
+              itemTitle: itemTitle(),
+              shelfMark: postsStateService.userMark(),
+            })
+          "
         ></Button>
-        @for (comment of comments(); track comment) {
-          <ns-post
+        @for (comment of postsStateService.commentsOverview(); track comment) {
+          <ns-post-item
             [post]="comment"
-            (editPressed)="showMarkAndRateSheet()"
-            (replyAdded)="updateNotesList($event)"
-          ></ns-post>
+            [isLiking]="postsStateService.likingPostIds().includes(comment.id)"
+            [isBoosting]="
+              postsStateService.boostingPostIds().includes(comment.id)
+            "
+            [isEditable]="comment.account.id === stateService.fediAccount().id"
+            (likePressed)="postsStateService.toggleLike(comment)"
+            (boostPressed)="postsStateService.toggleBoost(comment)"
+            (editPressed)="
+              postEditorsService.showMarkAndRateSheet(containerRef, {
+                itemUUID: movie().uuid,
+                itemCategory: movie().category,
+                itemTitle: itemTitle(),
+                shelfMark: postsStateService.userMark(),
+              })
+            "
+            (replyPressed)="
+              postEditorsService.showReplySheet(containerRef, {
+                replyingPost: comment,
+              })
+            "
+          ></ns-post-item>
         }
-        @if (hasMoreComments()) {
+        @if (postsStateService.hasMoreComments()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -346,19 +373,47 @@
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
           [text]="
-            (userReview ? 'common.modify_review' : 'common.write_review') | L
+            (postsStateService.userReview()
+              ? 'common.modify_review'
+              : 'common.write_review'
+            ) | L
           "
           class="primary-button w-full mb-4"
-          (tap)="showReviewSheet()"
+          (tap)="
+            postEditorsService.showReviewSheet(containerRef, {
+              itemUUID: movie().uuid,
+              itemCategory: movie().category,
+              itemTitle: itemTitle(),
+              review: postsStateService.userReview(),
+            })
+          "
         ></Button>
-        @for (review of reviews(); track review) {
-          <ns-post
+        @for (review of postsStateService.reviewsOverview(); track review) {
+          <ns-post-item
             [post]="review"
-            (editPressed)="showReviewSheet()"
-            (replyAdded)="updateNotesList($event)"
-          ></ns-post>
+            [isLiking]="postsStateService.likingPostIds().includes(review.id)"
+            [isBoosting]="
+              postsStateService.boostingPostIds().includes(review.id)
+            "
+            [isEditable]="review.account.id === stateService.fediAccount().id"
+            (likePressed)="postsStateService.toggleLike(review)"
+            (boostPressed)="postsStateService.toggleBoost(review)"
+            (editPressed)="
+              postEditorsService.showReviewSheet(containerRef, {
+                itemUUID: movie().uuid,
+                itemCategory: movie().category,
+                itemTitle: itemTitle(),
+                review: postsStateService.userReview(),
+              })
+            "
+            (replyPressed)="
+              postEditorsService.showReplySheet(containerRef, {
+                replyingPost: review,
+              })
+            "
+          ></ns-post-item>
         }
-        @if (hasMoreReviews()) {
+        @if (postsStateService.hasMoreReviews()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -372,16 +427,38 @@
         <Button
           [text]="'common.write_note' | L"
           class="primary-button w-full mb-4"
-          (tap)="showNoteSheet()"
+          (tap)="
+            postEditorsService.showNoteSheet(containerRef, {
+              itemUUID: movie().uuid,
+              itemCategory: movie().category,
+              itemTitle: itemTitle(),
+            })
+          "
         ></Button>
-        @for (note of notes(); track note) {
-          <ns-post
+        @for (note of postsStateService.notesOverview(); track note) {
+          <ns-post-item
             [post]="note"
-            (editPressed)="showNoteSheet(note)"
-            (replyAdded)="updateNotesList($event)"
-          ></ns-post>
+            [isLiking]="postsStateService.likingPostIds().includes(note.id)"
+            [isBoosting]="postsStateService.boostingPostIds().includes(note.id)"
+            [isEditable]="note.account.id === stateService.fediAccount().id"
+            (likePressed)="postsStateService.toggleLike(note)"
+            (boostPressed)="postsStateService.toggleBoost(note)"
+            (editPressed)="
+              postEditorsService.showNoteSheet(containerRef, {
+                itemUUID: movie().uuid,
+                itemCategory: movie().category,
+                itemTitle: itemTitle(),
+                note: postsStateService.getUserNoteByPost(note),
+              })
+            "
+            (replyPressed)="
+              postEditorsService.showReplySheet(containerRef, {
+                replyingPost: note,
+              })
+            "
+          ></ns-post-item>
         }
-        @if (hasMoreNotes()) {
+        @if (postsStateService.hasMoreNotes()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -390,13 +467,13 @@
         }
       </StackLayout>
 
-      @if (collections().length > 0) {
+      @if (postsStateService.collections().length > 0) {
         <Label
           [text]="'common.collections_featuring_item' | L"
           class="h1 mx-4 mb-2 mt-6"
         ></Label>
         <CollectionView
-          [items]="collections()"
+          [items]="postsStateService.collections()"
           orientation="horizontal"
           colWidth="166"
           rowHeight="246"
@@ -407,7 +484,7 @@
             <StackLayout class="px-2">
               <ns-collection-item
                 [item]="item"
-                [post]="collectionPosts()[index]"
+                [post]="postsStateService.collectionPosts()[index]"
               ></ns-collection-item>
             </StackLayout>
           </ng-template>

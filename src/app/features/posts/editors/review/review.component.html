@@ -11,7 +11,7 @@
         col="0"
         (tap)="close()"
       ></Button>
-      @if (note.postId && !removeLoading()) {
+      @if (review.postId && !removeLoading()) {
         <Button
           text="&#xeb41;"
           class="tabler-icon icon-button text-red-400 ml-2"
@@ -32,52 +32,22 @@
       ></ns-sender-profile>
     </StackLayout>
 
-    <GridLayout row="2" rows="auto, auto" columns="*, *" class="mt-4 px-4">
-      <ns-icon-text-button
-        row="0"
-        col="0"
-        (pressed)="showProgressTypes()"
-        buttonClass="gray-button w-full"
-        icon="&#xea5f;"
-        [text]="
-          (chosenProgressType()
-            ? 'common.' + chosenProgressType()
-            : 'common.progress_type'
-          ) | L
-        "
-      >
-      </ns-icon-text-button>
-      <TextField
-        row="0"
-        col="1"
-        class="text-base h-10 ml-2"
-        [hint]="'common.progress' | L"
-        returnKeyType="next"
-        [(ngModel)]="note.progressValue"
-      />
-      <TextField
-        row="1"
-        col="0"
-        colSpan="2"
-        class="text-base h-10 mt-2"
-        [hint]="'common.title' | L"
-        returnKeyType="next"
-        [(ngModel)]="note.title"
-      />
-    </GridLayout>
+    <TextField
+      row="2"
+      class="mx-4 mt-4 text-base h-10"
+      [hint]="'common.title' | L"
+      returnKeyType="next"
+      [(ngModel)]="review.title"
+    />
 
     <StackLayout row="3" class="mt-4">
       <ns-post-editor
-        [post]="note"
-        [hint]="
-          ('common.leave_note' | L) +
-          ' ' +
-          (item().localizedTitle | neoL: stateService.preference().language)
-        "
-        contentProperty="content"
+        [post]="review"
+        [hint]="('common.technical_review' | L) + ' ' + context().itemTitle"
+        contentProperty="body"
         [disableSubmitButton]="removeLoading()"
         [submitButtonLoading]="postLoading()"
-        [allowChangingDate]="false"
+        [allowChangingDate]="true"
         [showCrosspost]="true"
         (postPressed)="post()"
       ></ns-post-editor>

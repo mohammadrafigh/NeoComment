@@ -19,14 +19,22 @@
       [text]="addIcon()"
       class="tabler-icon icon-button"
       col="2"
-      (tap)="add()"
+      (tap)="addEditSheet()"
     ></Button>
   </GridLayout>
 </ActionBar>
 
 <GridLayout>
   <CollectionView
-    [items]="posts()"
+    [items]="
+      type === 'mark'
+        ? postsStateService.comments().data
+        : type === 'review'
+          ? postsStateService.reviews().data
+          : type === 'note'
+            ? postsStateService.notes().data
+            : []
+    "
     colWidth="100%"
     class="p-2 bg-forest/15 h-full"
     [class.pb-14]="currentPage < maxPages"
@@ -34,7 +42,20 @@
   >
     <ng-template let-item="item">
       <StackLayout class="p-2">
-        <ns-post [post]="item"></ns-post>
+        <ns-post-item
+          [post]="item"
+          [isLiking]="postsStateService.likingPostIds().includes(item.id)"
+          [isBoosting]="postsStateService.boostingPostIds().includes(item.id)"
+          [isEditable]="item.account.id === stateService.fediAccount().id"
+          (likePressed)="postsStateService.toggleLike(item)"
+          (boostPressed)="postsStateService.toggleBoost(item)"
+          (editPressed)="addEditSheet(item)"
+          (replyPressed)="
+            postEditorsService.showReplySheet(containerRef, {
+              replyingPost: item,
+            })
+          "
+        ></ns-post-item>
       </StackLayout>
     </ng-template>
   </CollectionView>

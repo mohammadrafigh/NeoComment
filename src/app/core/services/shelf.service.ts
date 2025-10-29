@@ -1,15 +1,9 @@
-import { inject, Injectable, ViewContainerRef } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
 import { map, Observable, tap } from "rxjs";
 import { ShelfMark, ShelfMarkDTO } from "../models/post/shelf-mark.model";
 import JSONbig from "json-bigint";
-import {
-  BottomSheetOptions,
-  BottomSheetService,
-} from "@nativescript-community/ui-material-bottomsheet/angular";
-import { BaseItem } from "../models/base-item.model";
-import { MarkAndRateComponent } from "~/app/shared/components/post/mark-and-rate/mark-and-rate.component";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +11,6 @@ import { MarkAndRateComponent } from "~/app/shared/components/post/mark-and-rate
 export class ShelfService {
   private http = inject(HttpClient);
   private stateService = inject(StateService);
-  private bottomSheet = inject(BottomSheetService);
 
   getMarkByItem(itemUUID: string): Observable<ShelfMark> {
     return (
@@ -59,20 +52,5 @@ export class ShelfService {
         message: string;
       }>(`${this.stateService.instanceURL()}/api/me/shelf/item/${itemUUID}`)
       .pipe(tap({ error: (err) => console.dir(err) }));
-  }
-
-  showMarkAndRateSheet(
-    containerRef: ViewContainerRef,
-    item: BaseItem,
-    shelfMark?: ShelfMark,
-  ) {
-    const options: BottomSheetOptions = {
-      viewContainerRef: containerRef,
-      context: { item, shelfMark },
-      dismissOnDraggingDownSheet: false,
-      transparent: true,
-    };
-
-    return this.bottomSheet.show(MarkAndRateComponent, options);
   }
 }

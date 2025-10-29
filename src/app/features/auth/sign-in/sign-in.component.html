@@ -1,4 +1,8 @@
-<GridLayout verticalAlignment="center" [paddingTop]="statusbarSize">
+<ActionBar flat="true">
+  <GridLayout [paddingTop]="statusbarSize + 8"></GridLayout>
+</ActionBar>
+
+<GridLayout verticalAlignment="center">
   <StackLayout class="p-4">
     <Label
       [text]="'features.sign_in.welcome' | L"

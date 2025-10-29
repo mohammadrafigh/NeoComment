@@ -3,6 +3,7 @@ import {
   Component,
   NO_ERRORS_SCHEMA,
   OnInit,
+  ViewContainerRef,
   inject,
   signal,
 } from "@angular/core";
@@ -14,14 +15,15 @@ import {
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 import { StateService } from "../../core/services/state.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
-import { finalize } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "~/app/core/services/message.service";
 import { Location } from "@angular/common";
-import { PostComponent } from "~/app/shared/components/post/post.component";
+import { PostItemComponent } from "~/app/shared/components/post/post-item/post-item.component";
 import { PostService } from "~/app/core/services/post.service";
 import { Post } from "~/app/core/models/post/post.model";
 import { localize } from "@nativescript/localize";
+import { PostsStateService } from "./posts-state.service";
+import { PostEditorsService } from "./editors/post-editors.service";
 
 @Component({
   selector: "ns-posts",
@@ -32,7 +34,7 @@ import { localize } from "@nativescript/localize";
     NativeScriptFormsModule,
     NativeScriptLocalizeModule,
     CollectionViewModule,
-    PostComponent,
+    PostItemComponent,
   ],
   schemas: [NO_ERRORS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,24 +42,34 @@ import { localize } from "@nativescript/localize";
 export class PostsComponent implements OnInit {
   stateService = inject(StateService);
   postService = inject(PostService);
+  postEditorsService = inject(PostEditorsService);
+  postsStateService = inject(PostsStateService);
   messageService = inject(MessageService);
   activatedRoute = inject(ActivatedRoute);
   location = inject(Location);
+  containerRef = inject(ViewContainerRef);
   statusbarSize: number = global.statusbarSize;
   pageLoading = signal(false);
-  posts = signal<Post[]>([]);
   pageTitle = signal<string>("");
   addIcon = signal<string>(null);
   currentPage = 0;
   maxPages = 1;
+  type: "mark" | "review" | "note";
+  itemUUID: string;
+  itemTitle: string;
+  itemCategory: string;
 
   ngOnInit(): void {
+    this.type = this.activatedRoute.snapshot.queryParams.type;
+    this.itemUUID = this.activatedRoute.snapshot.queryParams.itemUUID;
+    this.itemTitle = this.activatedRoute.snapshot.queryParams.itemTitle;
+    this.itemCategory = this.activatedRoute.snapshot.queryParams.itemCategory;
     this.initializePage();
     this.getPosts();
   }
 
   initializePage() {
-    switch (this.activatedRoute.snapshot.queryParams.type) {
+    switch (this.type) {
       case "mark": {
         this.pageTitle.set(localize("common.user_ratings_and_marks"));
         this.addIcon.set("\u{f972}");
@@ -81,24 +93,70 @@ export class PostsComponent implements OnInit {
       return;
     }
 
-    const uuid = this.activatedRoute.snapshot.params.itemUUID;
-    const type = this.activatedRoute.snapshot.queryParams.type;
-
     this.pageLoading.set(true);
-    this.postService
-      .getItemPosts(uuid, type, this.currentPage + 1)
-      .pipe(finalize(() => this.pageLoading.set(false)))
-      .subscribe({
-        next: (postsRes) => {
-          this.currentPage++;
-          this.maxPages = postsRes.pages;
-          this.posts.update((posts) => [...posts, ...postsRes.data]);
-        },
-        error: (err) => console.dir(err),
-      });
+    switch (this.type) {
+      case "mark": {
+        this.postsStateService
+          .getMarks(this.currentPage + 1)
+          .add(() => {
+            this.pageLoading.set(false);
+            this.currentPage++;
+            this.maxPages = this.postsStateService.comments().pages;
+          });
+        break;
+      }
+      case "review": {
+        this.postsStateService
+          .getReviews(this.currentPage + 1)
+          .add(() => {
+            this.pageLoading.set(false);
+            this.currentPage++;
+            this.maxPages = this.postsStateService.reviews().pages;
+          });
+        break;
+      }
+      case "note": {
+        this.postsStateService
+          .getNotes(this.currentPage + 1)
+          .add(() => {
+            this.pageLoading.set(false);
+            this.currentPage++;
+            this.maxPages = this.postsStateService.notes().pages;
+          });
+        break;
+      }
+    }
   }
 
-  add() {
-    // TODO: Mohammad 10-02-2025:
+  addEditSheet(post?: Post) {
+    switch (this.type) {
+      case "mark": {
+        this.postEditorsService.showMarkAndRateSheet(this.containerRef, {
+          itemUUID: this.itemUUID,
+          itemCategory: this.itemCategory,
+          itemTitle: this.itemTitle,
+          shelfMark: this.postsStateService.userMark(),
+        });
+        break;
+      }
+      case "review": {
+        this.postEditorsService.showReviewSheet(this.containerRef, {
+          itemUUID: this.itemUUID,
+          itemCategory: this.itemCategory,
+          itemTitle: this.itemTitle,
+          review: this.postsStateService.userReview(),
+        });
+        break;
+      }
+      case "note": {
+        this.postEditorsService.showNoteSheet(this.containerRef, {
+          itemUUID: this.itemUUID,
+          itemCategory: this.itemCategory,
+          itemTitle: this.itemTitle,
+          note: this.postsStateService.getUserNoteByPost(post),
+        });
+        break;
+      }
+    }
   }
 }

@@ -13,8 +13,6 @@ import {
 } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { BottomSheetParams } from "@nativescript-community/ui-material-bottomsheet/angular";
-import { BaseItem } from "~/app/core/models/base-item.model";
-import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
 import { StateService } from "~/app/core/services/state.service";
 import { MessageService } from "~/app/core/services/message.service";
 import { localize } from "@nativescript/localize";
@@ -26,7 +24,8 @@ import { PostEditorComponent } from "../post-editor/post-editor.component";
 import { SenderProfileComponent } from "../sender-profile/sender-profile.component";
 import { Note } from "~/app/core/models/post/note.model";
 import { CATEGORIES } from "~/app/shared/constants/categories";
-import { IconTextButtonComponent } from "../../icon-text-button/icon-text-button.component";
+import { IconTextButtonComponent } from "~/app/shared/components/icon-text-button/icon-text-button.component";
+import { EditorContext } from "../editor-context.model";
 
 @Component({
   selector: "ns-note",
@@ -35,7 +34,6 @@ import { IconTextButtonComponent } from "../../icon-text-button/icon-text-button
     NativeScriptFormsModule,
     NativeScriptCommonModule,
     NativeScriptLocalizeModule,
-    NeoDBLocalizePipe,
     PostEditorComponent,
     SenderProfileComponent,
     IconTextButtonComponent,
@@ -49,7 +47,7 @@ export class NoteComponent implements OnInit {
   stateService = inject(StateService);
   messageService = inject(MessageService);
   noteService = inject(NoteService);
-  item = signal<BaseItem>(null);
+  context = signal<EditorContext>(null);
   note = new Note();
   postLoading = signal(false);
   removeLoading = signal(false);
@@ -57,10 +55,10 @@ export class NoteComponent implements OnInit {
   progressTypes = new Map([[localize("common.none"), null]]);
 
   ngOnInit(): void {
-    this.item.set(this.params.context.item);
+    this.context.set(this.params.context);
     this.note = cloneDeep(this.params.context.note) ?? new Note();
 
-    for (const type of CATEGORIES.get(this.item().category).noteProgressTypes) {
+    for (const type of CATEGORIES.get(this.context().itemCategory).noteProgressTypes) {
       this.progressTypes.set(localize(`common.${type}`), type);
     }
 
@@ -120,10 +118,10 @@ export class NoteComponent implements OnInit {
         });
     } else {
       this.noteService
-        .saveNote(this.item().uuid, this.note)
+        .saveNote(this.context().itemUUID, this.note)
         .pipe(finalize(() => this.postLoading.set(false)))
         .subscribe({
-          next: () => this.close({ note: this.note, isRemoved: false }),
+          next: (note) => this.close({ note, isRemoved: false }),
           error: () =>
             this.messageService.showErrorMessage(
               localize("common.generic_error"),

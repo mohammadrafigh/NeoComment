@@ -57,7 +57,7 @@
 
     <FlexboxLayout row="2" class="px-4 mt-4">
       <Label
-        [text]="'features.' + item().category + '.to_watch' | L"
+        [text]="'features.' + context().itemCategory + '.to_watch' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
         [ngClass]="
           shelfMark.shelfType === 'wishlist' ? 'bg-forest' : 'bg-neutral-200'
@@ -65,7 +65,7 @@
         (tap)="shelfMark.shelfType = 'wishlist'"
       ></Label>
       <Label
-        [text]="'features.' + item().category + '.watching' | L"
+        [text]="'features.' + context().itemCategory + '.watching' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
         [ngClass]="
           shelfMark.shelfType === 'progress' ? 'bg-forest' : 'bg-neutral-200'
@@ -73,7 +73,7 @@
         (tap)="shelfMark.shelfType = 'progress'"
       ></Label>
       <Label
-        [text]="'features.' + item().category + '.watched' | L"
+        [text]="'features.' + context().itemCategory + '.watched' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
         [ngClass]="
           shelfMark.shelfType === 'complete' ? 'bg-forest' : 'bg-neutral-200'
@@ -81,7 +81,7 @@
         (tap)="shelfMark.shelfType = 'complete'"
       ></Label>
       <Label
-        [text]="'features.' + item().category + '.stopped' | L"
+        [text]="'features.' + context().itemCategory + '.stopped' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center"
         [ngClass]="
           shelfMark.shelfType === 'dropped' ? 'bg-forest' : 'bg-neutral-200'
@@ -125,11 +125,7 @@
     <StackLayout row="4" class="mt-4">
       <ns-post-editor
         [post]="shelfMark"
-        [hint]="
-          ('common.leave_comment' | L) +
-          ' ' +
-          (item().localizedTitle | neoL: stateService.preference().language)
-        "
+        [hint]="('common.leave_comment' | L) + ' ' + context().itemTitle"
         contentProperty="commentText"
         [disableSubmitButton]="removeLoading()"
         [submitButtonLoading]="postLoading()"

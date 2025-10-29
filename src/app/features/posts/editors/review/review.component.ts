@@ -12,77 +12,77 @@ import {
   NativeScriptFormsModule,
 } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
-import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.component";
 import { BottomSheetParams } from "@nativescript-community/ui-material-bottomsheet/angular";
-import { BaseItem } from "~/app/core/models/base-item.model";
-import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
 import { StateService } from "~/app/core/services/state.service";
-import { ShelfMark } from "~/app/core/models/post/shelf-mark.model";
 import { MessageService } from "~/app/core/services/message.service";
 import { localize } from "@nativescript/localize";
-import { ShelfService } from "~/app/core/services/shelf.service";
 import { cloneDeep } from "lodash-es";
 import { finalize } from "rxjs";
 import { Dialogs } from "@nativescript/core";
+import { ReviewService } from "~/app/core/services/review.service";
+import { Review } from "~/app/core/models/post/review.model";
 import { PostEditorComponent } from "../post-editor/post-editor.component";
 import { SenderProfileComponent } from "../sender-profile/sender-profile.component";
+import { EditorContext } from "../editor-context.model";
 
 @Component({
-  selector: "ns-rate-and-mark",
-  templateUrl: "./mark-and-rate.component.html",
+  selector: "ns-review",
+  templateUrl: "./review.component.html",
   imports: [
     NativeScriptFormsModule,
     NativeScriptCommonModule,
     NativeScriptLocalizeModule,
-    RateIndicatorComponent,
-    NeoDBLocalizePipe,
     PostEditorComponent,
     SenderProfileComponent,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })
-export class MarkAndRateComponent implements OnInit {
+export class ReviewComponent implements OnInit {
   @ViewChild("messageAnchor", { read: ViewContainerRef })
   messageAnchor: ViewContainerRef;
   params = inject(BottomSheetParams);
   stateService = inject(StateService);
   messageService = inject(MessageService);
-  shelfService = inject(ShelfService);
-  item = signal<BaseItem>(null);
-  rates = new Array(10);
-  shelfMark = new ShelfMark();
-  showCharCounterHint = signal(false);
+  reviewService = inject(ReviewService);
+  context = signal<EditorContext>(null);
+  review = new Review();
   postLoading = signal(false);
   removeLoading = signal(false);
 
   ngOnInit(): void {
-    this.item.set(this.params.context.item);
-    this.shelfMark =
-      cloneDeep(this.params.context.shelfMark) ?? new ShelfMark();
+    this.context.set(this.params.context);
+    this.review = cloneDeep(this.params.context.review) ?? new Review();
 
-    if (!this.shelfMark.postId) {
-      this.shelfMark.postToFediverse =
+    if (!this.review.postId) {
+      this.review.postToFediverse =
         this.stateService.preference().defaultCrosspost;
-      this.shelfMark.visibility =
-        this.stateService.preference().defaultVisibility;
+      this.review.visibility = this.stateService.preference().defaultVisibility;
     }
   }
 
   post() {
-    if (!this.shelfMark.shelfType) {
+    if (!this.review.title || this.review.title.trim().length === 0) {
       this.messageService.showErrorMessage(
-        localize("common.select_mark_message"),
+        localize("common.add_title_message"),
+        this.messageAnchor,
+      );
+      return;
+    }
+
+    if (!this.review.body || this.review.body.trim().length === 0) {
+      this.messageService.showErrorMessage(
+        localize("common.add_review_content_message"),
         this.messageAnchor,
       );
       return;
     }
 
     this.postLoading.set(true);
-    this.shelfService
-      .saveMark(this.item().uuid, this.shelfMark)
+    this.reviewService
+      .saveReview(this.context().itemUUID, this.review)
       .pipe(finalize(() => this.postLoading.set(false)))
       .subscribe({
-        next: () => this.close({ shelfMark: this.shelfMark, isRemoved: false }),
+        next: () => this.close({ review: this.review, isRemoved: false }),
         error: () =>
           this.messageService.showErrorMessage(
             localize("common.generic_error"),
@@ -93,7 +93,7 @@ export class MarkAndRateComponent implements OnInit {
 
   async remove() {
     const res = await Dialogs.confirm({
-      message: localize("common.mark_removal_notice"),
+      message: localize("common.review_removal_notice"),
       okButtonText: localize("common.yes"),
       cancelButtonText: localize("common.no"),
     });
@@ -102,11 +102,11 @@ export class MarkAndRateComponent implements OnInit {
     }
 
     this.removeLoading.set(true);
-    this.shelfService
-      .removeMark(this.item().uuid)
+    this.reviewService
+      .removeReview(this.context().itemUUID)
       .pipe(finalize(() => this.removeLoading.set(false)))
       .subscribe({
-        next: () => this.close({ shelfMark: this.shelfMark, isRemoved: true }),
+        next: () => this.close({ review: this.review, isRemoved: true }),
         error: () =>
           this.messageService.showErrorMessage(
             localize("common.generic_error"),
@@ -115,7 +115,7 @@ export class MarkAndRateComponent implements OnInit {
       });
   }
 
-  close(result?: { shelfMark: ShelfMark; isRemoved: boolean }) {
+  close(result?: { review: Review; isRemoved: boolean }) {
     this.params.closeCallback(result);
   }
 }

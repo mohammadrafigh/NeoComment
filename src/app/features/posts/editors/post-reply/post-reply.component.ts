@@ -23,7 +23,7 @@ import { SenderProfileComponent } from "../sender-profile/sender-profile.compone
 import { Post } from "~/app/core/models/post/post.model";
 import { PostService } from "~/app/core/services/post.service";
 import { Status } from "~/app/core/models/post/status.model";
-import { PostContentComponent } from "../post-content/post-content.component";
+import { PostContentComponent } from "~/app/shared/components/post/post-content/post-content.component";
 
 @Component({
   selector: "ns-post-reply",
