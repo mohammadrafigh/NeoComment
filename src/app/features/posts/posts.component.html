@@ -36,12 +36,12 @@
             : []
     "
     colWidth="100%"
-    class="p-2 bg-forest/15 h-full"
+    class="p-4 bg-forest/15 h-full"
     [class.pb-14]="currentPage < maxPages"
     (loadMoreItems)="getPosts()"
   >
     <ng-template let-item="item">
-      <StackLayout class="p-2">
+      <StackLayout>
         <ns-post-item
           [post]="item"
           [isLiking]="postsStateService.likingPostIds().includes(item.id)"
