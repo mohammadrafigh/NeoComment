@@ -5,8 +5,6 @@ import { ShelfService } from "~/app/core/services/shelf.service";
 import { ReviewService } from "~/app/core/services/review.service";
 import { NoteService } from "~/app/core/services/note.service";
 import { Post } from "~/app/core/models/post/post.model";
-import { ShelfMark } from "~/app/core/models/post/shelf-mark.model";
-import { Review } from "~/app/core/models/post/review.model";
 import { Note } from "~/app/core/models/post/note.model";
 import {
   catchError,
@@ -18,11 +16,9 @@ import {
   of,
   toArray,
 } from "rxjs";
-import { localize } from "@nativescript/localize";
 import { CollectionService } from "~/app/core/services/collection.service";
-import { Collection } from "~/app/core/models/collection.model";
-import { PostsResponse } from "~/app/core/models/post/posts-response.model";
 import { cloneDeep } from "lodash-es";
+import { ItemPostsState } from "./item-posts-state.model";
 
 @Injectable({
   providedIn: "root",
@@ -36,64 +32,22 @@ export class PostsStateService {
   private collectionService = inject(CollectionService);
 
   // ------------- item posts state -------------
-  private focusedItem: string;
-  private _comments = signal<PostsResponse>(null);
-  private _reviews = signal<PostsResponse>(null);
-  private _notes = signal<PostsResponse>(null);
-  private _collectionPosts = signal<Post[]>([]);
-  private _collections = signal<Collection[]>([]);
-  private _userStatus = signal<string>(null);
-  private _userMark = signal<ShelfMark>(null);
-  private _userMarkPost = signal<Post>(null);
-  private _userReview = signal<Review>(null);
-  private _userReviewPost = signal<Post>(null);
-  private _userNotes = signal<Note[]>([]);
-  private _userNotesPosts = signal<Post[]>([]);
-  private _likingPostIds = signal<string[]>([]);
-  private _boostingPostIds = signal<string[]>([]);
-  comments = this._comments.asReadonly();
-  reviews = this._reviews.asReadonly();
-  notes = this._notes.asReadonly();
-  commentsOverview = computed(() =>
-    this.processPostsOverview(this.userMarkPost(), this.comments()?.data),
+  private focusedItemsStack = signal<string[]>([]);
+  private focusedItem = computed(() => this.focusedItemsStack().at(-1));
+  private focusedItemPosts = computed(
+    () => this.itemPosts[this.focusedItemsStack().at(-1)],
   );
-  reviewsOverview = computed(() =>
-    this.processPostsOverview(this.userReviewPost(), this.reviews()?.data),
-  );
-  notesOverview = computed(() =>
-    this.processNotesOverview(this.userNotesPosts(), this.notes()?.data),
-  );
-  collectionPosts = this._collectionPosts.asReadonly();
-  collections = this._collections.asReadonly();
-  hasMoreComments = computed(() => this.comments()?.data.length > 3);
-  hasMoreReviews = computed(() => this.reviews()?.data.length > 3);
-  hasMoreNotes = computed(() => this.notes()?.data.length > 3);
-  userStatus = this._userStatus.asReadonly();
-  userMark = this._userMark.asReadonly();
-  userMarkPost = this._userMarkPost.asReadonly();
-  userReview = this._userReview.asReadonly();
-  userReviewPost = this._userReviewPost.asReadonly();
-  userNotes = this._userNotes.asReadonly();
-  userNotesPosts = this._userNotesPosts.asReadonly();
-  likingPostIds = this._likingPostIds.asReadonly();
-  boostingPostIds = this._boostingPostIds.asReadonly();
+  itemPosts: Record<string, ItemPostsState> = {};
+  likingPostIds = signal<string[]>([]);
+  boostingPostIds = signal<string[]>([]);
 
   private init(itemUUID: string) {
-    this.focusedItem = itemUUID;
-    this._comments.set(null);
-    this._reviews.set(null);
-    this._notes.set(null);
-    this._collectionPosts.set([]);
-    this._collections.set([]);
-    this._userStatus.set(null);
-    this._userMark.set(null);
-    this._userMarkPost.set(null);
-    this._userReview.set(null);
-    this._userReviewPost.set(null);
-    this._userNotes.set([]);
-    this._userNotesPosts.set([]);
-    this._likingPostIds.set([]);
-    this._boostingPostIds.set([]);
+    if (!this.itemPosts[itemUUID]) {
+      this.itemPosts[itemUUID] = new ItemPostsState(
+        this.stateService.fediAccount().id,
+      );
+    }
+    this.focusedItemsStack.update((items) => [...items, itemUUID]);
   }
 
   getPostsForItem(itemUUID: string) {
@@ -104,8 +58,15 @@ export class PostsStateService {
     this.getCollections();
   }
 
+  loadPreviousItemPosts(itemUUID: string) {
+    this.focusedItemsStack.update((items) => items.slice(0, -1));
+    if (!this.focusedItemsStack().includes(itemUUID)) {
+      delete this.itemPosts[itemUUID];
+    }
+  }
+
   private getUserMarkAndPost() {
-    const userMark$ = this.shelfService.getMarkByItem(this.focusedItem);
+    const userMark$ = this.shelfService.getMarkByItem(this.focusedItem());
     return userMark$
       .pipe(
         concatMap((shelfMark) =>
@@ -121,7 +82,7 @@ export class PostsStateService {
   getMarks(page: number = 1) {
     const userMarkAndPost$ = page === 1 ? this.getUserMarkAndPost() : of(null);
     const itemMarks$ = this.postService.getItemPosts(
-      this.focusedItem,
+      this.focusedItem(),
       "mark",
       page,
     );
@@ -132,11 +93,11 @@ export class PostsStateService {
       next: ({ userMarkAndPost, itemMarks }) => {
         if (page === 1) {
           const { shelfMark, userPost } = userMarkAndPost ?? {};
-          this._userMarkPost.set(userPost);
-          this.setUserMark(shelfMark);
-          this._comments.set(itemMarks);
+          this.focusedItemPosts().userMarkPost.set(userPost);
+          this.focusedItemPosts().userMark.set(shelfMark);
+          this.focusedItemPosts().comments.set(itemMarks);
         } else {
-          this._comments.update((posts) => ({
+          this.focusedItemPosts().comments.update((posts) => ({
             ...itemMarks,
             data: [...posts.data, ...itemMarks.data],
           }));
@@ -147,7 +108,7 @@ export class PostsStateService {
   }
 
   private getUserReviewAndPost() {
-    const userReview$ = this.reviewService.getReviewByItem(this.focusedItem);
+    const userReview$ = this.reviewService.getReviewByItem(this.focusedItem());
     return userReview$
       .pipe(
         concatMap((review) =>
@@ -164,7 +125,7 @@ export class PostsStateService {
     const userReviewAndPost$ =
       page === 1 ? this.getUserReviewAndPost() : of(null);
     const itemReviews$ = this.postService.getItemPosts(
-      this.focusedItem,
+      this.focusedItem(),
       "review",
       page,
     );
@@ -175,11 +136,11 @@ export class PostsStateService {
       next: ({ userReviewAndPost, itemReviews }) => {
         if (page === 1) {
           const { review, userPost } = userReviewAndPost ?? {};
-          this._userReviewPost.set(userPost);
-          this._userReview.set(review);
-          this._reviews.set(itemReviews);
+          this.focusedItemPosts().userReviewPost.set(userPost);
+          this.focusedItemPosts().userReview.set(review);
+          this.focusedItemPosts().reviews.set(itemReviews);
         } else {
-          this._reviews.update((posts) => ({
+          this.focusedItemPosts().reviews.update((posts) => ({
             ...itemReviews,
             data: [...posts.data, ...itemReviews.data],
           }));
@@ -191,7 +152,7 @@ export class PostsStateService {
 
   private getUserNotesAndPosts() {
     // Hopefully user doesn't have more than 20 notes on a single item!
-    const userNotes$ = this.noteService.getNotesByItem(this.focusedItem, 20);
+    const userNotes$ = this.noteService.getNotesByItem(this.focusedItem(), 20);
     return userNotes$
       .pipe(
         concatMap((notesRes) =>
@@ -208,7 +169,7 @@ export class PostsStateService {
     const userNotesAndPosts$ =
       page === 1 ? this.getUserNotesAndPosts() : of(null);
     const itemNotes$ = this.postService.getItemPosts(
-      this.focusedItem,
+      this.focusedItem(),
       "note",
       page,
     );
@@ -219,11 +180,11 @@ export class PostsStateService {
       next: ({ userNotesAndPosts, itemNotes }) => {
         if (page === 1) {
           const { notes, userPosts } = userNotesAndPosts ?? {};
-          this._userNotesPosts.set(userPosts);
-          this._userNotes.set(notes);
-          this._notes.set(itemNotes);
+          this.focusedItemPosts().userNotesPosts.set(userPosts);
+          this.focusedItemPosts().userNotes.set(notes);
+          this.focusedItemPosts().notes.set(itemNotes);
         } else {
-          this._notes.update((posts) => ({
+          this.focusedItemPosts().notes.update((posts) => ({
             ...itemNotes,
             data: [...posts.data, ...itemNotes.data],
           }));
@@ -233,32 +194,11 @@ export class PostsStateService {
     });
   }
 
-  private processPostsOverview(userPost: Post, posts: Post[]) {
-    const processedPosts = (posts ?? [])
-      .slice(0, 3)
-      .filter((p) => p.account.id !== this.stateService.fediAccount().id);
-    if (userPost) {
-      processedPosts.unshift(userPost);
-    }
-
-    return processedPosts;
-  }
-
-  private processNotesOverview(userNotes: Post[], notes: Post[]) {
-    let processedPosts = (notes ?? [])
-      .slice(0, 3)
-      .filter((n) => n.account.id !== this.stateService.fediAccount().id);
-    // NeoDB returns notes from older to newer so we reverse them
-    processedPosts = [...userNotes.slice().reverse(), ...processedPosts];
-
-    return processedPosts;
-  }
-
   private getCollections() {
-    this.postService.getItemPosts(this.focusedItem, "collection").subscribe({
+    this.postService.getItemPosts(this.focusedItem(), "collection").subscribe({
       next: (response) => {
         const collectionPosts = response.data.slice(0, 10);
-        this._collectionPosts.set(collectionPosts);
+        this.focusedItemPosts().collectionPosts.set(collectionPosts);
 
         const uuids = collectionPosts.map((p) => {
           const id = p.extNeodb.relatedWith.find(
@@ -276,7 +216,8 @@ export class PostsStateService {
             toArray(),
           )
           .subscribe({
-            next: (collections) => this._collections.set(collections),
+            next: (collections) =>
+              this.focusedItemPosts().collections.set(collections),
             error: (err) => console.dir(err),
           });
       },
@@ -285,72 +226,57 @@ export class PostsStateService {
   }
 
   removeUserMark() {
-    this._comments.update((comments) => ({
+    this.focusedItemPosts().comments.update((comments) => ({
       ...comments,
-      data: comments.data.filter((p) => p.id !== this._userMarkPost().id),
+      data: comments.data.filter(
+        (p) => p.id !== this.focusedItemPosts().userMarkPost().id,
+      ),
     }));
-    this._userMarkPost.set(null);
-    this.setUserMark(null);
+    this.focusedItemPosts().userMarkPost.set(null);
+    this.focusedItemPosts().userMark.set(null);
   }
 
   removeUserReview() {
-    this._reviews.update((reviews) => ({
+    this.focusedItemPosts().reviews.update((reviews) => ({
       ...reviews,
-      data: reviews.data.filter((p) => p.id !== this._userReviewPost().id),
+      data: reviews.data.filter(
+        (p) => p.id !== this.focusedItemPosts().userReviewPost().id,
+      ),
     }));
-    this._userReviewPost.set(null);
-    this._userReview.set(null);
+    this.focusedItemPosts().userReviewPost.set(null);
+    this.focusedItemPosts().userReview.set(null);
   }
 
   removeUserNote(note: Note) {
-    this._notes.update((notes) => ({
+    this.focusedItemPosts().notes.update((notes) => ({
       ...notes,
       data: notes.data.filter((n) => n.id !== note.postId),
     }));
-    this._userNotesPosts.update((posts) =>
+    this.focusedItemPosts().userNotesPosts.update((posts) =>
       posts.filter((p) => p.id !== note.postId),
     );
-    this._userNotes.update((notes) =>
+    this.focusedItemPosts().userNotes.update((notes) =>
       notes.filter((n) => n.uuid !== note.uuid),
     );
   }
 
   getUserNoteByPost(notePost?: Post) {
     if (notePost) {
-      return this.userNotes().find((n) => n.postId === notePost.id);
-    }
-  }
-
-  private setUserMark(shelfMark?: ShelfMark) {
-    this._userMark.set(shelfMark);
-
-    if (!this._userMark()) {
-      return this._userStatus.set(null);
-    }
-
-    switch (this._userMark()?.shelfType) {
-      case "wishlist":
-        return this._userStatus.set(localize("features.movie.to_watch"));
-      case "progress":
-        return this._userStatus.set(localize("features.movie.watching"));
-      case "complete":
-        return this._userStatus.set(localize("features.movie.watched"));
-      case "dropped":
-        return this._userStatus.set(localize("features.movie.stopped"));
-      default:
-        return null;
+      return this.focusedItemPosts()
+        .userNotes()
+        .find((n) => n.postId === notePost.id);
     }
   }
 
   toggleLike(post: Post) {
-    this._likingPostIds.update((ids) => [...ids, post.id]);
+    this.likingPostIds.update((ids) => [...ids, post.id]);
     if (post.favourited) {
       this.applyUnlike(post);
       this.postService
         .unlikePost(post.id)
         .pipe(
           finalize(() =>
-            this._likingPostIds.update((ids) =>
+            this.likingPostIds.update((ids) =>
               ids.filter((id) => id !== post.id),
             ),
           ),
@@ -362,7 +288,7 @@ export class PostsStateService {
         .likePost(post.id)
         .pipe(
           finalize(() =>
-            this._likingPostIds.update((ids) =>
+            this.likingPostIds.update((ids) =>
               ids.filter((id) => id !== post.id),
             ),
           ),
@@ -386,14 +312,14 @@ export class PostsStateService {
   }
 
   toggleBoost(post: Post) {
-    this._boostingPostIds.update((ids) => [...ids, post.id]);
+    this.boostingPostIds.update((ids) => [...ids, post.id]);
     if (post.reblogged) {
       this.applyUnboost(post);
       this.postService
         .unboostPost(post.id)
         .pipe(
           finalize(() =>
-            this._boostingPostIds.update((ids) =>
+            this.boostingPostIds.update((ids) =>
               ids.filter((id) => id !== post.id),
             ),
           ),
@@ -405,7 +331,7 @@ export class PostsStateService {
         .boostPost(post.id)
         .pipe(
           finalize(() =>
-            this._boostingPostIds.update((ids) =>
+            this.boostingPostIds.update((ids) =>
               ids.filter((id) => id !== post.id),
             ),
           ),
@@ -437,21 +363,21 @@ export class PostsStateService {
   syncUserMarkOnItem() {
     this.getUserMarkAndPost().subscribe({
       next: ({ shelfMark, userPost }) => {
-        if (!this._userMarkPost()) {
-          this._comments?.update((posts) => ({
+        if (!this.focusedItemPosts().userMarkPost()) {
+          this.focusedItemPosts().comments?.update((posts) => ({
             ...posts,
             data: [userPost, ...posts.data],
           }));
         } else {
-          this._comments?.update((comments) => ({
+          this.focusedItemPosts().comments?.update((comments) => ({
             ...comments,
             data: comments.data.map((p) =>
               p.id === userPost.id ? userPost : p,
             ),
           }));
         }
-        this._userMarkPost.set(userPost);
-        this.setUserMark(shelfMark);
+        this.focusedItemPosts().userMarkPost.set(userPost);
+        this.focusedItemPosts().userMark.set(shelfMark);
       },
     });
   }
@@ -459,21 +385,21 @@ export class PostsStateService {
   syncUserReviewOnItem() {
     this.getUserReviewAndPost().subscribe({
       next: ({ review, userPost }) => {
-        if (!this._userReviewPost()) {
-          this._reviews?.update((posts) => ({
+        if (!this.focusedItemPosts().userReviewPost()) {
+          this.focusedItemPosts().reviews?.update((posts) => ({
             ...posts,
             data: [userPost, ...posts.data],
           }));
         } else {
-          this._reviews?.update((reviews) => ({
+          this.focusedItemPosts().reviews?.update((reviews) => ({
             ...reviews,
             data: reviews.data.map((p) =>
               p.id === userPost.id ? userPost : p,
             ),
           }));
         }
-        this._userReviewPost.set(userPost);
-        this._userReview.set(review);
+        this.focusedItemPosts().userReviewPost.set(userPost);
+        this.focusedItemPosts().userReview.set(review);
       },
     });
   }
@@ -481,22 +407,29 @@ export class PostsStateService {
   syncUserNoteOnItem(note: Note) {
     this.postService.getPost(note.postId).subscribe({
       next: (post) => {
-        if (!this._userNotesPosts().find((p) => p.id === post.id)) {
-          this._notes?.update((posts) => ({
+        if (
+          !this.focusedItemPosts()
+            .userNotesPosts()
+            .find((p) => p.id === post.id)
+        ) {
+          this.focusedItemPosts().notes?.update((posts) => ({
             ...posts,
             data: [post, ...posts.data],
           }));
-          this._userNotesPosts.update((posts) => [...posts, post]);
-          this._userNotes.update((notes) => [...notes, note]);
+          this.focusedItemPosts().userNotesPosts.update((posts) => [
+            ...posts,
+            post,
+          ]);
+          this.focusedItemPosts().userNotes.update((notes) => [...notes, note]);
         } else {
-          this._notes?.update((notes) => ({
+          this.focusedItemPosts().notes?.update((notes) => ({
             ...notes,
             data: notes.data.map((p) => (p.id === post.id ? post : p)),
           }));
-          this._userNotesPosts.update((posts) =>
+          this.focusedItemPosts().userNotesPosts.update((posts) =>
             posts.map((p) => (p.id === post.id ? post : p)),
           );
-          this._userNotes.update((notes) =>
+          this.focusedItemPosts().userNotes.update((notes) =>
             notes.map((n) => (n.uuid === note.uuid ? note : n)),
           );
         }
@@ -507,47 +440,65 @@ export class PostsStateService {
 
   private updatePost(post: Post) {
     // Update post in comments if found
-    if (this._comments()) {
-      this._comments.update((comments) => ({
+    if (this.focusedItemPosts().comments()) {
+      this.focusedItemPosts().comments.update((comments) => ({
         ...comments,
         data: comments.data.map((p) => (p.id === post.id ? post : p)),
       }));
     }
 
     // Update post in reviews if found
-    if (this._reviews()) {
-      this._reviews.update((reviews) => ({
+    if (this.focusedItemPosts().reviews()) {
+      this.focusedItemPosts().reviews.update((reviews) => ({
         ...reviews,
         data: reviews.data.map((p) => (p.id === post.id ? post : p)),
       }));
     }
 
     // Update post in notes if found
-    if (this._notes()) {
-      this._notes.update((notes) => ({
+    if (this.focusedItemPosts().notes()) {
+      this.focusedItemPosts().notes.update((notes) => ({
         ...notes,
         data: notes.data.map((p) => (p.id === post.id ? post : p)),
       }));
     }
 
     // Update post in collection posts if found
-    this._collectionPosts.update((posts) =>
+    this.focusedItemPosts().collectionPosts.update((posts) =>
       posts.map((p) => (p.id === post.id ? post : p)),
     );
 
     // Update user mark post if it matches
-    if (this._userMarkPost()?.id === post.id) {
-      this._userMarkPost.set(post);
+    if (this.focusedItemPosts().userMarkPost()?.id === post.id) {
+      this.focusedItemPosts().userMarkPost.set(post);
     }
 
     // Update user review post if it matches
-    if (this._userReviewPost()?.id === post.id) {
-      this._userReviewPost.set(post);
+    if (this.focusedItemPosts().userReviewPost()?.id === post.id) {
+      this.focusedItemPosts().userReviewPost.set(post);
     }
 
     // Update post in user notes posts if found
-    this._userNotesPosts.update((posts) =>
+    this.focusedItemPosts().userNotesPosts.update((posts) =>
       posts.map((p) => (p.id === post.id ? post : p)),
     );
+  }
+
+  getMarkPostById(postId: string): Post {
+    return this.focusedItemPosts()
+      .comments()
+      ?.data.find((p) => p.id === postId);
+  }
+
+  getReviewPostById(postId: string): Post {
+    return this.focusedItemPosts()
+      .reviews()
+      ?.data.find((p) => p.id === postId);
+  }
+
+  getNotePostById(postId: string): Post {
+    return this.focusedItemPosts()
+      .notes()
+      ?.data.find((p) => p.id === postId);
   }
 }

@@ -16,10 +16,8 @@ import { CollectionViewModule } from "@nativescript-community/ui-collectionview/
 import { StateService } from "../../core/services/state.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { ActivatedRoute } from "@angular/router";
-import { MessageService } from "~/app/core/services/message.service";
 import { Location } from "@angular/common";
 import { PostItemComponent } from "~/app/shared/components/post/post-item/post-item.component";
-import { PostService } from "~/app/core/services/post.service";
 import { Post } from "~/app/core/models/post/post.model";
 import { localize } from "@nativescript/localize";
 import { PostsStateService } from "./posts-state.service";
@@ -41,10 +39,8 @@ import { PostEditorsService } from "./editors/post-editors.service";
 })
 export class PostsComponent implements OnInit {
   stateService = inject(StateService);
-  postService = inject(PostService);
   postEditorsService = inject(PostEditorsService);
   postsStateService = inject(PostsStateService);
-  messageService = inject(MessageService);
   activatedRoute = inject(ActivatedRoute);
   location = inject(Location);
   containerRef = inject(ViewContainerRef);
@@ -52,7 +48,7 @@ export class PostsComponent implements OnInit {
   pageLoading = signal(false);
   pageTitle = signal<string>("");
   addIcon = signal<string>(null);
-  currentPage = 0;
+  currentPage = 1;
   maxPages = 1;
   type: "mark" | "review" | "note";
   itemUUID: string;
@@ -65,7 +61,6 @@ export class PostsComponent implements OnInit {
     this.itemTitle = this.activatedRoute.snapshot.queryParams.itemTitle;
     this.itemCategory = this.activatedRoute.snapshot.queryParams.itemCategory;
     this.initializePage();
-    this.getPosts();
   }
 
   initializePage() {
@@ -73,16 +68,22 @@ export class PostsComponent implements OnInit {
       case "mark": {
         this.pageTitle.set(localize("common.user_ratings_and_marks"));
         this.addIcon.set("\u{f972}");
+        this.maxPages =
+          this.postsStateService.itemPosts[this.itemUUID].comments().pages;
         break;
       }
       case "review": {
         this.pageTitle.set(localize("common.reviews"));
         this.addIcon.set("\u{f1e2}");
+        this.maxPages =
+          this.postsStateService.itemPosts[this.itemUUID].reviews().pages;
         break;
       }
       case "note": {
         this.pageTitle.set(localize("common.notes"));
         this.addIcon.set("\u{eb6d}");
+        this.maxPages =
+          this.postsStateService.itemPosts[this.itemUUID].notes().pages;
         break;
       }
     }
@@ -96,33 +97,30 @@ export class PostsComponent implements OnInit {
     this.pageLoading.set(true);
     switch (this.type) {
       case "mark": {
-        this.postsStateService
-          .getMarks(this.currentPage + 1)
-          .add(() => {
-            this.pageLoading.set(false);
-            this.currentPage++;
-            this.maxPages = this.postsStateService.comments().pages;
-          });
+        this.postsStateService.getMarks(this.currentPage + 1).add(() => {
+          this.pageLoading.set(false);
+          this.currentPage++;
+          this.maxPages =
+            this.postsStateService.itemPosts[this.itemUUID].comments().pages;
+        });
         break;
       }
       case "review": {
-        this.postsStateService
-          .getReviews(this.currentPage + 1)
-          .add(() => {
-            this.pageLoading.set(false);
-            this.currentPage++;
-            this.maxPages = this.postsStateService.reviews().pages;
-          });
+        this.postsStateService.getReviews(this.currentPage + 1).add(() => {
+          this.pageLoading.set(false);
+          this.currentPage++;
+          this.maxPages =
+            this.postsStateService.itemPosts[this.itemUUID].reviews().pages;
+        });
         break;
       }
       case "note": {
-        this.postsStateService
-          .getNotes(this.currentPage + 1)
-          .add(() => {
-            this.pageLoading.set(false);
-            this.currentPage++;
-            this.maxPages = this.postsStateService.notes().pages;
-          });
+        this.postsStateService.getNotes(this.currentPage + 1).add(() => {
+          this.pageLoading.set(false);
+          this.currentPage++;
+          this.maxPages =
+            this.postsStateService.itemPosts[this.itemUUID].notes().pages;
+        });
         break;
       }
     }
@@ -135,7 +133,7 @@ export class PostsComponent implements OnInit {
           itemUUID: this.itemUUID,
           itemCategory: this.itemCategory,
           itemTitle: this.itemTitle,
-          shelfMark: this.postsStateService.userMark(),
+          shelfMark: this.postsStateService.itemPosts[this.itemUUID].userMark(),
         });
         break;
       }
@@ -144,7 +142,7 @@ export class PostsComponent implements OnInit {
           itemUUID: this.itemUUID,
           itemCategory: this.itemCategory,
           itemTitle: this.itemTitle,
-          review: this.postsStateService.userReview(),
+          review: this.postsStateService.itemPosts[this.itemUUID].userReview(),
         });
         break;
       }

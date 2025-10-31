@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   NO_ERRORS_SCHEMA,
+  OnDestroy,
   OnInit,
   ViewContainerRef,
   computed,
@@ -58,7 +59,7 @@ import { PostEditorsService } from "~/app/features/posts/editors/post-editors.se
   schemas: [NO_ERRORS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovieComponent implements OnInit {
+export class MovieComponent implements OnInit, OnDestroy {
   stateService = inject(StateService);
   movieService = inject(MovieService);
   messageService = inject(MessageService);
@@ -132,5 +133,9 @@ export class MovieComponent implements OnInit {
         itemTitle: this.itemTitle(),
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.postsStateService.loadPreviousItemPosts(this.movie().uuid);
   }
 }

@@ -126,17 +126,19 @@
               itemUUID: movie().uuid,
               itemCategory: movie().category,
               itemTitle: itemTitle(),
-              shelfMark: postsStateService.userMark(),
+              shelfMark: postsStateService.itemPosts[movie().uuid].userMark(),
             })
           "
           class="w-full"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
           [text]="
-            postsStateService.userStatus()
-              ? postsStateService.userStatus() +
-                (postsStateService.userMark().ratingGrade
-                  ? ' - ' + postsStateService.userMark().ratingGrade
+            postsStateService.itemPosts[movie().uuid].userStatus()
+              ? postsStateService.itemPosts[movie().uuid].userStatus() +
+                (postsStateService.itemPosts[movie().uuid].userMark().ratingGrade
+                  ? ' - ' +
+                    postsStateService.itemPosts[movie().uuid].userMark()
+                      .ratingGrade
                   : '')
               : ('common.mark_and_rate' | L)
           "
@@ -318,10 +320,12 @@
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
           [text]="
-            postsStateService.userStatus()
-              ? postsStateService.userStatus() +
-                (postsStateService.userMark().ratingGrade
-                  ? ' - ' + postsStateService.userMark().ratingGrade
+            postsStateService.itemPosts[movie().uuid].userStatus()
+              ? postsStateService.itemPosts[movie().uuid].userStatus() +
+                (postsStateService.itemPosts[movie().uuid].userMark().ratingGrade
+                  ? ' - ' +
+                    postsStateService.itemPosts[movie().uuid].userMark()
+                      .ratingGrade
                   : '')
               : ('common.mark_and_rate' | L)
           "
@@ -331,11 +335,14 @@
               itemUUID: movie().uuid,
               itemCategory: movie().category,
               itemTitle: itemTitle(),
-              shelfMark: postsStateService.userMark(),
+              shelfMark: postsStateService.itemPosts[movie().uuid].userMark(),
             })
           "
         ></Button>
-        @for (comment of postsStateService.commentsOverview(); track comment) {
+        @for (
+          comment of postsStateService.itemPosts[movie().uuid].commentsOverview();
+          track comment
+        ) {
           <ns-post-item
             [post]="comment"
             [isLiking]="postsStateService.likingPostIds().includes(comment.id)"
@@ -350,7 +357,7 @@
                 itemUUID: movie().uuid,
                 itemCategory: movie().category,
                 itemTitle: itemTitle(),
-                shelfMark: postsStateService.userMark(),
+                shelfMark: postsStateService.itemPosts[movie().uuid].userMark(),
               })
             "
             (replyPressed)="
@@ -360,7 +367,7 @@
             "
           ></ns-post-item>
         }
-        @if (postsStateService.hasMoreComments()) {
+        @if (postsStateService.itemPosts[movie().uuid].hasMoreComments()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -373,7 +380,7 @@
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
           [text]="
-            (postsStateService.userReview()
+            (postsStateService.itemPosts[movie().uuid].userReview()
               ? 'common.modify_review'
               : 'common.write_review'
             ) | L
@@ -384,11 +391,14 @@
               itemUUID: movie().uuid,
               itemCategory: movie().category,
               itemTitle: itemTitle(),
-              review: postsStateService.userReview(),
+              review: postsStateService.itemPosts[movie().uuid].userReview(),
             })
           "
         ></Button>
-        @for (review of postsStateService.reviewsOverview(); track review) {
+        @for (
+          review of postsStateService.itemPosts[movie().uuid].reviewsOverview();
+          track review
+        ) {
           <ns-post-item
             [post]="review"
             [isLiking]="postsStateService.likingPostIds().includes(review.id)"
@@ -403,7 +413,7 @@
                 itemUUID: movie().uuid,
                 itemCategory: movie().category,
                 itemTitle: itemTitle(),
-                review: postsStateService.userReview(),
+                review: postsStateService.itemPosts[movie().uuid].userReview(),
               })
             "
             (replyPressed)="
@@ -413,7 +423,7 @@
             "
           ></ns-post-item>
         }
-        @if (postsStateService.hasMoreReviews()) {
+        @if (postsStateService.itemPosts[movie().uuid].hasMoreReviews()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -435,7 +445,10 @@
             })
           "
         ></Button>
-        @for (note of postsStateService.notesOverview(); track note) {
+        @for (
+          note of postsStateService.itemPosts[movie().uuid].notesOverview();
+          track note
+        ) {
           <ns-post-item
             [post]="note"
             [isLiking]="postsStateService.likingPostIds().includes(note.id)"
@@ -458,7 +471,7 @@
             "
           ></ns-post-item>
         }
-        @if (postsStateService.hasMoreNotes()) {
+        @if (postsStateService.itemPosts[movie().uuid].hasMoreNotes()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -467,13 +480,13 @@
         }
       </StackLayout>
 
-      @if (postsStateService.collections().length > 0) {
+      @if (postsStateService.itemPosts[movie().uuid].collections().length > 0) {
         <Label
           [text]="'common.collections_featuring_item' | L"
           class="h1 mx-4 mb-2 mt-6"
         ></Label>
         <CollectionView
-          [items]="postsStateService.collections()"
+          [items]="postsStateService.itemPosts[movie().uuid].collections()"
           orientation="horizontal"
           colWidth="166"
           rowHeight="246"
@@ -484,7 +497,11 @@
             <StackLayout class="px-2">
               <ns-collection-item
                 [item]="item"
-                [post]="postsStateService.collectionPosts()[index]"
+                [post]="
+                  postsStateService.itemPosts[movie().uuid].collectionPosts()[
+                    index
+                  ]
+                "
               ></ns-collection-item>
             </StackLayout>
           </ng-template>

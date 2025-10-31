@@ -28,11 +28,11 @@
   <CollectionView
     [items]="
       type === 'mark'
-        ? postsStateService.comments().data
+        ? postsStateService.itemPosts[itemUUID].comments().data
         : type === 'review'
-          ? postsStateService.reviews().data
+          ? postsStateService.itemPosts[itemUUID].reviews().data
           : type === 'note'
-            ? postsStateService.notes().data
+            ? postsStateService.itemPosts[itemUUID].notes().data
             : []
     "
     colWidth="100%"
