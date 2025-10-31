@@ -135,7 +135,8 @@
           [text]="
             postsStateService.itemPosts[movie().uuid].userStatus()
               ? postsStateService.itemPosts[movie().uuid].userStatus() +
-                (postsStateService.itemPosts[movie().uuid].userMark().ratingGrade
+                (postsStateService.itemPosts[movie().uuid].userMark()
+                  .ratingGrade
                   ? ' - ' +
                     postsStateService.itemPosts[movie().uuid].userMark()
                       .ratingGrade
@@ -322,7 +323,8 @@
           [text]="
             postsStateService.itemPosts[movie().uuid].userStatus()
               ? postsStateService.itemPosts[movie().uuid].userStatus() +
-                (postsStateService.itemPosts[movie().uuid].userMark().ratingGrade
+                (postsStateService.itemPosts[movie().uuid].userMark()
+                  .ratingGrade
                   ? ' - ' +
                     postsStateService.itemPosts[movie().uuid].userMark()
                       .ratingGrade
@@ -340,7 +342,9 @@
           "
         ></Button>
         @for (
-          comment of postsStateService.itemPosts[movie().uuid].commentsOverview();
+          comment of postsStateService.itemPosts[
+            movie().uuid
+          ].commentsOverview();
           track comment
         ) {
           <ns-post-item
@@ -365,6 +369,7 @@
                 replyingPost: comment,
               })
             "
+            (postPressed)="navigateToPost(comment.id, 'mark')"
           ></ns-post-item>
         }
         @if (postsStateService.itemPosts[movie().uuid].hasMoreComments()) {
@@ -421,6 +426,7 @@
                 replyingPost: review,
               })
             "
+            (postPressed)="navigateToPost(review.id, 'review')"
           ></ns-post-item>
         }
         @if (postsStateService.itemPosts[movie().uuid].hasMoreReviews()) {
@@ -469,6 +475,7 @@
                 replyingPost: note,
               })
             "
+            (postPressed)="navigateToPost(note.id, 'note')"
           ></ns-post-item>
         }
         @if (postsStateService.itemPosts[movie().uuid].hasMoreNotes()) {

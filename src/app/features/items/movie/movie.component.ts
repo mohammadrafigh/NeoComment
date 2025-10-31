@@ -126,13 +126,23 @@ export class MovieComponent implements OnInit, OnDestroy {
 
   showAllPosts(type: string) {
     this.router.navigate([`/posts`], {
-      queryParams: {
-        type,
-        itemUUID: this.movie().uuid,
-        itemCategory: this.movie().category,
-        itemTitle: this.itemTitle(),
-      },
+      queryParams: this.getPostsQueryParams(type),
     });
+  }
+
+  navigateToPost(postId: string, type: string) {
+    this.router.navigate([`/posts/${postId}`], {
+      queryParams: this.getPostsQueryParams(type),
+    });
+  }
+
+  getPostsQueryParams(type: string) {
+    return {
+      type,
+      itemUUID: this.movie().uuid,
+      itemCategory: this.movie().category,
+      itemTitle: this.itemTitle(),
+    };
   }
 
   ngOnDestroy(): void {

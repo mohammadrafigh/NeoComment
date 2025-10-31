@@ -15,31 +15,16 @@
       class="font-medium text-lg text-center"
       col="1"
     ></Label>
-    <Button
-      [text]="addIcon()"
-      class="tabler-icon icon-button"
-      col="2"
-      (tap)="addEditSheet()"
-    ></Button>
+    <StackLayout col="2" class="w-10"></StackLayout>
   </GridLayout>
 </ActionBar>
 
 <GridLayout>
   <CollectionView
-    [items]="
-      type === 'mark'
-        ? postsStateService.itemPosts[itemUUID].comments().data
-        : type === 'review'
-          ? postsStateService.itemPosts[itemUUID].reviews().data
-          : type === 'note'
-            ? postsStateService.itemPosts[itemUUID].notes().data
-            : []
-    "
+    [items]="postsStateService.postReplies[post.id]()"
     colWidth="100%"
     class="p-4 bg-forest/15 h-full"
-    [class.pb-14]="currentPage < maxPages"
-    (loadMoreItems)="getPosts()"
-    (itemTap)="navigateToPost($any($event).item.id)"
+    (itemTap)="navigateToPost($event)"
   >
     <ng-template let-item="item">
       <StackLayout>

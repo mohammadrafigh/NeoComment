@@ -65,9 +65,13 @@ export class PostReplyComponent implements OnInit {
           ? 2
           : this.stateService.preference().defaultVisibility;
       this.status.inReplyToId = this.replyingPost().id;
-      this.status.status = `@${this.replyingPost().account.acct} ${this.replyingPost()
-        .mentions.map((m) => "@" + m.acct)
-        .join(" ")}`;
+      const mentions = new Set([
+        this.replyingPost().account.acct,
+        ...this.replyingPost().mentions.map((m) => m.acct),
+      ]);
+      this.status.status = `${Array.from(mentions)
+        .map((m) => "@" + m)
+        .join(" ")} `;
     }
   }
 

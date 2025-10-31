@@ -1,10 +1,18 @@
 <GridLayout columns="*" rows="*">
   <StackLayout row="0" col="0">
     @if (title()) {
-      <Label class="text-center mb-4 font-bold" [text]="title()"></Label>
+      <Label
+        class="text-center mb-4 font-bold"
+        [text]="title()"
+        (tap)="onContentPressed.emit()"
+      ></Label>
     }
     @for (line of commentParts(); track $index) {
-      <WrapLayout orientation="horizontal" class="mb-2">
+      <WrapLayout
+        orientation="horizontal"
+        class="mb-2"
+        (tap)="onContentPressed.emit()"
+      >
         @for (part of line; track $index) {
           @if (part.type === "emoji") {
             <NSImg
@@ -26,7 +34,7 @@
                     ? 'text-transparent text-shadow-[0_0_8_black]'
                     : ''
               "
-              (tap)="onPartTap(part)"
+              (tap)="onPartTap($event, part)"
               textWrap="true"
             ></Label>
           }

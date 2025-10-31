@@ -39,6 +39,7 @@ export class PostItemComponent implements OnChanges {
   @Output() boostPressed = new EventEmitter();
   @Output() editPressed = new EventEmitter();
   @Output() replyPressed = new EventEmitter();
+  @Output() postPressed = new EventEmitter();
   rateIndicators = signal<number[]>([]);
   status = signal<string>(null);
   noteProgress = signal<{ type: string; value: string }>(null);
@@ -124,5 +125,9 @@ export class PostItemComponent implements OnChanges {
 
   onReplyPressed() {
     this.replyPressed.emit();
+  }
+
+  onPostPressed() {
+    this.postPressed.emit();
   }
 }

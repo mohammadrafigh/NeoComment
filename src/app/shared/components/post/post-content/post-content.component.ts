@@ -1,10 +1,12 @@
 import {
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   inject,
   Input,
   NO_ERRORS_SCHEMA,
   OnChanges,
+  Output,
   signal,
   SimpleChanges,
 } from "@angular/core";
@@ -28,6 +30,7 @@ interface CommentPart {
 })
 export class PostContentComponent implements OnChanges {
   @Input() post: Post;
+  @Output() onContentPressed = new EventEmitter();
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   commentParts = signal<CommentPart[][]>([]);
@@ -151,11 +154,13 @@ export class PostContentComponent implements OnChanges {
     this.commentParts.set(commentParts);
   }
 
-  onPartTap(part: CommentPart) {
+  onPartTap(event: any, part: CommentPart) {
     if (part.type === "mention") {
+      event.cancel = true;
       console.log("Mention tapped:", part.text, part.url);
       // TODO: Mohammad 09-19-2025: navigate to profile
     } else if (part.type === "hashtag") {
+      event.cancel = true;
       const category = CATEGORIES.get(
         this.post.extNeodb.tag[0].type.toLowerCase().toLowerCase(),
       )?.categoryInApp;
@@ -167,8 +172,10 @@ export class PostContentComponent implements OnChanges {
         },
       });
     } else if (part.type === "link") {
+      event.cancel = true;
       openUrl(part.url);
     } else if (part.type === "spoiler") {
+      event.cancel = true;
       this.revealContent.set(!this.revealContent());
       this.cdr.detectChanges();
     }

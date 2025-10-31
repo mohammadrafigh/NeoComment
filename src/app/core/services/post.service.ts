@@ -260,6 +260,35 @@ export class PostService {
       );
   }
 
+  getPostReplies(postId: string) {
+    return this.http
+      .get<{
+        ancestors: PostDTO[];
+        descendants: PostDTO[];
+      }>(`${this.stateService.instanceURL()}/api/v1/statuses/${postId}/context`)
+      .pipe(
+        map((repliesResponse) => {
+          return {
+            ancestors: repliesResponse.ancestors.map((dto) =>
+              Post.fromDTO(dto),
+            ),
+            descendants: repliesResponse.descendants.map((dto) =>
+              Post.fromDTO(dto),
+            ),
+          };
+        }),
+      )
+      .pipe(
+        tap({
+          error: (e) => {
+            this.messageService.showErrorMessage(
+              localize("common.generic_error"),
+            );
+          },
+        }),
+      );
+  }
+
   // ----------------------- Reply (status post) -----------------------
   publishPost(status: Status): Observable<Post> {
     return this.http
