@@ -1,0 +1,36 @@
+<GridLayout>
+  <GridLayout rows="56, auto" class="rounded-t-2xl bg-neutral-50">
+    <GridLayout
+      row="0"
+      columns="auto, *, auto"
+      class="rounded-t-2xl px-4 w-full bg-white"
+    >
+      <Button
+        text="&#xeb55;"
+        class="tabler-icon icon-button"
+        col="0"
+        (tap)="close()"
+      ></Button>
+      @if (loading()) {
+        <ActivityIndicator col="2" class="w-10 h-10 ml-2" busy="true" />
+      }
+    </GridLayout>
+
+    <Label [text]="'Add new'"></Label>
+    <CollectionView
+      row="1"
+      [items]="collections()"
+      rowHeight="auto"
+      orientation="vertical"
+      class="px-4 mb-6 mt-4"
+    >
+      <ng-template let-item="item">
+        <StackLayout class="py-2">
+          <Label [text]="item.title"></Label>
+        </StackLayout>
+      </ng-template>
+    </CollectionView>
+  </GridLayout>
+
+  <ng-template #messageAnchor></ng-template>
+</GridLayout>
