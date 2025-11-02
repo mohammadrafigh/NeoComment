@@ -34,19 +34,19 @@
       <ActivityIndicator [busy]="pageLoading()" />
     </StackLayout>
 
-    @if (movie()) {
+    @if (item()) {
       <GridLayout
         columns="auto, *"
         rows="auto, auto, *, auto"
         class="h-[160] w-full m-4 px-4"
       >
         <NSImg
-          [sharedTransitionTag]="'itemImage' + movie().uuid"
+          [sharedTransitionTag]="'itemImage' + item().uuid"
           rowSpan="4"
           col="0"
-          [src]="movie().coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
+          [src]="item().coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
           [failureImageUri]="
-            movie().coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
+            item().coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
           "
           class="rounded-lg h-[160] w-[120]"
         ></NSImg>
@@ -59,16 +59,16 @@
         ></Label>
         <StackLayout col="1" row="1" class="pl-3" orientation="horizontal">
           <Label
-            [text]="movie().year + (movie().duration ? ' - ' : '')"
+            [text]="item().year + (item().duration ? ' - ' : '')"
             class="text-xs font-medium text-neutral-500"
           ></Label>
-          @if (movie().duration) {
+          @if (item().duration) {
             <Label
               text="&#xff9b;"
               class="tabler-icon text-lg font-medium text-neutral-500"
             ></Label>
             <Label
-              [text]="movie().duration"
+              [text]="item().duration"
               class="text-xs font-medium text-neutral-500 ml-0.5"
             ></Label>
           }
@@ -78,7 +78,7 @@
             text="&#xeafa;"
             class="bg-forest/50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
           ></Label>
-          @for (genre of movie().genres; track genre) {
+          @for (genre of item().genres; track genre) {
             <Label
               [text]="genre"
               class="bg-neutral-200 rounded-lg text-xs h-6 mr-2 mb-2 px-2.5"
@@ -92,18 +92,18 @@
               class="tabler-icon text-neutral-500 mr-1 text-lg"
             ></Label>
             <Label
-              [text]="movie().ratingCount | kilo"
+              [text]="item().ratingCount | kilo"
               class="text-neutral-500 text-sm"
             ></Label>
           </StackLayout>
-          @if (movie().rating > 0) {
+          @if (item().rating > 0) {
             <StackLayout orientation="horizontal">
               <Label
-                [text]="movie().rating"
+                [text]="item().rating"
                 class="text-neutral-500 text-sm mr-2"
               ></Label>
               <ns-rate-indicator
-                [rate]="movie().rating"
+                [rate]="item().rating"
                 [size]="18"
               ></ns-rate-indicator>
             </StackLayout>
@@ -123,22 +123,21 @@
         <ns-icon-text-button
           (pressed)="
             postEditorsService.showMarkAndRateSheet(containerRef, {
-              itemUUID: movie().uuid,
-              itemCategory: movie().category,
+              itemUUID: item().uuid,
+              itemCategory: item().category,
               itemTitle: itemTitle(),
-              shelfMark: postsStateService.itemPosts[movie().uuid].userMark(),
+              shelfMark: postsStateService.itemPosts[item().uuid].userMark(),
             })
           "
           class="w-full"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
           [text]="
-            postsStateService.itemPosts[movie().uuid].userStatus()
-              ? postsStateService.itemPosts[movie().uuid].userStatus() +
-                (postsStateService.itemPosts[movie().uuid].userMark()
-                  .ratingGrade
+            postsStateService.itemPosts[item().uuid].userStatus()
+              ? postsStateService.itemPosts[item().uuid].userStatus() +
+                (postsStateService.itemPosts[item().uuid].userMark().ratingGrade
                   ? ' - ' +
-                    postsStateService.itemPosts[movie().uuid].userMark()
+                    postsStateService.itemPosts[item().uuid].userMark()
                       .ratingGrade
                   : '')
               : ('common.mark_and_rate' | L)
@@ -147,10 +146,10 @@
         </ns-icon-text-button>
       </FlexboxLayout>
 
-      @if (movie().localizedDescription.length > 0) {
+      @if (item().localizedDescription.length > 0) {
         <Label
           [text]="
-            movie().localizedDescription
+            item().localizedDescription
               | neoL: stateService.preference().language
           "
           [maxLines]="descriptionCollapsed() ? 5 : 100"
@@ -160,10 +159,10 @@
         ></Label>
       }
 
-      @if (movie().tags.length > 0) {
+      @if (item().tags.length > 0) {
         <Label [text]="'common.tags' | L" class="h1 mx-4 mb-2"></Label>
         <CollectionView
-          [items]="movie().tags"
+          [items]="item().tags"
           colWidth="auto"
           orientation="horizontal"
           class="pr-2 pl-4 mb-6"
@@ -180,9 +179,9 @@
       }
 
       @if (
-        movie().actors.length > 0 ||
-        movie().directors.length > 0 ||
-        movie().playwrights.length > 0
+        item().actors.length > 0 ||
+        item().directors.length > 0 ||
+        item().playwrights.length > 0
       ) {
         <Label
           [text]="'features.movie.cast_and_crew' | L"
@@ -191,7 +190,7 @@
         <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
           <Label
             [text]="
-              (movie().directors.length > 1
+              (item().directors.length > 1
                 ? 'features.movie.directors'
                 : 'features.movie.director'
               ) | L
@@ -202,7 +201,7 @@
           ></Label>
           <Label
             [text]="
-              movie().directors.length > 0 ? movie().directors.join(', ') : '-'
+              item().directors.length > 0 ? item().directors.join(', ') : '-'
             "
             textWrap="true"
             col="1"
@@ -211,7 +210,7 @@
           ></Label>
           <Label
             [text]="
-              (movie().playwrights.length > 1
+              (item().playwrights.length > 1
                 ? 'features.movie.writers'
                 : 'features.movie.writer'
               ) | L
@@ -222,8 +221,8 @@
           ></Label>
           <Label
             [text]="
-              movie().playwrights.length > 0
-                ? movie().playwrights.join(', ')
+              item().playwrights.length > 0
+                ? item().playwrights.join(', ')
                 : '-'
             "
             textWrap="true"
@@ -238,7 +237,7 @@
             row="2"
           ></Label>
           <Label
-            [text]="movie().actors.length > 0 ? movie().actors.join(', ') : '-'"
+            [text]="item().actors.length > 0 ? item().actors.join(', ') : '-'"
             textWrap="true"
             col="1"
             row="2"
@@ -247,7 +246,7 @@
         </GridLayout>
       }
 
-      @if (movie().areas.length > 0 || movie().languages.length > 0) {
+      @if (item().areas.length > 0 || item().languages.length > 0) {
         <Label
           [text]="'features.movie.origins' | L"
           class="h1 mx-4 mb-2"
@@ -255,7 +254,7 @@
         <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto">
           <Label
             [text]="
-              (movie().areas.length > 1
+              (item().areas.length > 1
                 ? 'features.movie.countries'
                 : 'features.movie.country'
               ) | L
@@ -265,7 +264,7 @@
             row="0"
           ></Label>
           <Label
-            [text]="movie().areas.length > 0 ? movie().areas.join(', ') : '-'"
+            [text]="item().areas.length > 0 ? item().areas.join(', ') : '-'"
             textWrap="true"
             col="1"
             row="0"
@@ -273,7 +272,7 @@
           ></Label>
           <Label
             [text]="
-              (movie().languages.length > 1
+              (item().languages.length > 1
                 ? 'features.movie.languages'
                 : 'features.movie.language'
               ) | L
@@ -284,7 +283,7 @@
           ></Label>
           <Label
             [text]="
-              movie().languages.length > 0 ? movie().languages.join(', ') : '-'
+              item().languages.length > 0 ? item().languages.join(', ') : '-'
             "
             textWrap="true"
             col="1"
@@ -299,9 +298,9 @@
         class="h1 mx-4 mb-2"
       ></Label>
       <ns-external-resources
-        [externalResources]="movie().externalResources"
-        [site]="movie().site"
-        [localURL]="stateService.instanceURL() + movie().url"
+        [externalResources]="item().externalResources"
+        [site]="item().site"
+        [localURL]="stateService.instanceURL() + item().url"
         [language]="stateService.preference().language"
       ></ns-external-resources>
 
@@ -309,24 +308,23 @@
         [text]="'common.user_ratings_and_marks' | L"
         class="h1 mx-4 mb-2 mt-6"
       ></Label>
-      @if (movie().rating > 0) {
+      @if (item().rating > 0) {
         <StackLayout class="mx-4 mb-4">
           <ns-ratings-chart
-            [rating]="movie().rating"
-            [ratingCount]="movie().ratingCount"
-            [ratingDistribution]="movie().ratingDistribution"
+            [rating]="item().rating"
+            [ratingCount]="item().ratingCount"
+            [ratingDistribution]="item().ratingDistribution"
           ></ns-ratings-chart>
         </StackLayout>
       }
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
           [text]="
-            postsStateService.itemPosts[movie().uuid].userStatus()
-              ? postsStateService.itemPosts[movie().uuid].userStatus() +
-                (postsStateService.itemPosts[movie().uuid].userMark()
-                  .ratingGrade
+            postsStateService.itemPosts[item().uuid].userStatus()
+              ? postsStateService.itemPosts[item().uuid].userStatus() +
+                (postsStateService.itemPosts[item().uuid].userMark().ratingGrade
                   ? ' - ' +
-                    postsStateService.itemPosts[movie().uuid].userMark()
+                    postsStateService.itemPosts[item().uuid].userMark()
                       .ratingGrade
                   : '')
               : ('common.mark_and_rate' | L)
@@ -334,16 +332,16 @@
           class="primary-button w-full mb-4"
           (tap)="
             postEditorsService.showMarkAndRateSheet(containerRef, {
-              itemUUID: movie().uuid,
-              itemCategory: movie().category,
+              itemUUID: item().uuid,
+              itemCategory: item().category,
               itemTitle: itemTitle(),
-              shelfMark: postsStateService.itemPosts[movie().uuid].userMark(),
+              shelfMark: postsStateService.itemPosts[item().uuid].userMark(),
             })
           "
         ></Button>
         @for (
           comment of postsStateService.itemPosts[
-            movie().uuid
+            item().uuid
           ].commentsOverview();
           track comment
         ) {
@@ -358,10 +356,10 @@
             (boostPressed)="postsStateService.toggleBoost(comment)"
             (editPressed)="
               postEditorsService.showMarkAndRateSheet(containerRef, {
-                itemUUID: movie().uuid,
-                itemCategory: movie().category,
+                itemUUID: item().uuid,
+                itemCategory: item().category,
                 itemTitle: itemTitle(),
-                shelfMark: postsStateService.itemPosts[movie().uuid].userMark(),
+                shelfMark: postsStateService.itemPosts[item().uuid].userMark(),
               })
             "
             (replyPressed)="
@@ -372,7 +370,7 @@
             (postPressed)="navigateToPost(comment.id, 'mark')"
           ></ns-post-item>
         }
-        @if (postsStateService.itemPosts[movie().uuid].hasMoreComments()) {
+        @if (postsStateService.itemPosts[item().uuid].hasMoreComments()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -385,7 +383,7 @@
       <StackLayout class="px-4 pt-4 bg-forest/15">
         <Button
           [text]="
-            (postsStateService.itemPosts[movie().uuid].userReview()
+            (postsStateService.itemPosts[item().uuid].userReview()
               ? 'common.modify_review'
               : 'common.write_review'
             ) | L
@@ -393,15 +391,15 @@
           class="primary-button w-full mb-4"
           (tap)="
             postEditorsService.showReviewSheet(containerRef, {
-              itemUUID: movie().uuid,
-              itemCategory: movie().category,
+              itemUUID: item().uuid,
+              itemCategory: item().category,
               itemTitle: itemTitle(),
-              review: postsStateService.itemPosts[movie().uuid].userReview(),
+              review: postsStateService.itemPosts[item().uuid].userReview(),
             })
           "
         ></Button>
         @for (
-          review of postsStateService.itemPosts[movie().uuid].reviewsOverview();
+          review of postsStateService.itemPosts[item().uuid].reviewsOverview();
           track review
         ) {
           <ns-post-item
@@ -415,10 +413,10 @@
             (boostPressed)="postsStateService.toggleBoost(review)"
             (editPressed)="
               postEditorsService.showReviewSheet(containerRef, {
-                itemUUID: movie().uuid,
-                itemCategory: movie().category,
+                itemUUID: item().uuid,
+                itemCategory: item().category,
                 itemTitle: itemTitle(),
-                review: postsStateService.itemPosts[movie().uuid].userReview(),
+                review: postsStateService.itemPosts[item().uuid].userReview(),
               })
             "
             (replyPressed)="
@@ -429,7 +427,7 @@
             (postPressed)="navigateToPost(review.id, 'review')"
           ></ns-post-item>
         }
-        @if (postsStateService.itemPosts[movie().uuid].hasMoreReviews()) {
+        @if (postsStateService.itemPosts[item().uuid].hasMoreReviews()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -445,14 +443,14 @@
           class="primary-button w-full mb-4"
           (tap)="
             postEditorsService.showNoteSheet(containerRef, {
-              itemUUID: movie().uuid,
-              itemCategory: movie().category,
+              itemUUID: item().uuid,
+              itemCategory: item().category,
               itemTitle: itemTitle(),
             })
           "
         ></Button>
         @for (
-          note of postsStateService.itemPosts[movie().uuid].notesOverview();
+          note of postsStateService.itemPosts[item().uuid].notesOverview();
           track note
         ) {
           <ns-post-item
@@ -464,8 +462,8 @@
             (boostPressed)="postsStateService.toggleBoost(note)"
             (editPressed)="
               postEditorsService.showNoteSheet(containerRef, {
-                itemUUID: movie().uuid,
-                itemCategory: movie().category,
+                itemUUID: item().uuid,
+                itemCategory: item().category,
                 itemTitle: itemTitle(),
                 note: postsStateService.getUserNoteByPost(note),
               })
@@ -478,7 +476,7 @@
             (postPressed)="navigateToPost(note.id, 'note')"
           ></ns-post-item>
         }
-        @if (postsStateService.itemPosts[movie().uuid].hasMoreNotes()) {
+        @if (postsStateService.itemPosts[item().uuid].hasMoreNotes()) {
           <Button
             [text]="'common.show_all' | L"
             class="basic-button mb-4"
@@ -487,13 +485,13 @@
         }
       </StackLayout>
 
-      @if (postsStateService.itemPosts[movie().uuid].collections().length > 0) {
+      @if (postsStateService.itemPosts[item().uuid].collections().length > 0) {
         <Label
           [text]="'common.collections_featuring_item' | L"
           class="h1 mx-4 mb-2 mt-6"
         ></Label>
         <CollectionView
-          [items]="postsStateService.itemPosts[movie().uuid].collections()"
+          [items]="postsStateService.itemPosts[item().uuid].collections()"
           orientation="horizontal"
           colWidth="166"
           rowHeight="246"
@@ -505,7 +503,7 @@
               <ns-collection-item
                 [item]="item"
                 [post]="
-                  postsStateService.itemPosts[movie().uuid].collectionPosts()[
+                  postsStateService.itemPosts[item().uuid].collectionPosts()[
                     index
                   ]
                 "
