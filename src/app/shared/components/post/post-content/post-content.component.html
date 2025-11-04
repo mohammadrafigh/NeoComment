@@ -29,7 +29,7 @@
                 part.type === 'mention' ||
                 part.type === 'hashtag' ||
                 part.type === 'link'
-                  ? 'text-forest font-medium'
+                  ? 'text-forest-500 font-medium'
                   : part.type === 'spoiler' && !revealContent()
                     ? 'text-transparent text-shadow-[0_0_8_black]'
                     : ''
@@ -56,7 +56,7 @@
           ></Label>
           <Label
             [text]="'common.show' | L"
-            class="text-center text-forest font-bold mt-4"
+            class="text-center text-forest-500 font-bold mt-4"
           ></Label>
         </FlexboxLayout>
       } -->

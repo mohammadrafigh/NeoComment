@@ -97,7 +97,7 @@
           post.visibility === 'direct'
         "
         buttonClass="basic-button"
-        [iconClass]="post.reblogged ? 'text-forest' : ''"
+        [iconClass]="post.reblogged ? 'text-forest-300' : ''"
         textClass="text-xs ml-1"
         icon="&#xeb72;"
         [text]="post.reblogsCount ? (post.reblogsCount | kilo) : ''"
@@ -109,7 +109,7 @@
         (pressed)="onLikePressed()"
         [disabled]="isLiking"
         buttonClass="basic-button"
-        [iconClass]="post.favourited ? 'text-forest' : ''"
+        [iconClass]="post.favourited ? 'text-forest-300' : ''"
         textClass="text-xs ml-1"
         [icon]="post.favourited ? '&#xf67c;' : '&#xeabe;'"
         [text]="post.favouritesCount ? (post.favouritesCount | kilo) : ''"

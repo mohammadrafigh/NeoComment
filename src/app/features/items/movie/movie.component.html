@@ -76,7 +76,7 @@
         <WrapLayout class="mt-2 pl-3" col="1" row="2">
           <Label
             text="&#xeafa;"
-            class="bg-forest/50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
+            class="bg-forest-300/50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
           ></Label>
           @for (genre of item().genres; track genre) {
             <Label
@@ -167,10 +167,10 @@
           orientation="horizontal"
           class="pr-2 pl-4 mb-6"
         >
-          <ng-template let-item="item">
+          <ng-template let-tag="item">
             <StackLayout class="pr-2">
               <Label
-                [text]="item"
+                [text]="tag"
                 class="text-xs bg-neutral-200 rounded-lg px-2.5 py-1"
               ></Label>
             </StackLayout>
@@ -317,7 +317,7 @@
           ></ns-ratings-chart>
         </StackLayout>
       }
-      <StackLayout class="px-4 pt-4 bg-forest/15">
+      <StackLayout class="px-4 pt-4 bg-forest-300/15">
         <Button
           [text]="
             postsStateService.itemPosts[item().uuid].userStatus()
@@ -380,7 +380,7 @@
       </StackLayout>
 
       <Label [text]="'common.reviews' | L" class="h1 mx-4 mb-2 mt-6"></Label>
-      <StackLayout class="px-4 pt-4 bg-forest/15">
+      <StackLayout class="px-4 pt-4 bg-forest-300/15">
         <Button
           [text]="
             (postsStateService.itemPosts[item().uuid].userReview()
@@ -437,7 +437,7 @@
       </StackLayout>
 
       <Label [text]="'common.notes' | L" class="h1 mx-4 mb-2 mt-6"></Label>
-      <StackLayout class="px-4 pt-4 bg-forest/15">
+      <StackLayout class="px-4 pt-4 bg-forest-300/15">
         <Button
           [text]="'common.write_note' | L"
           class="primary-button w-full mb-4"
@@ -495,13 +495,13 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="246"
-          class="bg-forest/15 py-4 px-2 h-[278]"
+          class="bg-forest-300/15 py-4 px-2 h-[278]"
           (itemTap)="navigateToCollection($event)"
         >
-          <ng-template let-item="item" let-index="index">
+          <ng-template let-collection="item" let-index="index">
             <StackLayout class="px-2">
               <ns-collection-item
-                [item]="item"
+                [item]="collection"
                 [post]="
                   postsStateService.itemPosts[item().uuid].collectionPosts()[
                     index

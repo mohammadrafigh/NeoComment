@@ -26,7 +26,7 @@ import { RateIndicatorComponent } from "../rate-indicator/rate-indicator.compone
           verticalAlignment="bottom"
         >
           <StackLayout
-            class="w-full rounded-tl-sm rounded-tr-sm bg-forest"
+            class="w-full rounded-tl-sm rounded-tr-sm bg-forest-300"
             [height]="(ratingDistribution[$index] / 100) * 32"
           ></StackLayout>
           <Label

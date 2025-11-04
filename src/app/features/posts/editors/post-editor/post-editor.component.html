@@ -51,7 +51,7 @@
         text="&#xee21;"
         [nsTooltip]="'common.change_date' | L"
         class="tabler-icon icon-button mr-2"
-        [class.text-forest]="hasCustomDate()"
+        [class.text-forest-600]="hasCustomDate()"
         col="1"
         (tap)="showDatePicker()"
       ></Button>
@@ -61,7 +61,7 @@
         [text]="$any(post).postToFediverse ? '&#xebec;' : '&#xf1a9;'"
         [nsTooltip]="'common.crosspost' | L"
         class="tabler-icon icon-button"
-        [class.text-forest]="$any(post).postToFediverse"
+        [class.text-forest-600]="$any(post).postToFediverse"
         col="2"
         (tap)="$any(post).postToFediverse = !$any(post).postToFediverse"
       ></Button>

@@ -23,7 +23,7 @@
   <CollectionView
     [items]="postsStateService.postReplies[post.id]()"
     colWidth="100%"
-    class="p-4 bg-forest/15 h-full"
+    class="p-4 bg-forest-300/15 h-full"
     (itemTap)="navigateToPost($event)"
   >
     <ng-template let-item="item">

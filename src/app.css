@@ -1,8 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forest: rgb(189, 218, 170);
-  --color-beach: rgb(138, 221, 207);
+  --color-forest-50: #f3f8ef;
+  --color-forest-100: #e6f1df;
+  --color-forest-200: #cde3be;
+  --color-forest-300: #bddaab;
+  --color-forest-400: #a0c77e;
+  --color-forest-500: #88b563;
+  --color-forest-600: #6d964a;
+  --color-forest-700: #58783b;
+  --color-forest-800: #435a2d;
+  --color-forest-900: #2e3c1f;
+
+  --color-beach-50: #f0fbf9;
+  --color-beach-100: #d7f5f0;
+  --color-beach-200: #b0eadd;
+  --color-beach-300: #8addcf;
+  --color-beach-400: #5ed0c0;
+  --color-beach-500: #3cb8a6;
+  --color-beach-600: #2f9386;
+  --color-beach-700: #257268;
+  --color-beach-800: #1b5049;
+  --color-beach-900: #10302d;
 }
 
 @custom-variant highlighted {
@@ -57,11 +76,11 @@
   }
 
   .primary-button {
-    @apply text-neutral-700 bg-forest highlighted:bg-forest/80;
+    @apply text-neutral-700 bg-forest-300 highlighted:bg-forest-300/80;
   }
 
   .primary-button.pressed {
-    @apply bg-forest/80;
+    @apply bg-forest-300/80;
   }
 
   .basic-button {

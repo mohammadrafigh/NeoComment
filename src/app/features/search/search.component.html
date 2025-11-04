@@ -51,7 +51,7 @@
             [colWidth]="
               screenWidth >= 1050 ? '33%' : screenWidth >= 700 ? '50%' : '100%'
             "
-            class="bg-forest/15 p-2 h-full"
+            class="bg-forest-300/15 p-2 h-full"
             (itemTap)="navigateToItem($event)"
             (loadMoreItems)="loadMore(category.key)"
           >
@@ -71,7 +71,7 @@
             [colWidth]="
               screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'
             "
-            class="bg-forest/15 p-2 h-full"
+            class="bg-forest-300/15 p-2 h-full"
             (loadMoreItems)="loadMore(category.key)"
           >
             <ng-template let-item="item">
@@ -81,7 +81,7 @@
                     row="0"
                     [src]="item.avatar"
                     failureImageUri="font://&#xeb4d;"
-                    class="tabler-icon text-neutral-500 border-8 text-4xl border-forest rounded-full w-16 h-16"
+                    class="tabler-icon text-neutral-500 border-8 text-4xl border-forest-300 rounded-full w-16 h-16"
                     [decodeWidth]="200"
                     [decodeHeight]="200"
                   ></NSImg>
@@ -107,7 +107,7 @@
             [colWidth]="
               screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'
             "
-            class="bg-forest/15 p-2 h-full"
+            class="bg-forest-300/15 p-2 h-full"
             (itemTap)="navigateToItem($event)"
             (loadMoreItems)="loadMore(category.key)"
           >
