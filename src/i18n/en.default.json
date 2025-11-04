@@ -28,6 +28,12 @@
     "watched": "Watched",
     "stopped": "Stopped"
   },
+  "features.collection": {
+    "name": "Collection Name",
+    "description": "Description",
+    "add_name_message": "Please enter a name for the collection",
+    "no_collections": "You don't have any collections yet"
+  },
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",
     "authentication_error": "Unable to complete authentication. Please try again."
@@ -103,6 +109,7 @@
     "track": "Track",
     "add_reply_message": "Please write your reply",
     "reply_removal_notice": "Are you sure you want to remove your reply",
-    "write_your_reply": "Write your reply"
+    "write_your_reply": "Write your reply",
+    "create": "Create"
   }
 }

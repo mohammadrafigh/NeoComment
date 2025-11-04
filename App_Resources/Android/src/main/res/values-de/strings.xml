@@ -91,8 +91,13 @@
   <string name="_features_sign_in_next_Vzyp">"Weiter"</string>
   <string name="_features_sign_in_instance_url_qg7CC">"Instanz-URL"</string>
   <string name="_features_sign_in_welcome_Z2se0Fl">"Willkommen bei NeoComment!"</string>
+  <string name="_common_create_tIy6S">"Create"</string>
   <string name="_common_write_your_reply_2klOAk">"Write your reply"</string>
   <string name="_common_reply_removal_notice_Z28Xts3">"Are you sure you want to remove your reply"</string>
   <string name="_common_add_reply_message_1rX778">"Please write your reply"</string>
+  <string name="_features_collection_no_collections_2qVxo4">"You don\'t have any collections yet"</string>
+  <string name="_features_collection_add_name_message_19MjSN">"Please enter a name for the collection"</string>
+  <string name="_features_collection_description_1kKOr5">"Description"</string>
+  <string name="_features_collection_name_1Qo79d">"Collection Name"</string>
   <string name="_common_user_ratings_Z1Y1ysf">"common.user_ratings"</string>
 </resources>

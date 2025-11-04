@@ -1,36 +1,115 @@
-<GridLayout>
-  <GridLayout rows="56, auto" class="rounded-t-2xl bg-neutral-50">
-    <GridLayout
-      row="0"
-      columns="auto, *, auto"
-      class="rounded-t-2xl px-4 w-full bg-white"
-    >
-      <Button
-        text="&#xeb55;"
-        class="tabler-icon icon-button"
-        col="0"
-        (tap)="close()"
-      ></Button>
-      @if (loading()) {
-        <ActivityIndicator col="2" class="w-10 h-10 ml-2" busy="true" />
-      }
-    </GridLayout>
-
-    <Label [text]="'Add new'"></Label>
-    <CollectionView
-      row="1"
-      [items]="collections()"
-      rowHeight="auto"
-      orientation="vertical"
-      class="px-4 mb-6 mt-4"
-    >
-      <ng-template let-item="item">
-        <StackLayout class="py-2">
-          <Label [text]="item.title"></Label>
-        </StackLayout>
-      </ng-template>
-    </CollectionView>
+<GridLayout rows="56, auto, auto" class="rounded-t-2xl bg-neutral-50">
+  <GridLayout
+    row="0"
+    columns="auto, *, auto"
+    class="rounded-t-2xl px-4 w-full bg-white"
+  >
+    <Button
+      text="&#xeb55;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="close()"
+    ></Button>
+    <ActivityIndicator
+      col="2"
+      class="w-10 h-10"
+      [busy]="loading()"
+      [hidden]="!loading()"
+    />
+    <Button
+      [hidden]="loading() || newCollection"
+      text="&#xeb0b;"
+      class="tabler-icon icon-button text-forest-600"
+      col="2"
+      (tap)="showNewCollectionForm()"
+    ></Button>
   </GridLayout>
 
-  <ng-template #messageAnchor></ng-template>
+  @if (newCollection) {
+    <StackLayout row="1" class="m-4">
+      <TextField
+        class="text-base h-10 mt-2"
+        [hint]="'features.collection.name' | L"
+        returnKeyType="next"
+        [(ngModel)]="newCollection.title"
+      />
+      <TextField
+        class="text-base h-10 mt-2"
+        [hint]="'features.collection.description' | L"
+        [(ngModel)]="newCollection.brief"
+      />
+      <FlexboxLayout class="justify-between mt-2">
+        <ns-icon-text-button
+          (pressed)="toggleVisibility()"
+          buttonClass="gray-button h-8 px-4"
+          [icon]="
+            newCollection.visibility === 0
+              ? '&#xec08;'
+              : newCollection.visibility === 1
+                ? '&#xeae2;'
+                : '&#xea2b;'
+          "
+          [text]="
+            'common.' +
+              (newCollection.visibility === 0
+                ? 'public'
+                : newCollection.visibility === 1
+                  ? 'followers'
+                  : 'private_mention') | L
+          "
+        >
+        </ns-icon-text-button>
+        <Button
+          [text]="'common.create' | L"
+          class="primary-button"
+          (tap)="createNewCollection()"
+          [disabled]="loading()"
+        ></Button>
+      </FlexboxLayout>
+    </StackLayout>
+  }
+  <GridLayout row="2">
+    @if (collections().length === 0) {
+      <Label
+        [text]="'features.collection.no_collections' | L"
+        class="h-96 px-4 text-lg text-center text-neutral-400"
+      ></Label>
+    } @else {
+      <CollectionView
+        #collectionsList
+        [items]="collections()"
+        class="px-4 h-96"
+        (itemTap)="toggleCollection($event)"
+        (loadMoreItems)="getCollections()"
+      >
+        <ng-template let-collection="item">
+          <GridLayout
+            class="py-4 border-b-[1] border-neutral-200"
+            columns="*, auto"
+          >
+            <Label col="0" [text]="collection.title"></Label>
+            @if (busyItems().includes(collection.uuid)) {
+              <ActivityIndicator
+                col="1"
+                class="w-[25] h-[25] ml-2"
+                [busy]="true"
+              />
+            } @else {
+              <Label
+                [text]="
+                  collectionsWithItem().includes(collection.uuid)
+                    ? '&#xea5e;'
+                    : '&#xeb0b;'
+                "
+                class="tabler-icon ml-2"
+                col="1"
+              ></Label>
+            }
+          </GridLayout>
+        </ng-template>
+      </CollectionView>
+    }
+
+    <ng-template #messageAnchor></ng-template>
+  </GridLayout>
 </GridLayout>

@@ -1,9 +1,18 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "./state.service";
-import { catchError, concatMap, forkJoin, map, Observable, of } from "rxjs";
+import {
+  catchError,
+  concatMap,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  tap,
+} from "rxjs";
 import { Collection, CollectionDTO } from "../models/collection.model";
 import { BaseItem, BaseItemDTO } from "../models/base-item.model";
+import JSONbig from "json-bigint";
 
 interface CollectionListDTO {
   data: CollectionDTO[];
@@ -18,14 +27,14 @@ interface CollectionList {
 }
 
 interface BaseItemListDTO {
-  data: BaseItemDTO[];
+  data: { item: BaseItemDTO; note: string }[];
   pages: number;
   count: number;
 }
 
 interface BaseItemList {
   collectionUUID: string;
-  data: BaseItem[];
+  data: { item: BaseItem; note: string }[];
   pages: number;
   count: number;
 }
@@ -41,9 +50,11 @@ export class CollectionService {
     return this.http
       .get<CollectionListDTO>(
         `${this.stateService.instanceURL()}/api/me/collection?page=${page}`,
+        { responseType: "text" as "json" },
       )
       .pipe(
-        map((res) => ({
+        map(JSONbig({ storeAsString: true, useNativeBigInt: true }).parse),
+        map((res: CollectionListDTO) => ({
           pages: res.pages,
           count: res.count,
           data: res.data.map((c) => Collection.fromDTO(c)),
@@ -67,7 +78,10 @@ export class CollectionService {
               collectionUUID: collection.uuid,
               pages: res.pages,
               count: res.count,
-              data: res.data.map((i) => BaseItem.fromDTO(i)),
+              data: res.data.map((i) => ({
+                item: BaseItem.fromDTO(i.item),
+                note: i.note,
+              })),
             })),
           ),
       ),
@@ -91,9 +105,9 @@ export class CollectionService {
               for (const collection of collectionsRes.data) {
                 const isItemIncluded = !!cItems
                   .find((ci) => ci.collectionUUID === collection.uuid)
-                  ?.data.find((i) => i.uuid === itemUUID);
+                  ?.data.find((i) => i.item.uuid === itemUUID);
                 if (isItemIncluded) {
-                  collectionsWithItem.push();
+                  collectionsWithItem.push(collection.uuid);
                 }
               }
               return { ...collectionsRes, collectionsWithItem };
@@ -113,5 +127,51 @@ export class CollectionService {
           Collection.fromDTO(collectionDTO),
         ),
       );
+  }
+
+  createNewCollection(collection: Partial<Collection>) {
+    return this.http
+      .post<CollectionDTO>(
+        `${this.stateService.instanceURL()}/api/me/collection/`,
+        {
+          title: collection.title,
+          brief: collection.brief ?? "",
+          visibility: collection.visibility,
+        },
+        { responseType: "text" as "json" },
+      )
+      .pipe(
+        map(JSONbig({ storeAsString: true, useNativeBigInt: true }).parse),
+        map((dto: CollectionDTO) => Collection.fromDTO(dto)),
+      )
+      .pipe(tap({ error: (err) => console.dir(err) }));
+  }
+
+  addItemToCollection(
+    collectionUUID: string,
+    itemUUID: string,
+    note: string = "",
+  ) {
+    return this.http
+      .post<{
+        message: string;
+      }>(
+        `${this.stateService.instanceURL()}/api/me/collection/${collectionUUID}/item/`,
+        {
+          item_uuid: itemUUID,
+          note,
+        },
+      )
+      .pipe(tap({ error: (e) => console.dir(e) }));
+  }
+
+  removeItemFromCollection(collectionUUID: string, itemUUID: string) {
+    return this.http
+      .delete<{
+        message: string;
+      }>(
+        `${this.stateService.instanceURL()}/api/me/collection/${collectionUUID}/item/${itemUUID}`,
+      )
+      .pipe(tap({ error: (e) => console.dir(e) }));
   }
 }

@@ -1,5 +1,7 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  ElementRef,
   inject,
   NO_ERRORS_SCHEMA,
   OnInit,
@@ -19,6 +21,9 @@ import { localize } from "@nativescript/localize";
 import { finalize } from "rxjs";
 import { CollectionService } from "~/app/core/services/collection.service";
 import { Collection } from "~/app/core/models/collection.model";
+import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
+import { IconTextButtonComponent } from "~/app/shared/components/icon-text-button/icon-text-button.component";
+import { CollectionView } from "@nativescript-community/ui-collectionview";
 
 @Component({
   selector: "ns-add-to-collection",
@@ -27,22 +32,28 @@ import { Collection } from "~/app/core/models/collection.model";
     NativeScriptFormsModule,
     NativeScriptCommonModule,
     NativeScriptLocalizeModule,
+    CollectionViewModule,
+    IconTextButtonComponent,
   ],
   schemas: [NO_ERRORS_SCHEMA],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddToCollectionComponent implements OnInit {
   @ViewChild("messageAnchor", { read: ViewContainerRef })
   messageAnchor: ViewContainerRef;
+  @ViewChild("collectionsList") cvRef: ElementRef<CollectionView>;
   params = inject(BottomSheetParams);
   stateService = inject(StateService);
   messageService = inject(MessageService);
   collectionService = inject(CollectionService);
   loading = signal(false);
+  busyItems = signal<string[]>([]);
   itemUUID: string;
   currentPage = 0;
   maxPages = 1;
   collections = signal<Collection[]>([]);
   collectionsWithItem = signal<string[]>([]);
+  newCollection: Collection = null;
 
   ngOnInit(): void {
     this.itemUUID = this.params.context.itemUUID;
@@ -81,14 +92,112 @@ export class AddToCollectionComponent implements OnInit {
       });
   }
 
-  // createNewCollection() {
-  // }
+  showNewCollectionForm() {
+    this.newCollection = new Collection();
+    this.newCollection.visibility =
+      this.stateService.preference().defaultVisibility;
+  }
 
-  // addToCollection() {
-  // }
+  createNewCollection() {
+    if (!this.newCollection.title) {
+      this.messageService.showErrorMessage(
+        localize("features.collection.add_name_message"),
+        this.messageAnchor,
+      );
+      return;
+    }
 
-  // async removeFromCollection() {
-  // }
+    this.loading.set(true);
+    this.collectionService
+      .createNewCollection(this.newCollection)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (res) => {
+          this.newCollection = null;
+          this.collections.update((collections) => [...collections, res]);
+        },
+        error: (e) => {
+          this.messageService.showErrorMessage(
+            localize("common.generic_error"),
+            this.messageAnchor,
+          );
+        },
+      });
+  }
+
+  toggleVisibility() {
+    this.newCollection.visibility =
+      this.newCollection.visibility < 2 ? this.newCollection.visibility + 1 : 0;
+  }
+
+  toggleCollection(event: any) {
+    const collectionUUID = (event.item as Collection).uuid;
+    if (this.busyItems().includes(collectionUUID)) {
+      return;
+    }
+
+    if (this.collectionsWithItem().includes(collectionUUID)) {
+      this.removeFromCollection(collectionUUID);
+    } else {
+      this.addToCollection(collectionUUID);
+    }
+  }
+
+  private addToCollection(collectionUUID: string) {
+    this.busyItems.update((ids) => [...ids, collectionUUID]);
+    this.cvRef.nativeElement.refresh();
+
+    this.collectionService
+      .addItemToCollection(collectionUUID, this.itemUUID)
+      .pipe(
+        finalize(() => {
+          this.busyItems.update((ids) =>
+            [...ids].filter((id) => id !== collectionUUID),
+          );
+          this.cvRef.nativeElement.refresh();
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.collectionsWithItem.update((ids) => [...ids, collectionUUID]);
+        },
+        error: (e) => {
+          this.messageService.showErrorMessage(
+            localize("common.generic_error"),
+            this.messageAnchor,
+          );
+        },
+      });
+  }
+
+  private removeFromCollection(collectionUUID: string) {
+    this.busyItems.update((ids) => [...ids, collectionUUID]);
+    this.cvRef.nativeElement.refresh();
+
+    this.collectionService
+      .removeItemFromCollection(collectionUUID, this.itemUUID)
+      .pipe(
+        finalize(() => {
+          this.busyItems.update((ids) =>
+            [...ids].filter((id) => id !== collectionUUID),
+          );
+          this.cvRef.nativeElement.refresh();
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.collectionsWithItem.update((ids) =>
+            ids.filter((id) => id !== collectionUUID),
+          );
+        },
+        error: (e) => {
+          this.messageService.showErrorMessage(
+            localize("common.generic_error"),
+            this.messageAnchor,
+          );
+        },
+      });
+  }
 
   close() {
     this.params.closeCallback();
