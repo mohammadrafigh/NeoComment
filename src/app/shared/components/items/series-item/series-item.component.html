@@ -1,4 +1,4 @@
-<StackLayout class="rounded-lg bg-white w-[150] h-[306]">
+<StackLayout class="rounded-lg bg-app-bg-pure w-[150] h-[306]">
   <NSImg
     [sharedTransitionTag]="'itemImage' + item?.uuid"
     [src]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
@@ -15,7 +15,7 @@
         ></Label>
         <Label
           [text]="item?.year"
-          class="text-xs font-medium text-neutral-500 mt-0.5"
+          class="text-xs font-medium text-app-fg-muted mt-0.5"
           textWrap="true"
         ></Label>
       </StackLayout>
@@ -23,18 +23,18 @@
         <StackLayout orientation="horizontal">
           <Label
             text="&#xeb4d;"
-            class="tabler-icon text-neutral-500 mr-1 text-lg"
+            class="tabler-icon text-app-fg-muted mr-1 text-lg"
           ></Label>
           <Label
             [text]="item?.ratingCount | kilo"
-            class="text-neutral-500 text-sm"
+            class="text-app-fg-muted text-sm"
           ></Label>
         </StackLayout>
         @if (item?.rating > 0) {
           <StackLayout orientation="horizontal">
             <Label
               [text]="item?.rating"
-              class="text-neutral-500 text-sm mr-2"
+              class="text-app-fg-muted text-sm mr-2"
             ></Label>
             <ns-rate-indicator [rate]="item?.rating" [size]="18"></ns-rate-indicator>
           </StackLayout>

@@ -1,28 +1,89 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forest-50: #f3f8ef;
-  --color-forest-100: #e6f1df;
-  --color-forest-200: #cde3be;
-  --color-forest-300: #bddaab;
-  --color-forest-400: #a0c77e;
-  --color-forest-500: #88b563;
-  --color-forest-600: #6d964a;
-  --color-forest-700: #58783b;
-  --color-forest-800: #435a2d;
-  --color-forest-900: #2e3c1f;
+  --color-forest-50: rgb(243, 248, 239);
+  --color-forest-100: rgb(230, 241, 223);
+  --color-forest-200: rgb(205, 227, 190);
+  --color-forest-300: rgb(189, 218, 170);
+  --color-forest-400: rgb(160, 199, 126);
+  --color-forest-500: rgb(136, 181, 99);
+  --color-forest-600: rgb(109, 150, 74);
+  --color-forest-700: rgb(88, 120, 59);
+  --color-forest-800: rgb(67, 90, 45);
+  --color-forest-900: rgb(46, 60, 31);
 
-  --color-beach-50: #f0fbf9;
-  --color-beach-100: #d7f5f0;
-  --color-beach-200: #b0eadd;
-  --color-beach-300: #8addcf;
-  --color-beach-400: #5ed0c0;
-  --color-beach-500: #3cb8a6;
-  --color-beach-600: #2f9386;
-  --color-beach-700: #257268;
-  --color-beach-800: #1b5049;
-  --color-beach-900: #10302d;
+  --color-beach-50: rgb(240, 251, 249);
+  --color-beach-100: rgb(215, 245, 240);
+  --color-beach-200: rgb(176, 234, 221);
+  --color-beach-300: rgb(138, 221, 207);
+  --color-beach-400: rgb(94, 208, 192);
+  --color-beach-500: rgb(60, 184, 166);
+  --color-beach-600: rgb(47, 147, 134);
+  --color-beach-700: rgb(37, 114, 104);
+  --color-beach-800: rgb(27, 80, 73);
+  --color-beach-900: rgb(16, 48, 45);
+
+  /* default: light forest */
+  --color-primary-50: var(--color-forest-50);
+  --color-primary-100: var(--color-forest-100);
+  --color-primary-200: var(--color-forest-200);
+  --color-primary-300: var(--color-forest-300);
+  --color-primary-400: var(--color-forest-400);
+  --color-primary-500: var(--color-forest-500);
+  --color-primary-600: var(--color-forest-600);
+  --color-primary-700: var(--color-forest-700);
+  --color-primary-800: var(--color-forest-800);
+  --color-primary-900: var(--color-forest-900);
+  --color-primary-300-80: rgba(189, 218, 170, 0.8);
+  --color-primary-300-50: rgba(189, 218, 170, 0.5);
+  --color-primary-300-15: rgba(189, 218, 170, 0.15);
+
+  --color-app-bg: var(--color-neutral-50);
+  --color-app-bg-muted: var(--color-neutral-200);
+  --color-app-bg-muted-light: var(--color-neutral-300);
+  --color-app-bg-pure: var(--color-white);
+
+  --color-app-fg: var(--color-neutral-700);
+  --color-app-fg-muted: var(--color-neutral-500);
+  --color-app-fg-muted-light: var(--color-neutral-400);
 }
+
+/* light beach */
+[data-theme="beach"] {
+  --color-primary-50: var(--color-beach-50);
+  --color-primary-100: var(--color-beach-100);
+  --color-primary-200: var(--color-beach-200);
+  --color-primary-300: var(--color-beach-300);
+  --color-primary-400: var(--color-beach-400);
+  --color-primary-500: var(--color-beach-500);
+  --color-primary-600: var(--color-beach-600);
+  --color-primary-700: var(--color-beach-700);
+  --color-primary-800: var(--color-beach-800);
+  --color-primary-900: var(--color-beach-900);
+  --color-primary-300-80: rgba(138, 221, 207, 0.8);
+  --color-primary-300-50: rgba(138, 221, 207, 0.5);
+  --color-primary-300-15: rgba(138, 221, 207, 0.15);
+}
+
+/* dark variants */
+.app-dark {
+  --color-app-bg: var(--color-neutral-800);
+  --color-app-bg-muted: var(--color-neutral-700);
+  --color-app-bg-muted-light: var(--color-neutral-600);
+  --color-app-bg-pure: var(--color-neutral-900);
+
+  --color-app-fg: var(--color-neutral-50);
+  --color-app-fg-muted: var(--color-neutral-300);
+  --color-app-fg-muted-light: var(--color-neutral-600);
+}
+
+/**
+ * NOTE: There is a problem that nativescript adds .ns-dark when the
+ * system theme is dark and ignores forceDarkAllowed so we use our
+ * own class to manage dark mode.
+ */
+/* @custom-variant dark (&:where(.app-dark, .app-dark *)); */
+@custom-variant dark (.app-dark &, .app-dark & *);
 
 @custom-variant highlighted {
   &:is(:highlighted) {
@@ -38,11 +99,11 @@
   }
 
   Page {
-    @apply bg-neutral-50 dark:bg-neutral-800;
+    @apply bg-app-bg;
   }
 
   Label {
-    @apply text-neutral-700;
+    @apply text-app-fg;
   }
 
   Button {
@@ -52,11 +113,11 @@
   }
 
   TextField {
-    @apply border-none rounded-full bg-neutral-200 h-12 px-4 text-neutral-500;
+    @apply border-none rounded-full bg-app-bg-muted h-12 px-4 text-app-fg-muted;
   }
 
   TextView {
-    @apply border-b-[1] border-b-transparent text-neutral-500;
+    @apply border-b-[1] border-b-transparent text-app-fg-muted;
   }
 
   .h1 {
@@ -64,42 +125,42 @@
   }
 
   .icon-button {
-    @apply text-center w-10 min-w-10 min-h-10 text-neutral-500 highlighted:bg-neutral-200;
+    @apply text-center w-10 min-w-10 min-h-10 text-app-fg-muted highlighted:bg-app-bg-muted;
   }
 
   .gray-button {
-    @apply text-neutral-700 bg-neutral-200 highlighted:bg-neutral-300;
+    @apply text-app-fg bg-app-bg-muted highlighted:bg-app-bg-muted-light;
   }
 
   .gray-button.pressed {
-    @apply bg-neutral-300;
+    @apply bg-app-bg-muted-light;
   }
 
   .primary-button {
-    @apply text-neutral-700 bg-forest-300 highlighted:bg-forest-300/80;
+    @apply text-neutral-700 bg-primary-300 highlighted:bg-primary-300-80;
   }
 
   .primary-button.pressed {
-    @apply bg-forest-300/80;
+    @apply bg-primary-300-80;
   }
 
   .basic-button {
-    @apply text-neutral-500 bg-white highlighted:bg-neutral-200;
+    @apply text-app-fg-muted bg-app-bg-pure highlighted:bg-app-bg-muted dark:highlighted:bg-app-bg;
   }
 
   .basic-button Label {
-    @apply text-neutral-500;
+    @apply text-app-fg-muted;
   }
 
   .basic-button.disabled Label {
-    @apply text-neutral-300;
+    @apply text-app-bg-muted-light;
   }
 
   .basic-button.pressed {
-    @apply bg-neutral-200;
+    @apply bg-app-bg-muted;
   }
 
   .textfield-with-icon-container {
-    @apply rounded-full bg-neutral-200 h-12 px-4;
+    @apply rounded-full bg-app-bg-muted h-12 px-4;
   }
 }

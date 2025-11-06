@@ -1,9 +1,5 @@
 <ActionBar flat="true">
-  <GridLayout
-    columns="auto, *, auto"
-    class="pr-4 pb-2 w-full"
-    [paddingTop]="statusbarSize + 8"
-  >
+  <GridLayout columns="auto, *, auto" class="pr-4 py-2 w-full">
     <Button
       text="&#xea60;"
       class="tabler-icon icon-button"
@@ -36,7 +32,7 @@
             : []
     "
     colWidth="100%"
-    class="p-4 bg-forest-300/15 h-full"
+    class="p-4 bg-primary-300-15 h-full"
     [class.pb-14]="currentPage < maxPages"
     (loadMoreItems)="getPosts()"
     (itemTap)="navigateToPost($any($event).item.id)"

@@ -25,6 +25,7 @@ import { Dialogs } from "@nativescript/core";
 import { PostEditorComponent } from "../post-editor/post-editor.component";
 import { SenderProfileComponent } from "../sender-profile/sender-profile.component";
 import { EditorContext } from "../editor-context.model";
+import { BottomSheetContainerDirective } from "~/app/shared/directives/bottom-sheet-container.directive";
 
 @Component({
   selector: "ns-rate-and-mark",
@@ -36,6 +37,7 @@ import { EditorContext } from "../editor-context.model";
     RateIndicatorComponent,
     PostEditorComponent,
     SenderProfileComponent,
+    BottomSheetContainerDirective,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

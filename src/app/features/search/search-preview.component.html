@@ -1,15 +1,14 @@
 <GridLayout>
   <StackLayout
-    [paddingTop]="statusbarSize + 8"
     sharedTransitionTag="searchbox"
-    class="bg-neutral-200 rounded-none h-full w-full"
+    class="pt-2 bg-app-bg-muted rounded-none h-full w-full"
   >
     <FlexboxLayout
-      class="textfield-with-icon-container border-b-2 border-b-neutral-400"
+      class="textfield-with-icon-container border-b-2 border-b-app-fg-muted-light"
     >
       <Label
         text="&#xeb1c;"
-        class="tabler-icon text-neutral-500 shrink-0"
+        class="tabler-icon text-app-fg-muted shrink-0"
       ></Label>
       <TextField
         #searchInput
@@ -40,7 +39,7 @@
               [text]="category.value.title"
               androidElevation="0"
               androidDynamicElevationOffset
-              class="bg-forest-300 rounded-lg text-xs h-6 m-1 px-2 highlighted:bg-forest-300/80"
+              class="bg-primary-300 text-neutral-700 rounded-lg text-xs h-6 m-1 px-2 highlighted:bg-primary-300-80"
               (tap)="showAllResults(category.key)"
             ></Button>
           }
@@ -88,7 +87,7 @@
                 row="0"
                 col="3"
                 [text]="categories.get(item.category).icon"
-                class="tabler-icon text-neutral-500 ml-2 text-lg"
+                class="tabler-icon text-app-fg-muted ml-2 text-lg"
               ></Label>
 
               <Label
@@ -103,19 +102,19 @@
                         ? item.developers.join(' - ')
                         : item.year
                 "
-                class="text-xs font-medium text-neutral-500 align-top"
+                class="text-xs font-medium text-app-fg-muted align-top"
               ></Label>
               <Label
                 row="1"
                 col="2"
                 [text]="item.ratingCount | kilo"
-                class="text-neutral-500 text-sm align-top ml-2"
+                class="text-app-fg-muted text-sm align-top ml-2"
               ></Label>
               <Label
                 row="1"
                 col="3"
                 text="&#xeb4d;"
-                class="tabler-icon text-neutral-500 text-lg text-right align-top"
+                class="tabler-icon text-app-fg-muted text-lg text-right align-top"
               ></Label>
             </GridLayout>
           </ng-template>
@@ -136,7 +135,7 @@
                   row="0"
                   [src]="item.avatar"
                   failureImageUri="font://&#xeb4d;"
-                  class="tabler-icon text-neutral-500 border-8 text-4xl border-forest-300 rounded-full w-16 h-16"
+                  class="tabler-icon text-app-fg-muted border-8 text-4xl border-primary-300 rounded-full w-16 h-16"
                   [decodeWidth]="200"
                   [decodeHeight]="200"
                 ></NSImg>
@@ -148,7 +147,7 @@
                 <Label
                   row="2"
                   [text]="'@' + item.acct"
-                  class="tabler-icon text-neutral-500 text-xs text-center"
+                  class="tabler-icon text-app-fg-muted text-xs text-center"
                 ></Label>
               </GridLayout>
             </GridLayout>

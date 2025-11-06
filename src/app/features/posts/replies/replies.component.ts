@@ -50,7 +50,6 @@ export class RepliesComponent implements OnInit, OnDestroy {
   location = inject(Location);
   containerRef = inject(ViewContainerRef);
   router = inject(Router);
-  statusbarSize: number = global.statusbarSize;
   pageLoading = signal(false);
   pageTitle = signal<string>("");
   post: Post;

@@ -5,6 +5,7 @@ import {
   NativeScriptFormsModule,
 } from "@nativescript/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
+import { ModalContainerDirective } from "~/app/shared/directives/modal-container.directive";
 
 @Component({
   selector: "ns-date-picker-dialog",
@@ -12,10 +13,11 @@ import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
     NativeScriptCommonModule,
     NativeScriptFormsModule,
     NativeScriptLocalizeModule,
+    ModalContainerDirective
   ],
   schemas: [NO_ERRORS_SCHEMA],
   template: `
-    <StackLayout class="p-4 w-3/4 mx-auto">
+    <StackLayout class="p-4 w-3/4 mx-auto" modalContainer>
       <Label
         [text]="'common.select_date' | L"
         class="text-center mb-2 h1"

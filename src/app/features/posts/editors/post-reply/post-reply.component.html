@@ -1,9 +1,9 @@
-<GridLayout>
-  <GridLayout rows="56, auto, auto, *" class="rounded-t-2xl bg-neutral-50">
+<GridLayout bottomSheetContainer>
+  <GridLayout rows="56, auto, auto, *" class="rounded-t-2xl">
     <GridLayout
       row="0"
       columns="auto, *, auto, auto"
-      class="rounded-t-2xl px-4 w-full bg-white"
+      class="rounded-t-2xl px-4 w-full bg-app-bg-pure"
     >
       <Button
         text="&#xeb55;"
@@ -19,7 +19,7 @@
       >
         <Label
           [text]="'common.character_limit_message' | L"
-          class="text-neutral-50 text-center no-font-padding text-xs bg-neutral-500 px-2 py-1 rounded-full"
+          class="text-app-bg text-center no-font-padding text-xs bg-app-fg-muted px-2 py-1 rounded-full"
           textWrap="true"
           [maxLines]="2"
         ></Label>
@@ -27,7 +27,7 @@
       <Button
         col="2"
         [text]="status.status?.length ?? 0"
-        class="text-neutral-500 no-font-padding basic-button px-2 min-w-10"
+        class="text-app-fg-muted no-font-padding basic-button px-2 min-w-10"
         [class.text-orange-400]="status.status?.length > 360"
         (tap)="showCharCounterHint.set(!showCharCounterHint())"
       ></Button>

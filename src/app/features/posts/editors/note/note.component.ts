@@ -26,6 +26,7 @@ import { Note } from "~/app/core/models/post/note.model";
 import { CATEGORIES } from "~/app/shared/constants/categories";
 import { IconTextButtonComponent } from "~/app/shared/components/icon-text-button/icon-text-button.component";
 import { EditorContext } from "../editor-context.model";
+import { BottomSheetContainerDirective } from "~/app/shared/directives/bottom-sheet-container.directive";
 
 @Component({
   selector: "ns-note",
@@ -37,6 +38,7 @@ import { EditorContext } from "../editor-context.model";
     PostEditorComponent,
     SenderProfileComponent,
     IconTextButtonComponent,
+    BottomSheetContainerDirective,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })
@@ -58,7 +60,8 @@ export class NoteComponent implements OnInit {
     this.context.set(this.params.context);
     this.note = cloneDeep(this.params.context.note) ?? new Note();
 
-    for (const type of CATEGORIES.get(this.context().itemCategory).noteProgressTypes) {
+    for (const type of CATEGORIES.get(this.context().itemCategory)
+      .noteProgressTypes) {
       this.progressTypes.set(localize(`common.${type}`), type);
     }
 

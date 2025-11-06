@@ -50,7 +50,6 @@ export class SearchPreviewComponent implements OnInit, OnDestroy {
   stateService = inject(StateService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
-  statusbarSize: number = global.statusbarSize;
   searchQuery: string = null;
   loading = signal(false);
   searchTrigger = new Subject<string>();

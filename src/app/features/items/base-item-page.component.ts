@@ -36,7 +36,6 @@ export abstract class BaseItemPageComponent implements OnInit, OnDestroy {
   router = inject(Router);
   containerRef = inject(ViewContainerRef);
   neoL = inject(NeoDBLocalizePipe);
-  statusbarSize: number = global.statusbarSize;
   pageLoading = signal(false);
   descriptionCollapsed = signal(true);
   itemTitle = computed(() =>

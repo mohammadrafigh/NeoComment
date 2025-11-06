@@ -1,9 +1,5 @@
 <ActionBar flat="true">
-  <GridLayout
-    columns="auto, *, auto"
-    class="pr-4 pb-2 w-full"
-    [paddingTop]="statusbarSize + 8"
-  >
+  <GridLayout columns="auto, *, auto" class="pr-4 py-2 w-full">
     <Button
       text="&#xea60;"
       class="tabler-icon icon-button"
@@ -60,28 +56,28 @@
         <StackLayout col="1" row="1" class="pl-3" orientation="horizontal">
           <Label
             [text]="item().year + (item().duration ? ' - ' : '')"
-            class="text-xs font-medium text-neutral-500"
+            class="text-xs font-medium text-app-fg-muted"
           ></Label>
           @if (item().duration) {
             <Label
               text="&#xff9b;"
-              class="tabler-icon text-lg font-medium text-neutral-500"
+              class="tabler-icon text-lg font-medium text-app-fg-muted"
             ></Label>
             <Label
               [text]="item().duration"
-              class="text-xs font-medium text-neutral-500 ml-0.5"
+              class="text-xs font-medium text-app-fg-muted ml-0.5"
             ></Label>
           }
         </StackLayout>
         <WrapLayout class="mt-2 pl-3" col="1" row="2">
           <Label
             text="&#xeafa;"
-            class="bg-forest-300/50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
+            class="bg-primary-300-50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
           ></Label>
           @for (genre of item().genres; track genre) {
             <Label
               [text]="genre"
-              class="bg-neutral-200 rounded-lg text-xs h-6 mr-2 mb-2 px-2.5"
+              class="bg-app-bg-muted rounded-lg text-xs h-6 mr-2 mb-2 px-2.5"
             ></Label>
           }
         </WrapLayout>
@@ -89,18 +85,18 @@
           <StackLayout orientation="horizontal">
             <Label
               text="&#xeb4d;"
-              class="tabler-icon text-neutral-500 mr-1 text-lg"
+              class="tabler-icon text-app-fg-muted mr-1 text-lg"
             ></Label>
             <Label
               [text]="item().ratingCount | kilo"
-              class="text-neutral-500 text-sm"
+              class="text-app-fg-muted text-sm"
             ></Label>
           </StackLayout>
           @if (item().rating > 0) {
             <StackLayout orientation="horizontal">
               <Label
                 [text]="item().rating"
-                class="text-neutral-500 text-sm mr-2"
+                class="text-app-fg-muted text-sm mr-2"
               ></Label>
               <ns-rate-indicator
                 [rate]="item().rating"
@@ -130,6 +126,8 @@
             })
           "
           class="w-full"
+          iconClass="text-neutral-700"
+          textClass="text-neutral-700"
           buttonClass="primary-button w-full"
           icon="&#xf972;"
           [text]="
@@ -171,7 +169,7 @@
             <StackLayout class="pr-2">
               <Label
                 [text]="tag"
-                class="text-xs bg-neutral-200 rounded-lg px-2.5 py-1"
+                class="text-xs bg-app-bg-muted rounded-lg px-2.5 py-1"
               ></Label>
             </StackLayout>
           </ng-template>
@@ -195,7 +193,7 @@
                 : 'features.movie.director'
               ) | L
             "
-            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="0"
           ></Label>
@@ -215,7 +213,7 @@
                 : 'features.movie.writer'
               ) | L
             "
-            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="1"
           ></Label>
@@ -232,7 +230,7 @@
           ></Label>
           <Label
             [text]="'features.movie.cast' | L"
-            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="2"
           ></Label>
@@ -259,7 +257,7 @@
                 : 'features.movie.country'
               ) | L
             "
-            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="0"
           ></Label>
@@ -277,7 +275,7 @@
                 : 'features.movie.language'
               ) | L
             "
-            class="font-bold text-neutral-500 mb-2 mr-4 align-top min-w-28"
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="1"
           ></Label>
@@ -317,7 +315,7 @@
           ></ns-ratings-chart>
         </StackLayout>
       }
-      <StackLayout class="px-4 pt-4 bg-forest-300/15">
+      <StackLayout class="px-4 pt-4 bg-primary-300-15">
         <Button
           [text]="
             postsStateService.itemPosts[item().uuid].userStatus()
@@ -380,7 +378,7 @@
       </StackLayout>
 
       <Label [text]="'common.reviews' | L" class="h1 mx-4 mb-2 mt-6"></Label>
-      <StackLayout class="px-4 pt-4 bg-forest-300/15">
+      <StackLayout class="px-4 pt-4 bg-primary-300-15">
         <Button
           [text]="
             (postsStateService.itemPosts[item().uuid].userReview()
@@ -437,7 +435,7 @@
       </StackLayout>
 
       <Label [text]="'common.notes' | L" class="h1 mx-4 mb-2 mt-6"></Label>
-      <StackLayout class="px-4 pt-4 bg-forest-300/15">
+      <StackLayout class="px-4 pt-4 bg-primary-300-15">
         <Button
           [text]="'common.write_note' | L"
           class="primary-button w-full mb-4"
@@ -495,7 +493,7 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="246"
-          class="bg-forest-300/15 py-4 px-2 h-[278]"
+          class="bg-primary-300-15 py-4 px-2 h-[278]"
           (itemTap)="navigateToCollection($event)"
         >
           <ng-template let-collection="item" let-index="index">

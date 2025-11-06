@@ -6,7 +6,7 @@
         (loaded)="initContentInput()"
         [hint]="hint"
         [(ngModel)]="post[contentProperty]"
-        class="h-full px-4 placeholder-neutral-400 text-base"
+        class="h-full px-4 placeholder-app-fg-muted-light text-base"
       />
     </StackLayout>
   </ScrollView>
@@ -37,7 +37,7 @@
   <GridLayout
     row="2"
     columns="auto, auto, auto, *, 56"
-    class="px-4 w-full bg-white"
+    class="px-4 w-full bg-app-bg-pure"
   >
     <Button
       text="&#xf977;"
@@ -51,7 +51,7 @@
         text="&#xee21;"
         [nsTooltip]="'common.change_date' | L"
         class="tabler-icon icon-button mr-2"
-        [class.text-forest-600]="hasCustomDate()"
+        [class.text-primary-600]="hasCustomDate()"
         col="1"
         (tap)="showDatePicker()"
       ></Button>
@@ -61,7 +61,7 @@
         [text]="$any(post).postToFediverse ? '&#xebec;' : '&#xf1a9;'"
         [nsTooltip]="'common.crosspost' | L"
         class="tabler-icon icon-button"
-        [class.text-forest-600]="$any(post).postToFediverse"
+        [class.text-primary-600]="$any(post).postToFediverse"
         col="2"
         (tap)="$any(post).postToFediverse = !$any(post).postToFediverse"
       ></Button>
@@ -69,7 +69,7 @@
     @if (!submitButtonLoading) {
       <Button
         text="&#xfd5d;"
-        class="tabler-icon w-14 primary-button text-neutral-500"
+        class="tabler-icon w-14 primary-button"
         col="4"
         (tap)="onPostPressed()"
         [disabled]="disableSubmitButton"

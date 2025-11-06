@@ -24,6 +24,7 @@ import { Review } from "~/app/core/models/post/review.model";
 import { PostEditorComponent } from "../post-editor/post-editor.component";
 import { SenderProfileComponent } from "../sender-profile/sender-profile.component";
 import { EditorContext } from "../editor-context.model";
+import { BottomSheetContainerDirective } from "~/app/shared/directives/bottom-sheet-container.directive";
 
 @Component({
   selector: "ns-review",
@@ -34,6 +35,7 @@ import { EditorContext } from "../editor-context.model";
     NativeScriptLocalizeModule,
     PostEditorComponent,
     SenderProfileComponent,
+    BottomSheetContainerDirective,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

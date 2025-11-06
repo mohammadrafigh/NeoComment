@@ -10,11 +10,11 @@ import { RateIndicatorComponent } from "../rate-indicator/rate-indicator.compone
     <ns-rate-indicator col="0" [rate]="rating" [size]="48"></ns-rate-indicator>
     <StackLayout col="1" class="mx-2" verticalAlignment="center">
       <Label
-        class="text-2xl text-neutral-500 no-font-padding"
+        class="text-2xl text-app-fg-muted no-font-padding"
         [text]="rating"
       ></Label>
       <Label
-        class="text-neutral-500 no-font-padding text-center mt-0.5"
+        class="text-app-fg-muted no-font-padding text-center mt-0.5"
         [text]="ratingCount"
       ></Label>
     </StackLayout>
@@ -26,11 +26,11 @@ import { RateIndicatorComponent } from "../rate-indicator/rate-indicator.compone
           verticalAlignment="bottom"
         >
           <StackLayout
-            class="w-full rounded-tl-sm rounded-tr-sm bg-forest-300"
+            class="w-full rounded-tl-sm rounded-tr-sm bg-primary-300"
             [height]="(ratingDistribution[$index] / 100) * 32"
           ></StackLayout>
           <Label
-            class="text-neutral-500 text-xs mt-1 no-font-padding text-center"
+            class="text-app-fg-muted text-xs mt-1 no-font-padding text-center"
             [text]="2 * $index + 1 + '-' + (2 * $index + 2)"
           ></Label>
         </StackLayout>

@@ -1,12 +1,9 @@
-<GridLayout>
-  <GridLayout
-    rows="56, auto, auto, auto, *"
-    class="rounded-t-2xl bg-neutral-50"
-  >
+<GridLayout bottomSheetContainer>
+  <GridLayout rows="56, auto, auto, auto, *" class="rounded-t-2xl">
     <GridLayout
       row="0"
       columns="auto, *, auto, auto"
-      class="rounded-t-2xl px-4 w-full bg-white"
+      class="rounded-t-2xl px-4 w-full bg-app-bg-pure"
     >
       <Button
         text="&#xeb55;"
@@ -22,7 +19,7 @@
       >
         <Label
           [text]="'common.character_limit_message' | L"
-          class="text-neutral-50 text-center no-font-padding text-xs bg-neutral-500 px-2 py-1 rounded-full"
+          class="text-app-bg text-center no-font-padding text-xs bg-app-fg-muted px-2 py-1 rounded-full"
           textWrap="true"
           [maxLines]="2"
         ></Label>
@@ -30,7 +27,7 @@
       <Button
         col="2"
         [text]="shelfMark.commentText?.length ?? 0"
-        class="text-neutral-500 no-font-padding basic-button px-2 min-w-10"
+        class="text-app-fg-muted no-font-padding basic-button px-2 min-w-10"
         [class.text-orange-400]="shelfMark.commentText?.length > 360"
         (tap)="showCharCounterHint.set(!showCharCounterHint())"
       ></Button>
@@ -60,7 +57,9 @@
         [text]="'features.' + context().itemCategory + '.to_watch' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
         [ngClass]="
-          shelfMark.shelfType === 'wishlist' ? 'bg-forest-300' : 'bg-neutral-200'
+          shelfMark.shelfType === 'wishlist'
+            ? 'bg-primary-300 text-neutral-700'
+            : 'bg-app-bg-muted'
         "
         (tap)="shelfMark.shelfType = 'wishlist'"
       ></Label>
@@ -68,7 +67,9 @@
         [text]="'features.' + context().itemCategory + '.watching' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
         [ngClass]="
-          shelfMark.shelfType === 'progress' ? 'bg-forest-300' : 'bg-neutral-200'
+          shelfMark.shelfType === 'progress'
+            ? 'bg-primary-300 text-neutral-700'
+            : 'bg-app-bg-muted'
         "
         (tap)="shelfMark.shelfType = 'progress'"
       ></Label>
@@ -76,7 +77,9 @@
         [text]="'features.' + context().itemCategory + '.watched' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center mr-2"
         [ngClass]="
-          shelfMark.shelfType === 'complete' ? 'bg-forest-300' : 'bg-neutral-200'
+          shelfMark.shelfType === 'complete'
+            ? 'bg-primary-300 text-neutral-700'
+            : 'bg-app-bg-muted'
         "
         (tap)="shelfMark.shelfType = 'complete'"
       ></Label>
@@ -84,7 +87,9 @@
         [text]="'features.' + context().itemCategory + '.stopped' | L"
         class="text-xs rounded-lg px-2.5 py-1 grow text-center"
         [ngClass]="
-          shelfMark.shelfType === 'dropped' ? 'bg-forest-300' : 'bg-neutral-200'
+          shelfMark.shelfType === 'dropped'
+            ? 'bg-primary-300 text-neutral-700'
+            : 'bg-app-bg-muted'
         "
         (tap)="shelfMark.shelfType = 'dropped'"
       ></Label>
@@ -113,11 +118,11 @@
       <FlexboxLayout row="1" col="1" class="justify-between mt-2">
         <Label
           [text]="'common.bad' | L"
-          class="text-xs text-neutral-500"
+          class="text-xs text-app-fg-muted"
         ></Label>
         <Label
           [text]="'common.wow' | L"
-          class="text-xs text-neutral-500"
+          class="text-xs text-app-fg-muted"
         ></Label>
       </FlexboxLayout>
     </GridLayout>

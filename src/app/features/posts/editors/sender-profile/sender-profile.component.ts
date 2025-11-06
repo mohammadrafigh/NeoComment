@@ -20,7 +20,7 @@ import { User } from "~/app/core/models/user.model";
         col="0"
         [src]="user.avatar"
         failureImageUri="font://&#xeb4d;"
-        class="tabler-icon text-neutral-500 text-4xl rounded-full w-10 h-10 mr-3"
+        class="tabler-icon text-app-fg-muted text-4xl rounded-full w-10 h-10 mr-3"
         [decodeWidth]="200"
         [decodeHeight]="200"
       ></NSImg>
@@ -34,7 +34,7 @@ import { User } from "~/app/core/models/user.model";
         row="2"
         col="1"
         [text]="userHandle()"
-        class="text-xs text-neutral-500 mt-0.5 no-font-padding"
+        class="text-xs text-app-fg-muted mt-0.5 no-font-padding"
       ></Label>
     </GridLayout>
   `,

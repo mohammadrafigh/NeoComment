@@ -1,8 +1,8 @@
-<GridLayout rows="56, auto, auto" class="rounded-t-2xl bg-neutral-50">
+<GridLayout rows="56, auto, auto" bottomSheetContainer>
   <GridLayout
     row="0"
     columns="auto, *, auto"
-    class="rounded-t-2xl px-4 w-full bg-white"
+    class="rounded-t-2xl px-4 w-full bg-app-bg-pure"
   >
     <Button
       text="&#xeb55;"
@@ -19,7 +19,7 @@
     <Button
       [hidden]="loading() || newCollection"
       text="&#xeb0b;"
-      class="tabler-icon icon-button text-forest-600"
+      class="tabler-icon icon-button text-primary-600"
       col="2"
       (tap)="showNewCollectionForm()"
     ></Button>
@@ -72,7 +72,7 @@
     @if (collections().length === 0) {
       <Label
         [text]="'features.collection.no_collections' | L"
-        class="h-96 px-4 text-lg text-center text-neutral-400"
+        class="h-96 px-4 text-lg text-center text-app-fg-muted-light"
       ></Label>
     } @else {
       <CollectionView
@@ -84,7 +84,7 @@
       >
         <ng-template let-collection="item">
           <GridLayout
-            class="py-4 border-b-[1] border-neutral-200"
+            class="py-4 border-b-[1] border-app-bg-muted"
             columns="*, auto"
           >
             <Label col="0" [text]="collection.title"></Label>

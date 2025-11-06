@@ -24,6 +24,7 @@ import { Post } from "~/app/core/models/post/post.model";
 import { PostService } from "~/app/core/services/post.service";
 import { Status } from "~/app/core/models/post/status.model";
 import { PostContentComponent } from "~/app/shared/components/post/post-content/post-content.component";
+import { BottomSheetContainerDirective } from "~/app/shared/directives/bottom-sheet-container.directive";
 
 @Component({
   selector: "ns-post-reply",
@@ -35,6 +36,7 @@ import { PostContentComponent } from "~/app/shared/components/post/post-content/
     PostEditorComponent,
     SenderProfileComponent,
     PostContentComponent,
+    BottomSheetContainerDirective,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

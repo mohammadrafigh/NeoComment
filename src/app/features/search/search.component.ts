@@ -63,7 +63,6 @@ export class SearchComponent implements OnInit {
   messageService = inject(MessageService);
   activatedRoute = inject(ActivatedRoute);
   stateService = inject(StateService);
-  statusbarSize: number = global.statusbarSize;
   screenWidth = Screen.mainScreen.widthDIPs;
   loading = signal(false);
   itemSearchResults = signal<{

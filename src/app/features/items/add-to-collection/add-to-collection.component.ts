@@ -24,6 +24,7 @@ import { Collection } from "~/app/core/models/collection.model";
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 import { IconTextButtonComponent } from "~/app/shared/components/icon-text-button/icon-text-button.component";
 import { CollectionView } from "@nativescript-community/ui-collectionview";
+import { BottomSheetContainerDirective } from "~/app/shared/directives/bottom-sheet-container.directive";
 
 @Component({
   selector: "ns-add-to-collection",
@@ -34,6 +35,7 @@ import { CollectionView } from "@nativescript-community/ui-collectionview";
     NativeScriptLocalizeModule,
     CollectionViewModule,
     IconTextButtonComponent,
+    BottomSheetContainerDirective,
   ],
   schemas: [NO_ERRORS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,

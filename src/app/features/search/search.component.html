@@ -1,14 +1,14 @@
 <ActionBar flat="true">
-  <GridLayout columns="*" class="pr-4 pb-2 w-full" [paddingTop]="statusbarSize + 8">
+  <GridLayout columns="*" class="pr-4 py-2 w-full">
     <StackLayout
       row="0"
       sharedTransitionTag="searchbox"
-      class="bg-neutral-200 rounded-full my-4"
+      class="bg-app-bg-muted rounded-full my-4"
     >
       <FlexboxLayout class="textfield-with-icon-container">
         <Label
           text="&#xeb1c;"
-          class="tabler-icon text-neutral-500 shrink-0"
+          class="tabler-icon text-app-fg-muted shrink-0"
         ></Label>
         <TextField
           [editable]="false"
@@ -39,7 +39,7 @@
           [hidden]="
             loading() ||
             itemSearchResults()[category.key]?.count > 0 ||
-              itemSearchResults()[category.key]?.accounts?.length > 0
+            itemSearchResults()[category.key]?.accounts?.length > 0
           "
         >
           <Label [text]="'features.search.no_result' | L"></Label>
@@ -51,7 +51,7 @@
             [colWidth]="
               screenWidth >= 1050 ? '33%' : screenWidth >= 700 ? '50%' : '100%'
             "
-            class="bg-forest-300/15 p-2 h-full"
+            class="bg-primary-300-15 p-2 h-full"
             (itemTap)="navigateToItem($event)"
             (loadMoreItems)="loadMore(category.key)"
           >
@@ -71,7 +71,7 @@
             [colWidth]="
               screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'
             "
-            class="bg-forest-300/15 p-2 h-full"
+            class="bg-primary-300-15 p-2 h-full"
             (loadMoreItems)="loadMore(category.key)"
           >
             <ng-template let-item="item">
@@ -81,7 +81,7 @@
                     row="0"
                     [src]="item.avatar"
                     failureImageUri="font://&#xeb4d;"
-                    class="tabler-icon text-neutral-500 border-8 text-4xl border-forest-300 rounded-full w-16 h-16"
+                    class="tabler-icon text-app-fg-muted border-8 text-4xl border-primary-300 rounded-full w-16 h-16"
                     [decodeWidth]="200"
                     [decodeHeight]="200"
                   ></NSImg>
@@ -93,7 +93,7 @@
                   <Label
                     row="2"
                     [text]="'@' + item.acct"
-                    class="tabler-icon text-neutral-500 text-xs text-center"
+                    class="tabler-icon text-app-fg-muted text-xs text-center"
                   ></Label>
                 </GridLayout>
               </GridLayout>
@@ -107,7 +107,7 @@
             [colWidth]="
               screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'
             "
-            class="bg-forest-300/15 p-2 h-full"
+            class="bg-primary-300-15 p-2 h-full"
             (itemTap)="navigateToItem($event)"
             (loadMoreItems)="loadMore(category.key)"
           >

@@ -127,7 +127,7 @@ export class ExternalResourcesComponent implements OnChanges {
     if (this.site) {
       resources.unshift({
         title: localize("common.website"),
-        class: "bg-neutral-200",
+        class: "bg-app-bg-muted text-app-fg",
         url: this.site,
       });
     }
@@ -136,7 +136,7 @@ export class ExternalResourcesComponent implements OnChanges {
         const host = new URL(this.localURL).hostname.replace(/^www\./, "");
         resources.unshift({
           title: host,
-          class: "bg-neutral-200",
+          class: "bg-app-bg-muted text-app-fg",
           url: this.localURL,
         });
       } catch {
@@ -155,9 +155,9 @@ export class ExternalResourcesComponent implements OnChanges {
       if (resource.title) {
         return resource;
       }
-      return { title: host, class: "bg-neutral-200", url };
+      return { title: host, class: "bg-app-bg-muted text-app-fg", url };
     } catch {
-      return { title: localize("common.unknown"), class: "bg-neutral-200", url };
+      return { title: localize("common.unknown"), class: "bg-app-bg-muted text-app-fg", url };
     }
   }
 

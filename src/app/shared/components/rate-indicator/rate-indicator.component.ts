@@ -5,16 +5,23 @@ import { NativeScriptCommonModule } from "@nativescript/angular";
   selector: "ns-rate-indicator",
   imports: [NativeScriptCommonModule],
   schemas: [NO_ERRORS_SCHEMA],
+  styles: [
+    `
+      .rate-indicator {
+        /* Step-style fill: primary color up to --rate-pct, then app background */
+        background: linear-gradient(
+          to right,
+          var(--color-primary-300) 0%,
+          var(--color-primary-300) var(--rate-pct, 0%),
+          var(--color-app-bg-pure) var(--rate-pct, 0%)
+        );
+      }
+    `,
+  ],
   template: `
     <StackLayout
-      class="rounded-full border-[1] border-neutral-400 bg-forest-300"
-      [background]="
-        'linear-gradient(to right, transparent ' +
-        rate * 10 +
-        '%, white ' +
-        rate * 10 +
-        '%)'
-      "
+      class="rate-indicator rounded-full border-[1] border-app-fg-muted-light"
+      [style.--rate-pct]="rate * 10 + '%'"
       [height]="size"
       [width]="size"
     ></StackLayout>

@@ -17,8 +17,8 @@ export class MessageService {
     const anchor = anchorRef ?? this.anchorRef;
     const componentRef = anchor.createComponent(MessageComponent);
     componentRef.setInput("message", message);
-    componentRef.setInput("backgroundColor", "bg-gray-700");
-    componentRef.setInput("textColor", "text-neutral-50");
+    componentRef.setInput("backgroundColor", "bg-app-fg");
+    componentRef.setInput("textColor", "text-app-bg");
 
     setTimeout(() => {
       componentRef.destroy();

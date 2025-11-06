@@ -1,4 +1,4 @@
-<StackLayout class="rounded-lg bg-white w-[150] h-[246]">
+<StackLayout class="rounded-lg bg-app-bg-pure w-[150] h-[246]">
   <NSImg
     [sharedTransitionTag]="'itemImage' + item?.uuid"
     [src]="item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
@@ -15,28 +15,28 @@
           [text]="
             post?.account.displayName ? 'by ' + post.account.displayName : ''
           "
-          class="text-xs font-medium text-neutral-500 mt-0.5"
+          class="text-xs font-medium text-app-fg-muted mt-0.5"
         ></Label>
       </StackLayout>
       <FlexboxLayout class="justify-between mt-2">
         <StackLayout orientation="horizontal">
           <Label
             text="&#xeabe;"
-            class="tabler-icon text-neutral-500 mr-1 text-lg"
+            class="tabler-icon text-app-fg-muted mr-1 text-lg"
           ></Label>
           <Label
             [text]="post?.favouritesCount | kilo"
-            class="text-neutral-500 text-sm"
+            class="text-app-fg-muted text-sm"
           ></Label>
         </StackLayout>
         <StackLayout orientation="horizontal">
           <Label
             [text]="post?.reblogsCount"
-            class="text-neutral-500 text-sm mr-2"
+            class="text-app-fg-muted text-sm mr-2"
           ></Label>
           <Label
             text="&#xeb72;"
-            class="tabler-icon text-neutral-500 text-lg"
+            class="tabler-icon text-app-fg-muted text-lg"
           ></Label>
         </StackLayout>
       </FlexboxLayout>

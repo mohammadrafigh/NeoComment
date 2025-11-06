@@ -25,6 +25,7 @@ import { authInterceptor } from "./app/core/interceptors/auth.interceptor";
 import { tokenInterceptor } from "./app/core/interceptors/token.interceptor";
 import {
   Application,
+  ApplicationSettings,
   Button,
   Label,
   Screen,
@@ -62,21 +63,37 @@ if (Application.android) {
   // To prevent memory leaks in rare cases per plugin documentation
   Application.on(Application.exitEvent, (args) => imageModuleShutDown());
 
+  // Apply native color themes, These should be set before app start so we cannot do it in the ThemeService
+  Application.android.on(
+    Application.AndroidApplication.activityCreatedEvent,
+    (args) => {
+      const activity = args.activity;
+      const context = activity.getApplicationContext();
+
+      const themeId = context
+        .getResources()
+        .getIdentifier(
+          ApplicationSettings.getString("theme") === "beach"
+            ? "AppThemeBeach"
+            : "AppThemeForest",
+          "style",
+          context.getPackageName(),
+        );
+
+      activity.setTheme(themeId);
+    },
+  );
+
   // Set status bar and navigation bar styles
   Application.android.on(
     Application.AndroidApplication.activityStartedEvent,
     (args) => {
-      const window = args.activity.getWindow();
-      const decorView = window.getDecorView();
+      const decorView = args.activity.getWindow().getDecorView();
 
-      // TODO: Mohammad 07-31-2025: Remove the hardcoded colors when themes are implemented
       decorView.setSystemUiVisibility(
         android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
           android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
           android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR,
-      );
-      window.setNavigationBarColor(
-        android.graphics.Color.parseColor("#FAFAFA"),
       );
 
       // Workaround for https://issuetracker.google.com/issues/36911528?pli=1
@@ -107,17 +124,28 @@ if (Application.android) {
     },
   );
 
-  // Set statusbarSize to use as top padding of pages
-  const resourceId = Utils.android
+  // Set statusbarSize and navigationbarSize to use as top/bottom padding of pages
+  const statusbarRId = Utils.android
     .getApplicationContext()
     .getResources()
     .getIdentifier("status_bar_height", "dimen", "android");
-  if (resourceId > 0) {
+  const navigationbarRId = Utils.android
+    .getApplication()
+    .getResources()
+    .getIdentifier("navigation_bar_height", "dimen", "android");
+  if (statusbarRId > 0) {
     global.statusbarSize =
       Utils.android
         .getApplicationContext()
         .getResources()
-        .getDimensionPixelSize(resourceId) / Screen.mainScreen.scale;
+        .getDimensionPixelSize(statusbarRId) / Screen.mainScreen.scale;
+  }
+  if (navigationbarRId > 0) {
+    global.navigationbarSize =
+      Utils.android
+        .getApplicationContext()
+        .getResources()
+        .getDimensionPixelSize(navigationbarRId) / Screen.mainScreen.scale;
   }
 }
 

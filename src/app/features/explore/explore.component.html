@@ -1,9 +1,5 @@
 <ActionBar flat="true">
-  <GridLayout
-    columns="auto, *, auto"
-    class="pr-4 pb-2 w-full"
-    [paddingTop]="statusbarSize + 8"
-  >
+  <GridLayout columns="auto, *, auto" class="pr-4 py-2 w-full">
     <Button
       text="&#xfa7e;"
       class="tabler-icon icon-button"
@@ -18,7 +14,7 @@
     <NSImg
       [src]="stateService.user()?.avatar"
       failureImageUri="font://&#xeb4d;"
-      class="tabler-icon text-neutral-500 rounded-full w-10 h-10"
+      class="tabler-icon text-app-fg-muted rounded-full w-10 h-10"
       [decodeWidth]="100"
       [decodeHeight]="100"
       col="2"
@@ -29,12 +25,12 @@
 <StackLayout>
   <StackLayout
     sharedTransitionTag="searchbox"
-    class="bg-neutral-200 rounded-full m-4"
+    class="bg-app-bg-muted rounded-full m-4"
   >
     <FlexboxLayout class="textfield-with-icon-container">
       <Label
         text="&#xeb1c;"
-        class="tabler-icon text-neutral-500 shrink-0"
+        class="tabler-icon text-app-fg-muted shrink-0"
       ></Label>
       <TextField
         [editable]="false"
@@ -63,7 +59,7 @@
           orientation="horizontal"
           colWidth="333"
           rowHeight="150"
-          class="bg-forest-300/15 py-4 px-2 h-[182]"
+          class="bg-primary-300-15 py-4 px-2 h-[182]"
           (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'book')"
         >
@@ -87,7 +83,7 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="306"
-          class="bg-forest-300/15 py-4 px-2 h-[338]"
+          class="bg-primary-300-15 py-4 px-2 h-[338]"
           (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'movie')"
         >
@@ -111,7 +107,7 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="306"
-          class="bg-forest-300/15 py-4 px-2 h-[338]"
+          class="bg-primary-300-15 py-4 px-2 h-[338]"
           (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'series')"
         >
@@ -135,7 +131,7 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="306"
-          class="bg-forest-300/15 py-4 px-2 h-[338]"
+          class="bg-primary-300-15 py-4 px-2 h-[338]"
           (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'game')"
         >
@@ -159,7 +155,7 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="256"
-          class="bg-forest-300/15 py-4 px-2 h-[288]"
+          class="bg-primary-300-15 py-4 px-2 h-[288]"
           (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'music')"
         >
@@ -183,7 +179,7 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="246"
-          class="bg-forest-300/15 py-4 px-2 h-[278]"
+          class="bg-primary-300-15 py-4 px-2 h-[278]"
           (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'podcast')"
         >
@@ -207,7 +203,7 @@
           orientation="horizontal"
           colWidth="166"
           rowHeight="246"
-          class="bg-forest-300/15 py-4 px-2 h-[278]"
+          class="bg-primary-300-15 py-4 px-2 h-[278]"
           (itemTap)="navigateToItem($event, category)"
           (itemLoading)="onItemLoading($event, 'collection')"
         >

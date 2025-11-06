@@ -1,4 +1,9 @@
-<GridLayout>
+<GridLayout
+  #appRoot
+  [paddingTop]="statusbarSize"
+  [paddingBottom]="navigationbarSize"
+  class="bg-app-bg"
+>
   <page-router-outlet></page-router-outlet>
   <ng-template #messageAnchor></ng-template>
 </GridLayout>
