@@ -33,6 +33,7 @@ import { Router } from "@angular/router";
 import { PageTransition, SharedTransition } from "@nativescript/core";
 import { Post } from "~/app/core/models/post/post.model";
 import { PostService } from "~/app/core/services/post.service";
+import { localize } from "@nativescript/localize";
 
 @Component({
   selector: "ns-explore",
@@ -174,5 +175,38 @@ export class ExploreComponent implements OnInit {
         },
       }),
     } as any);
+  }
+
+  openMenu(event: any) {
+    const anchor = event.object.nativeView;
+    const PopupMenu = android.widget.PopupMenu;
+    const menu = new PopupMenu(anchor.getContext(), anchor);
+
+    // Add menu items
+    menu.getMenu().add(0, 0, 0, localize("features.preferences.preferences"));
+    menu.getMenu().add(0, 1, 1, localize("features.about.about_neocomment"));
+
+    // Handle item selection
+    menu.setOnMenuItemClickListener(
+      new PopupMenu.OnMenuItemClickListener({
+        onMenuItemClick: (item) => {
+          switch (item.getItemId()) {
+            case 0: {
+              this.router.navigate(["/preferences"]);
+              break;
+            }
+            case 1: {
+              this.router.navigate(["/about"]);
+              break;
+            }
+            default:
+              break;
+          }
+          return true;
+        },
+      }),
+    );
+
+    menu.show();
   }
 }

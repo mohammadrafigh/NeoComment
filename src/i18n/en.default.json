@@ -45,6 +45,12 @@
     "system": "System",
     "requires_app_restart": "An app restart is required to apply the theme and language"
   },
+  "features.about": {
+    "about_neocomment": "About NeoComment",
+    "subtitle": "NeoDB client made with ❤️",
+    "version": "Version",
+    "support_development": "Support Development"
+  },
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",
     "authentication_error": "Unable to complete authentication. Please try again."

@@ -12,7 +12,7 @@
       col="1"
     ></Label>
     <NSImg
-      nsRouterLink="/preferences"
+      (tap)="openMenu($event)"
       [src]="stateService.user()?.avatar"
       failureImageUri="font://&#xeb4d;"
       class="tabler-icon text-app-fg-muted rounded-full w-10 h-10"

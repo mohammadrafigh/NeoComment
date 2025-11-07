@@ -56,4 +56,9 @@ export const routes: Routes = [
         (m) => m.PreferencesComponent,
       ),
   },
+  {
+    path: "about",
+    loadComponent: () =>
+      import("./features/about/about.component").then((m) => m.AboutComponent),
+  },
 ];

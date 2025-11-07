@@ -1,0 +1,72 @@
+<ActionBar flat="true">
+  <GridLayout columns="auto, *, 40" class="pr-4 py-2 w-full">
+    <Button
+      text="&#xea60;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="location.back()"
+    ></Button>
+    <Label
+      [text]="'features.about.about_neocomment' | L"
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+  </GridLayout>
+</ActionBar>
+
+<ScrollView>
+  <StackLayout class="p-4">
+    <StackLayout class="items-center mb-4">
+      <NSImg src="res://logo" class="w-40"></NSImg>
+      <Label
+        [text]="'features.about.subtitle' | L"
+        class="text-base text-app-fg-muted text-center"
+      ></Label>
+    </StackLayout>
+
+    <StackLayout class="p-4 rounded-2xl bg-app-bg-pure mb-4">
+      <FlexboxLayout class="mb-1">
+        <Label [text]="'features.about.version' | L" class="h1 grow"></Label>
+        <Label class="tabler-icon" text="&#xf8b0;"></Label>
+      </FlexboxLayout>
+      <Label [text]="'v' + version()" class="text-app-fg-muted"></Label>
+    </StackLayout>
+
+    <StackLayout class="p-4 rounded-2xl bg-app-bg-pure mb-4">
+      <FlexboxLayout class="mb-1">
+        <Label text="GitHub" class="h1 grow"></Label>
+        <Label class="tabler-icon" text="&#xec1c;"></Label>
+      </FlexboxLayout>
+      <Label
+        text="mohammadrafigh/NeoComment"
+        class="text-primary-500 font-medium"
+        accessibilityRole="button"
+        (tap)="openURL('https://github.com/mohammadrafigh/NeoComment')"
+      ></Label>
+    </StackLayout>
+
+    <StackLayout class="p-4 rounded-2xl bg-app-bg-pure mb-4">
+      <FlexboxLayout class="mb-1">
+        <Label
+          [text]="'features.about.support_development' | L"
+          class="h1 grow"
+        ></Label>
+        <Label class="tabler-icon" text="&#xeabe;"></Label>
+      </FlexboxLayout>
+
+      @for (paymentAddress of paymentAddresses(); track paymentAddress.name) {
+        <Label
+          [text]="paymentAddress.name"
+          class="text-app-fg-muted mt-2 font-medium"
+        ></Label>
+        <Label
+          [text]="paymentAddress.address"
+          class="text-primary-500 font-medium mb-4"
+          textWrap="true"
+          accessibilityRole="button"
+          (tap)="openWallet(paymentAddress)"
+        ></Label>
+      }
+    </StackLayout>
+  </StackLayout>
+</ScrollView>

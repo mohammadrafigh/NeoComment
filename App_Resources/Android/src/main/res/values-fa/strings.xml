@@ -80,6 +80,10 @@
   <string name="_core_user_service_get_user_error_28n28">"Unable to get user info"</string>
   <string name="_core_auth_service_authentication_error_EM4WQ">"Unable to complete authentication. Please try again."</string>
   <string name="_core_auth_service_unavailable_instance_Z22pryR">"The instance is unavailable"</string>
+  <string name="_features_about_support_development_c88lY">"Support Development"</string>
+  <string name="_features_about_version_Z1zD0K1">"Version"</string>
+  <string name="_features_about_subtitle_1DHFoC">"NeoDB client made with ❤️"</string>
+  <string name="_features_about_about_neocomment_Ixwzz">"About NeoComment"</string>
   <string name="_features_preferences_requires_app_restart_Z1ytYar">"An app restart is required to apply the theme and language"</string>
   <string name="_features_preferences_system_Z1V0wyW">"System"</string>
   <string name="_features_preferences_dark_ubixF">"Dark"</string>
