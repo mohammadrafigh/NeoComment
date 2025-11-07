@@ -7,13 +7,15 @@
         (tap)="contentPressed()"
       ></Label>
     }
-    @for (line of commentParts(); track $index) {
+    @for (line of commentLines(); track $index) {
       <WrapLayout
         orientation="horizontal"
         class="mb-2"
+        [horizontalAlignment]="line.alignment"
+        [textAlignment]="line.alignment"
         (tap)="contentPressed()"
       >
-        @for (part of line; track $index) {
+        @for (part of line.parts; track $index) {
           @if (part.type === "emoji") {
             <NSImg
               [src]="part.url"

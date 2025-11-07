@@ -22,6 +22,11 @@ interface CommentPart {
   url?: string; // for links and emojis
 }
 
+interface CommentLine {
+  alignment: "left" | "right";
+  parts: CommentPart[];
+}
+
 @Component({
   selector: "ns-post-content",
   imports: [NativeScriptCommonModule],
@@ -33,7 +38,7 @@ export class PostContentComponent implements OnChanges {
   @Output() onContentPressed = new EventEmitter();
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
-  commentParts = signal<CommentPart[][]>([]);
+  commentLines = signal<CommentLine[]>([]);
   title = signal<string>(null);
   revealContent = signal(false);
   ignoreContentPressed = false;
@@ -45,7 +50,7 @@ export class PostContentComponent implements OnChanges {
   }
 
   private initComment() {
-    this.commentParts.set([]);
+    this.commentLines.set([]);
     this.title.set(null);
     this.revealContent.set(false);
 
@@ -99,9 +104,10 @@ export class PostContentComponent implements OnChanges {
 
     while ((match = regex.exec(content)) !== null) {
       if (match.index > lastIndex) {
+        const text = content.slice(lastIndex, match.index);
         parts.push({
           type: "text",
-          text: content.slice(lastIndex, match.index),
+          text: text,
         });
       }
 
@@ -112,11 +118,19 @@ export class PostContentComponent implements OnChanges {
         const found = this.post.mentions.find((m) =>
           token.includes(m.username),
         );
-        parts.push({ type: "mention", text: token, url: found?.url });
+        parts.push({
+          type: "mention",
+          text: token,
+          url: found?.url,
+        });
       } else if (token.startsWith("#")) {
         // Hashtags
         const found = this.post.tags.find((t) => "#" + t.name === token);
-        parts.push({ type: "hashtag", text: token, url: found?.url });
+        parts.push({
+          type: "hashtag",
+          text: token,
+          url: found?.url,
+        });
       } else if (token.startsWith("http")) {
         // Links
         parts.push({ type: "link", text: token, url: token });
@@ -130,10 +144,11 @@ export class PostContentComponent implements OnChanges {
           parts.push({ type: "text", text: token });
         }
       } else if (token.startsWith(">!")) {
+        const text = match.slice(1).find(Boolean) ?? "";
         // Spoilers
         parts.push({
           type: "spoiler",
-          text: match.slice(1).find(Boolean) ?? "",
+          text: text,
         });
       }
 
@@ -141,10 +156,14 @@ export class PostContentComponent implements OnChanges {
     }
 
     if (lastIndex < content.length) {
-      parts.push({ type: "text", text: content.slice(lastIndex) });
+      const text = content.slice(lastIndex);
+      parts.push({
+        type: "text",
+        text: text,
+      });
     }
 
-    const commentParts: CommentPart[][] = [];
+    const commentLines: CommentLine[] = [];
     let currentLine: CommentPart[] = [];
     for (let part of parts) {
       if (
@@ -157,7 +176,12 @@ export class PostContentComponent implements OnChanges {
             currentLine.push({ ...part, text: chunk });
           }
           if (i < split.length - 1) {
-            commentParts.push(currentLine);
+            let alignment: "left" | "right" = "left";
+            if (this.isLineMostlyRTL(currentLine)) {
+              currentLine.reverse();
+              alignment = "right";
+            }
+            commentLines.push({ parts: currentLine, alignment });
             currentLine = [];
           }
         });
@@ -165,9 +189,32 @@ export class PostContentComponent implements OnChanges {
         currentLine.push(part);
       }
     }
-    if (currentLine.length > 0) commentParts.push(currentLine);
+    if (currentLine.length > 0) {
+      let alignment: "left" | "right" = "left";
 
-    this.commentParts.set(commentParts);
+      if (this.isLineMostlyRTL(currentLine)) {
+        currentLine.reverse();
+        alignment = "right";
+      }
+      commentLines.push({ parts: currentLine, alignment });
+    }
+
+    this.commentLines.set(commentLines);
+  }
+
+  private isLineMostlyRTL(lineParts: CommentPart[]): boolean {
+    const text = lineParts.map((p) => p.text).join("");
+
+    const isNumericLine = /^[\d\u0660-\u0669\u06F0-\u06F9]+$/.test(text);
+    if (isNumericLine) {
+      return false;
+    }
+
+    const rtlRegex =
+      /[\u0590-\u05FF\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/g;
+
+    const matches = text.match(rtlRegex);
+    return matches !== null && matches.length > text.length / 2;
   }
 
   onPartTap(event: any, part: CommentPart) {
