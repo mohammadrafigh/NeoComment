@@ -72,8 +72,8 @@
   --color-app-bg-muted-light: var(--color-neutral-600);
   --color-app-bg-pure: var(--color-neutral-900);
 
-  --color-app-fg: var(--color-neutral-50);
-  --color-app-fg-muted: var(--color-neutral-300);
+  --color-app-fg: var(--color-neutral-200);
+  --color-app-fg-muted: var(--color-neutral-400);
   --color-app-fg-muted-light: var(--color-neutral-600);
 }
 
