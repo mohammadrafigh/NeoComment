@@ -18,7 +18,6 @@ import {
   ThemeService,
 } from "../../core/services/theme.service";
 import { LanguageService } from "../../core/services/language.service";
-import { MessageService } from "~/app/core/services/message.service";
 import { Location } from "@angular/common";
 import { APP_LANGUAGES } from "~/app/shared/constants/app-languages";
 import { Dialogs, Utils } from "@nativescript/core";
@@ -41,7 +40,6 @@ import { IconTextButtonComponent } from "~/app/shared/components/icon-text-butto
 export class PreferencesComponent implements OnInit {
   private themeService = inject(ThemeService);
   private languageService = inject(LanguageService);
-  messageService = inject(MessageService);
   location = inject(Location);
   appLanguages = APP_LANGUAGES;
   selectedTheme = signal<ThemeName>("forest");
