@@ -129,9 +129,9 @@ export class RepliesComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateToPost(event: any) {
-    if (event.item.id !== this.post.id) {
-      this.router.navigate([`/posts/${event.item.id}`], {
+  navigateToPost(itemId: string) {
+    if (itemId !== this.post.id) {
+      this.router.navigate([`/posts/${itemId}`], {
         queryParams: {
           type: this.type,
           itemUUID: this.itemUUID,

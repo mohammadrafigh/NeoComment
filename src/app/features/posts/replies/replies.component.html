@@ -20,7 +20,6 @@
     [items]="postsStateService.postReplies[post.id]()"
     colWidth="100%"
     class="p-4 bg-primary-300-15 h-full"
-    (itemTap)="navigateToPost($event)"
   >
     <ng-template let-item="item">
       <StackLayout>
@@ -37,6 +36,7 @@
               replyingPost: item,
             })
           "
+          (postPressed)="navigateToPost(item.id)"
         ></ns-post-item>
       </StackLayout>
     </ng-template>

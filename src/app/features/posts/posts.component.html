@@ -35,7 +35,6 @@
     class="p-4 bg-primary-300-15 h-full"
     [class.pb-14]="currentPage < maxPages"
     (loadMoreItems)="getPosts()"
-    (itemTap)="navigateToPost($any($event).item.id)"
   >
     <ng-template let-item="item">
       <StackLayout>
@@ -52,6 +51,7 @@
               replyingPost: item,
             })
           "
+          (postPressed)="navigateToPost(item.id)"
         ></ns-post-item>
       </StackLayout>
     </ng-template>
