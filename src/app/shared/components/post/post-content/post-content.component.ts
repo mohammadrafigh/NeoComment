@@ -36,6 +36,7 @@ export class PostContentComponent implements OnChanges {
   commentParts = signal<CommentPart[][]>([]);
   title = signal<string>(null);
   revealContent = signal(false);
+  ignoreContentPressed = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.post.extNeodb.relatedWith) {
@@ -156,11 +157,12 @@ export class PostContentComponent implements OnChanges {
 
   onPartTap(event: any, part: CommentPart) {
     if (part.type === "mention") {
-      event.cancel = true;
+      this.ignoreContentPressed = true;
       console.log("Mention tapped:", part.text, part.url);
       // TODO: Mohammad 09-19-2025: navigate to profile
     } else if (part.type === "hashtag") {
-      event.cancel = true;
+      this.ignoreContentPressed = true;
+
       const category = CATEGORIES.get(
         this.post.extNeodb.tag[0].type.toLowerCase().toLowerCase(),
       )?.categoryInApp;
@@ -172,12 +174,22 @@ export class PostContentComponent implements OnChanges {
         },
       });
     } else if (part.type === "link") {
-      event.cancel = true;
+      this.ignoreContentPressed = true;
+
       openUrl(part.url);
     } else if (part.type === "spoiler") {
-      event.cancel = true;
+      this.ignoreContentPressed = true;
+
       this.revealContent.set(!this.revealContent());
       this.cdr.detectChanges();
+    }
+  }
+
+  contentPressed(event: any) {
+    if (!this.ignoreContentPressed) {
+      this.onContentPressed.emit();
+    } else {
+      this.ignoreContentPressed = false;
     }
   }
 }

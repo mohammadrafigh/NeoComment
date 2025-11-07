@@ -4,14 +4,14 @@
       <Label
         class="text-center mb-4 font-bold"
         [text]="title()"
-        (tap)="onContentPressed.emit()"
+        (tap)="contentPressed($event)"
       ></Label>
     }
     @for (line of commentParts(); track $index) {
       <WrapLayout
         orientation="horizontal"
         class="mb-2"
-        (tap)="onContentPressed.emit()"
+        (tap)="contentPressed($event)"
       >
         @for (part of line; track $index) {
           @if (part.type === "emoji") {
