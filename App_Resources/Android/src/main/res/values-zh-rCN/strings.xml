@@ -19,6 +19,8 @@
   <string name="_app_name_1k3Sbz">"NeoComment"</string>
   <string name="app_name">"NeoComment"</string>
   <string name="title_activity_kimera">"NeoComment"</string>
+  <string name="_common_language_1xQdEY">"Language"</string>
+  <string name="_common_save_Z2khofi">"Save"</string>
   <string name="_common_create_tIy6S">"Create"</string>
   <string name="_common_write_your_reply_2klOAk">"Write your reply"</string>
   <string name="_common_reply_removal_notice_Z28Xts3">"Are you sure you want to remove your reply"</string>
@@ -79,6 +81,16 @@
   <string name="_common_generic_error_ZwC57J">"Something went wrong"</string>
   <string name="_common_people_TKIHq">"People"</string>
   <string name="_common_performances_1ICKps">"Performances"</string>
+  <string name="_features_preferences_requires_app_restart_Z1ytYar">"* An app restart is required to apply the new theme"</string>
+  <string name="_features_preferences_system_Z1V0wyW">"System"</string>
+  <string name="_features_preferences_dark_ubixF">"Dark"</string>
+  <string name="_features_preferences_light_5GxoD">"Light"</string>
+  <string name="_features_preferences_beach_51iQY">"Beach"</string>
+  <string name="_features_preferences_forest_Z2ny6sL">"Forest"</string>
+  <string name="_features_preferences_theme_mode_Z1ko6bO">"Mode"</string>
+  <string name="_features_preferences_theme_color_ZGjDbP">"Color"</string>
+  <string name="_features_preferences_theme_6dWry">"Theme"</string>
+  <string name="_features_preferences_preferences_1QzO9q">"Preferences"</string>
   <string name="_features_collection_no_collections_2qVxo4">"You don\'t have any collections yet"</string>
   <string name="_features_collection_add_name_message_19MjSN">"Please enter a name for the collection"</string>
   <string name="_features_collection_description_1kKOr5">"Description"</string>
@@ -87,7 +99,6 @@
   <string name="_features_movie_watched_1SxQrk">"Watched"</string>
   <string name="_features_movie_watching_Z2ib3Mg">"Watching"</string>
   <string name="_features_movie_to_watch_rhnG9">"To Watch"</string>
-  <string name="_features_movie_language_e6nUQ">"Language"</string>
   <string name="_features_movie_country_1Gp7vh">"Country"</string>
   <string name="_features_movie_languages_25316n">"Languages"</string>
   <string name="_features_movie_countries_1S52xW">"Countries"</string>
@@ -99,5 +110,6 @@
   <string name="_features_movie_directors_ZQ81HA">"Directors"</string>
   <string name="_features_movie_cast_and_crew_Z128LYs">"Cast and Crew"</string>
   <string name="_features_search_no_result_wbnfd">"Could not find anything"</string>
+  <string name="_features_movie_language_e6nUQ">"features.movie.language"</string>
   <string name="_common_user_ratings_Z1Y1ysf">"common.user_ratings"</string>
 </resources>

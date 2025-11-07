@@ -1,0 +1,86 @@
+<ActionBar flat="true">
+  <GridLayout columns="auto, *, 40" class="pr-4 py-2 w-full">
+    <Button
+      text="&#xea60;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="location.back()"
+    ></Button>
+    <Label
+      [text]="'features.preferences.preferences' | L"
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+  </GridLayout>
+</ActionBar>
+
+<ScrollView>
+  <StackLayout class="p-4">
+    <Label [text]="'features.preferences.theme' | L" class="h1 mb-2"></Label>
+    <GridLayout columns="*, auto, auto">
+      <Label col="0" [text]="'features.preferences.theme_color' | L"></Label>
+      <Button
+        col="1"
+        [text]="'features.preferences.forest' | L"
+        class="gray-button rounded-none rounded-l-full"
+        [class.bg-forest-300]="selectedTheme() === 'forest'"
+        [class.text-neutral-700]="selectedTheme() === 'forest'"
+        (tap)="selectedTheme.set('forest')"
+      ></Button>
+      <Button
+        col="2"
+        [text]="'features.preferences.beach' | L"
+        class="gray-button rounded-none rounded-r-full"
+        [class.bg-beach-300]="selectedTheme() === 'beach'"
+        [class.text-neutral-700]="selectedTheme() === 'beach'"
+        (tap)="selectedTheme.set('beach')"
+      ></Button>
+    </GridLayout>
+
+    <GridLayout rows="auto, auto" columns="*, auto, auto, auto" class="mt-4">
+      <Label
+        row="0"
+        col="0"
+        [text]="'features.preferences.theme_mode' | L"
+      ></Label>
+      <Button
+        row="0"
+        col="1"
+        [text]="'features.preferences.light' | L"
+        class="gray-button rounded-none rounded-l-full"
+        [class.primary-button]="selectedMode() === 'light'"
+        (tap)="selectedMode.set('light')"
+      ></Button>
+      <Button
+        row="0"
+        col="2"
+        [text]="'features.preferences.dark' | L"
+        class="gray-button rounded-none h-[52]"
+        [class.primary-button]="selectedMode() === 'dark'"
+        (tap)="selectedMode.set('dark')"
+      ></Button>
+      <Button
+        row="0"
+        col="3"
+        [text]="'features.preferences.system' | L"
+        class="gray-button rounded-none rounded-r-full"
+        [class.primary-button]="selectedMode() === 'system'"
+        (tap)="selectedMode.set('system')"
+      ></Button>
+      <Label
+        class="text-app-fg-muted-light text-sm"
+        row="1"
+        colSpan="4"
+        [text]="'features.preferences.requires_app_restart' | L"
+      ></Label>
+    </GridLayout>
+
+    <Label [text]="'common.language' | L" class="h1 mt-4 mb-2"></Label>
+
+    <Button
+      [text]="'common.save' | L"
+      (tap)="save()"
+      class="mt-12 primary-button"
+    ></Button>
+  </StackLayout>
+</ScrollView>

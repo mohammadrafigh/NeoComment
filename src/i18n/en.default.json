@@ -22,7 +22,6 @@
     "countries": "Countries",
     "languages": "Languages",
     "country": "Country",
-    "language": "Language",
     "to_watch": "To Watch",
     "watching": "Watching",
     "watched": "Watched",
@@ -33,6 +32,18 @@
     "description": "Description",
     "add_name_message": "Please enter a name for the collection",
     "no_collections": "You don't have any collections yet"
+  },
+  "features.preferences": {
+    "preferences": "Preferences",
+    "theme": "Theme",
+    "theme_color": "Color",
+    "theme_mode": "Mode",
+    "forest": "Forest",
+    "beach": "Beach",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "requires_app_restart": "* An app restart is required to apply the new theme"
   },
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",
@@ -110,6 +121,8 @@
     "add_reply_message": "Please write your reply",
     "reply_removal_notice": "Are you sure you want to remove your reply",
     "write_your_reply": "Write your reply",
-    "create": "Create"
+    "create": "Create",
+    "save": "Save",
+    "language": "Language"
   }
 }
