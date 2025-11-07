@@ -40,10 +40,7 @@ export abstract class BaseItemPageComponent implements OnInit, OnDestroy {
   descriptionCollapsed = signal(true);
   itemTitle = computed(() =>
     this.item()
-      ? this.neoL.transform(
-          this.item().localizedTitle,
-          this.stateService.preference().language,
-        ) ||
+      ? this.neoL.transform(this.item().localizedTitle) ||
         this.item().displayTitle ||
         this.item().title
       : undefined,

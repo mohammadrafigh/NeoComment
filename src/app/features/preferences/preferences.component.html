@@ -37,14 +37,9 @@
       ></Button>
     </GridLayout>
 
-    <GridLayout rows="auto, auto" columns="*, auto, auto, auto" class="mt-4">
-      <Label
-        row="0"
-        col="0"
-        [text]="'features.preferences.theme_mode' | L"
-      ></Label>
+    <GridLayout columns="*, auto, auto, auto" class="mt-4">
+      <Label col="0" [text]="'features.preferences.theme_mode' | L"></Label>
       <Button
-        row="0"
         col="1"
         [text]="'features.preferences.light' | L"
         class="gray-button rounded-none rounded-l-full"
@@ -52,7 +47,6 @@
         (tap)="selectedMode.set('light')"
       ></Button>
       <Button
-        row="0"
         col="2"
         [text]="'features.preferences.dark' | L"
         class="gray-button rounded-none h-[52]"
@@ -60,27 +54,37 @@
         (tap)="selectedMode.set('dark')"
       ></Button>
       <Button
-        row="0"
         col="3"
         [text]="'features.preferences.system' | L"
         class="gray-button rounded-none rounded-r-full"
         [class.primary-button]="selectedMode() === 'system'"
         (tap)="selectedMode.set('system')"
       ></Button>
-      <Label
-        class="text-app-fg-muted-light text-sm"
-        row="1"
-        colSpan="4"
-        [text]="'features.preferences.requires_app_restart' | L"
-      ></Label>
     </GridLayout>
 
-    <Label [text]="'common.language' | L" class="h1 mt-4 mb-2"></Label>
+    <GridLayout
+      columns="*, auto"
+      class="mt-6 pt-6 border-t-[1] border-app-bg-muted"
+    >
+      <Label col="0" [text]="'common.language' | L"></Label>
+      <ns-icon-text-button
+        col="1"
+        (pressed)="showLanguages()"
+        buttonClass="gray-button"
+        icon="&#xea5f;"
+        [text]="selectedLanguage()"
+      ></ns-icon-text-button>
+    </GridLayout>
 
+    <Label
+      class="text-app-fg-muted-light text-sm mt-12 mb-2"
+      colSpan="2"
+      [text]="'* ' + ('features.preferences.requires_app_restart' | L)"
+    ></Label>
     <Button
       [text]="'common.save' | L"
       (tap)="save()"
-      class="mt-12 primary-button"
+      class="primary-button"
     ></Button>
   </StackLayout>
 </ScrollView>

@@ -77,8 +77,7 @@
                 col="1"
                 colSpan="2"
                 [text]="
-                  (item.localizedTitle
-                    | neoL: stateService.preference().language) ||
+                  (item.localizedTitle | neoL) ||
                   item.displayTitle ||
                   item.title
                 "

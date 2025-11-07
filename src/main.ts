@@ -33,6 +33,7 @@ import {
   View,
 } from "@nativescript/core";
 import { NativeScriptMaterialBottomSheetModule } from "@nativescript-community/ui-material-bottomsheet/angular";
+import { androidLaunchEventLocalizationHandler } from "@nativescript/localize";
 
 runNativeScriptAngularApp({
   appModuleBootstrap: () => {
@@ -58,6 +59,13 @@ runNativeScriptAngularApp({
 
 // Initialize the image module with downsampling enabled
 imageModuleInitialize({ isDownsampleEnabled: true });
+
+// Initialize localization handler to be able to change language dynamically
+Application.on(Application.launchEvent, (args) => {
+  if (args.android) {
+    androidLaunchEventLocalizationHandler();
+  }
+});
 
 if (Application.android) {
   // To prevent memory leaks in rare cases per plugin documentation

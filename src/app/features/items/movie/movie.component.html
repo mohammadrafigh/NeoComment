@@ -146,10 +146,7 @@
 
       @if (item().localizedDescription.length > 0) {
         <Label
-          [text]="
-            item().localizedDescription
-              | neoL: stateService.preference().language
-          "
+          [text]="(item().localizedDescription | neoL) || item().description"
           [maxLines]="descriptionCollapsed() ? 5 : 100"
           textWrap="true"
           class="mb-6 px-4"

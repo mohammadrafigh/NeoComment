@@ -9,7 +9,7 @@
     <FlexboxLayout class="flex-col justify-between h-full w-full">
       <StackLayout>
         <Label
-          [text]="(item?.localizedTitle | neoL: language) || item?.displayTitle || item?.title"
+          [text]="(item?.localizedTitle | neoL) || item?.displayTitle || item?.title"
           class="mb-0.5"
           textWrap="true"
         ></Label>

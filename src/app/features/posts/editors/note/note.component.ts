@@ -81,7 +81,7 @@ export class NoteComponent implements OnInit {
       actions: [...this.progressTypes.keys()],
       cancelable: true,
     }).then((result) => {
-      if (result) {
+      if (result && result !== localize("common.cancel")) {
         this.note.progressType = this.progressTypes.get(result);
         this.chosenProgressType.set(this.note.progressType);
       }

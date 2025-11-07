@@ -43,7 +43,7 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System",
-    "requires_app_restart": "* An app restart is required to apply the new theme"
+    "requires_app_restart": "An app restart is required to apply the theme and language"
   },
   "core.auth_service": {
     "unavailable_instance": "The instance is unavailable",
