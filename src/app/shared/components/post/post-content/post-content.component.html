@@ -31,7 +31,7 @@
                 part.type === 'link'
                   ? 'text-primary-500 font-medium'
                   : part.type === 'spoiler' && !revealContent()
-                    ? 'text-transparent text-shadow-[0_0_8_black]'
+                    ? 'text-transparent text-shadow-[0_0_8_black] dark:text-shadow-[0_0_8_white]'
                     : ''
               "
               (tap)="onPartTap($event, part)"
