@@ -185,7 +185,7 @@ export class PostContentComponent implements OnChanges {
     }
   }
 
-  contentPressed(event: any) {
+  contentPressed() {
     if (!this.ignoreContentPressed) {
       this.onContentPressed.emit();
     } else {
