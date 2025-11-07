@@ -45,7 +45,7 @@ export class PostItemComponent implements OnChanges {
   noteProgress = signal<{ type: string; value: string }>(null);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.post.extNeodb.relatedWith) {
+    if (this.post.extNeodb?.relatedWith) {
       this.setStatus();
       this.fillRateIndicators();
       this.setNoteProgress();

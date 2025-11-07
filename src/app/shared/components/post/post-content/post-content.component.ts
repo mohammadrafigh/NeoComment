@@ -39,16 +39,24 @@ export class PostContentComponent implements OnChanges {
   ignoreContentPressed = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.post.extNeodb.relatedWith) {
-      this.setComment();
+    if (changes["post"]) {
+      this.initComment();
     }
   }
 
-  setComment() {
+  private initComment() {
     this.commentParts.set([]);
     this.title.set(null);
     this.revealContent.set(false);
 
+    if (this.post.extNeodb?.relatedWith) {
+      this.initCommentFromNeoDB();
+    } else {
+      this.initCommentFromFediverse();
+    }
+  }
+
+  private initCommentFromNeoDB() {
     const comment = this.post.extNeodb.relatedWith.find(
       (relatedObj) =>
         relatedObj.type === "Comment" ||
@@ -61,8 +69,15 @@ export class PostContentComponent implements OnChanges {
     }
 
     this.title.set(comment.name ?? comment.title ?? null);
-    const content = comment.content;
+    this.parseContent(comment.content);
+  }
 
+  private initCommentFromFediverse() {
+    const pureContent = this.post.content.replace(/<\/?[^>]+(>|$)/g, "");
+    this.parseContent(pureContent);
+  }
+
+  private parseContent(content: string) {
     if (!content) {
       return;
     }
