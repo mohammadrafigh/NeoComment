@@ -27,6 +27,25 @@
     "watched": "Watched",
     "stopped": "Stopped"
   },
+  "features.book": {
+    "contributors": "Contributors",
+    "authors": "Authors",
+    "author": "Author",
+    "translators": "Translators",
+    "translator": "Translator",
+    "publication_info": "Publication Info",
+    "publisher": "Publisher",
+    "imprint": "Imprint",
+    "publication_date": "Publication Date",
+    "series": "Series",
+    "edition_details": "Edition Details",
+    "binding": "Binding",
+    "page_count": "Page Count",
+    "isbn": "ISBN",
+    "price": "Price",
+    "original_title": "Original Title",
+    "other_editions": "Other Editions"
+  },
   "features.collection": {
     "name": "Collection Name",
     "description": "Description",

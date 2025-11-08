@@ -10,7 +10,9 @@ import {
   provideZonelessChangeDetection,
 } from "@angular/core";
 import { withInterceptors } from "@angular/common/http";
+import { RouteReuseStrategy } from "@angular/router";
 import { TNSImageModule } from "@nativescript-community/ui-image/angular";
+import { CustomRouteReuseStrategy } from "./app/core/services/route-reuse-strategy";
 // TODO: Mohammad 07-23-2025: Replace ui-image with image-cache-it which seems to be more performant with Glide when
 // image-cache-it fixed large image loading problem https://github.com/triniwiz/nativescript-plugins/issues/217
 // or NeoDB provides smaller images https://github.com/neodb-social/neodb/issues/1156
@@ -46,6 +48,10 @@ runNativeScriptAngularApp({
           routes,
           withInMemoryScrolling({ scrollPositionRestoration: "enabled" }),
         ),
+        {
+          provide: RouteReuseStrategy,
+          useClass: CustomRouteReuseStrategy,
+        },
         provideZonelessChangeDetection(),
         importProvidersFrom(
           NativeScriptLocalizeModule,

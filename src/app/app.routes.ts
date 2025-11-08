@@ -38,6 +38,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "books/:uuid",
+    loadComponent: () =>
+      import("./features/items/book/book.component").then(
+        (m) => m.BookComponent,
+      ),
+    data: { noReuse: true },
+  },
+  {
     path: "posts",
     loadComponent: () =>
       import("./features/posts/posts.component").then((m) => m.PostsComponent),
