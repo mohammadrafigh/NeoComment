@@ -31,6 +31,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "books/:uuid",
+    loadComponent: () =>
+      import("./features/items/book/book.component").then(
+        (m) => m.BookComponent,
+      ),
+    data: { noReuse: true },
+  },
+  {
     path: "movies/:uuid",
     loadComponent: () =>
       import("./features/items/movie/movie.component").then(
@@ -38,12 +46,11 @@ export const routes: Routes = [
       ),
   },
   {
-    path: "books/:uuid",
+    path: "games/:uuid",
     loadComponent: () =>
-      import("./features/items/book/book.component").then(
-        (m) => m.BookComponent,
+      import("./features/items/game/game.component").then(
+        (m) => m.GameComponent,
       ),
-    data: { noReuse: true },
   },
   {
     path: "posts",
@@ -56,6 +63,7 @@ export const routes: Routes = [
       import("./features/posts/replies/replies.component").then(
         (m) => m.RepliesComponent,
       ),
+    data: { noReuse: true },
   },
   {
     path: "preferences",
