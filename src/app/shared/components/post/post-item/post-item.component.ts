@@ -35,6 +35,7 @@ export class PostItemComponent implements OnChanges {
   @Input() isLiking = false;
   @Input() isBoosting = false;
   @Input() isEditable = false;
+  @Input() itemCategory: string;
   @Output() likePressed = new EventEmitter();
   @Output() boostPressed = new EventEmitter();
   @Output() editPressed = new EventEmitter();
@@ -57,16 +58,15 @@ export class PostItemComponent implements OnChanges {
       (relatedObj) => relatedObj.type === "Status",
     )?.status;
 
-    // TODO: Mohammad 10-12-2025: Add text for other item types
     switch (status) {
       case "wishlist":
-        return this.status.set(localize("features.movie.to_watch"));
+        return this.status.set(localize(`features.${this.itemCategory}.to_do`));
       case "progress":
-        return this.status.set(localize("features.movie.watching"));
+        return this.status.set(localize(`features.${this.itemCategory}.doing`));
       case "complete":
-        return this.status.set(localize("features.movie.watched"));
+        return this.status.set(localize(`features.${this.itemCategory}.did`));
       case "dropped":
-        return this.status.set(localize("features.movie.stopped"));
+        return this.status.set(localize("common.stopped"));
       default:
         return this.status.set(null);
     }

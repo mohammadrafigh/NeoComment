@@ -453,6 +453,7 @@
               postsStateService.boostingPostIds().includes(comment.id)
             "
             [isEditable]="comment.account.id === stateService.fediAccount().id"
+            [itemCategory]="item().category"
             (likePressed)="postsStateService.toggleLike(comment)"
             (boostPressed)="postsStateService.toggleBoost(comment)"
             (editPressed)="
@@ -510,6 +511,7 @@
               postsStateService.boostingPostIds().includes(review.id)
             "
             [isEditable]="review.account.id === stateService.fediAccount().id"
+            [itemCategory]="item().category"
             (likePressed)="postsStateService.toggleLike(review)"
             (boostPressed)="postsStateService.toggleBoost(review)"
             (editPressed)="
@@ -559,6 +561,7 @@
             [isLiking]="postsStateService.likingPostIds().includes(note.id)"
             [isBoosting]="postsStateService.boostingPostIds().includes(note.id)"
             [isEditable]="note.account.id === stateService.fediAccount().id"
+            [itemCategory]="item().category"
             (likePressed)="postsStateService.toggleLike(note)"
             (boostPressed)="postsStateService.toggleBoost(note)"
             (editPressed)="

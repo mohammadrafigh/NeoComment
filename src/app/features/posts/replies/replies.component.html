@@ -28,6 +28,7 @@
           [isLiking]="postsStateService.likingPostIds().includes(item.id)"
           [isBoosting]="postsStateService.boostingPostIds().includes(item.id)"
           [isEditable]="item.account.id === stateService.fediAccount().id"
+          [itemCategory]="itemCategory"
           (likePressed)="postsStateService.toggleLike(item)"
           (boostPressed)="postsStateService.toggleBoost(item)"
           (editPressed)="addEditSheet(item)"

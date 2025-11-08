@@ -66,15 +66,14 @@ export class ItemPostsState {
     }
 
     switch (userMark.shelfType) {
-      // TODO: Mohammad 10-31-2025: Add other item type statuses
       case "wishlist":
-        return localize("features.movie.to_watch");
+        return localize(`features.${userMark.item.category}.to_do`);
       case "progress":
-        return localize("features.movie.watching");
+        return localize(`features.${userMark.item.category}.doing`);
       case "complete":
-        return localize("features.movie.watched");
+        return localize(`features.${userMark.item.category}.did`);
       case "dropped":
-        return localize("features.movie.stopped");
+        return localize("common.stopped");
       default:
         return null;
     }
