@@ -93,6 +93,15 @@
   <string name="_features_collection_add_name_message_19MjSN">"Please enter a name for the collection"</string>
   <string name="_features_collection_description_1kKOr5">"Description"</string>
   <string name="_features_collection_name_1Qo79d">"Collection Name"</string>
+  <string name="_features_music_did_Z1CEjcp">"Listened"</string>
+  <string name="_features_music_doing_1goWHv">"Listening"</string>
+  <string name="_features_music_to_do_1ht172">"To Listen"</string>
+  <string name="_features_music_release_date_Eof58">"Release Date"</string>
+  <string name="_features_music_barcode_1z6JUr">"Barcode"</string>
+  <string name="_features_music_publisher_Z1nd68H">"Publisher"</string>
+  <string name="_features_music_publishers_Z273WPu">"Publishers"</string>
+  <string name="_features_music_tracks_ZMD7Dx">"Tracks"</string>
+  <string name="_features_music_release_info_EoWlR">"Release Info"</string>
   <string name="_features_game_did_Z1EWw67">"Played"</string>
   <string name="_features_game_doing_DSMBC">"Playing"</string>
   <string name="_features_game_to_do_EWQ19">"To Play"</string>

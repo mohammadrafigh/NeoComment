@@ -63,6 +63,17 @@
     "doing": "Playing",
     "did": "Played"
   },
+  "features.music": {
+    "release_info": "Release Info",
+    "tracks": "Tracks",
+    "publishers": "Publishers",
+    "publisher": "Publisher",
+    "barcode": "Barcode",
+    "release_date": "Release Date",
+    "to_do": "To Listen",
+    "doing": "Listening",
+    "did": "Listened"
+  },
   "features.collection": {
     "name": "Collection Name",
     "description": "Description",

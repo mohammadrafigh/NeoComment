@@ -53,6 +53,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "musics/:uuid",
+    loadComponent: () =>
+      import("./features/items/music/music.component").then(
+        (m) => m.MusicComponent,
+      ),
+  },
+  {
     path: "posts",
     loadComponent: () =>
       import("./features/posts/posts.component").then((m) => m.PostsComponent),
