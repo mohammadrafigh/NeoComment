@@ -55,7 +55,6 @@ export class ExternalResourcesComponent implements OnChanges {
   @Input() externalResources: ExternalResource[];
   @Input() site: string;
   @Input() localURL: string;
-  @Input() language: string;
   parsedResources = signal<ResourceItem[]>([]);
   resourcesDict: { [key: string]: ResourceItem } = {
     "archiveofourown.org": {

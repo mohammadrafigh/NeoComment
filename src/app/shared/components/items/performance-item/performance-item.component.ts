@@ -20,5 +20,4 @@ import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
 })
 export class PerformanceItemComponent {
   @Input() item: Performance;
-  @Input() language: string;
 }

@@ -20,5 +20,4 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 })
 export class GameItemComponent {
   @Input() item: Game;
-  @Input() language: string;
 }

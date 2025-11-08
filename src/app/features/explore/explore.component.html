@@ -66,10 +66,7 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-book-item
-                [item]="item"
-                [language]="stateService.preference()?.language"
-              ></ns-book-item>
+              <ns-book-item [item]="item"></ns-book-item>
             </StackLayout>
           </ng-template>
         </CollectionView>
@@ -90,10 +87,7 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-movie-item
-                [item]="item"
-                [language]="stateService.preference()?.language"
-              ></ns-movie-item>
+              <ns-movie-item [item]="item"></ns-movie-item>
             </StackLayout>
           </ng-template>
         </CollectionView>
@@ -114,10 +108,7 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-series-item
-                [item]="item"
-                [language]="stateService.preference()?.language"
-              ></ns-series-item>
+              <ns-series-item [item]="item"></ns-series-item>
             </StackLayout>
           </ng-template>
         </CollectionView>
@@ -138,10 +129,7 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-game-item
-                [item]="item"
-                [language]="stateService.preference()?.language"
-              ></ns-game-item>
+              <ns-game-item [item]="item"></ns-game-item>
             </StackLayout>
           </ng-template>
         </CollectionView>
@@ -162,10 +150,7 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-music-item
-                [item]="item"
-                [language]="stateService.preference()?.language"
-              ></ns-music-item>
+              <ns-music-item [item]="item"></ns-music-item>
             </StackLayout>
           </ng-template>
         </CollectionView>
@@ -186,10 +171,7 @@
         >
           <ng-template let-item="item">
             <StackLayout class="px-2">
-              <ns-podcast-item
-                [item]="item"
-                [language]="stateService.preference()?.language"
-              ></ns-podcast-item>
+              <ns-podcast-item [item]="item"></ns-podcast-item>
             </StackLayout>
           </ng-template>
         </CollectionView>

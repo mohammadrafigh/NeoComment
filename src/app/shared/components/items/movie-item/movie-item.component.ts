@@ -20,5 +20,4 @@ import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
 })
 export class MovieItemComponent {
   @Input() item: Movie;
-  @Input() language: string;
 }
