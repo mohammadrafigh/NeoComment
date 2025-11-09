@@ -68,6 +68,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "performances/:uuid",
+    loadComponent: () =>
+      import("./features/items/performance/performance.component").then(
+        (m) => m.PerformanceComponent,
+      ),
+  },
+  {
     path: "posts",
     loadComponent: () =>
       import("./features/posts/posts.component").then((m) => m.PostsComponent),

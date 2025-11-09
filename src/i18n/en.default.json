@@ -79,6 +79,20 @@
     "doing": "Listening",
     "did": "Listened"
   },
+  "features.performance": {
+    "composers": "Composers",
+    "composer": "Composer",
+    "choreographers": "Choreographers",
+    "choreographer": "Choreographer",
+    "performers": "Performers",
+    "performer": "Performer",
+    "crew": "Crew",
+    "original_creators": "Original Creators",
+    "original_creator": "Original Creator",
+    "to_do": "To See",
+    "doing": "Seeing",
+    "did": "Seen"
+  },
   "features.collection": {
     "name": "Collection Name",
     "description": "Description",
