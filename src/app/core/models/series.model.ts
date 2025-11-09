@@ -49,7 +49,7 @@ export class Series extends BaseItem {
     series.imdb = dto.imdb;
     series.seasonCount = dto.season_count;
     series.episodeCount = dto.episode_count;
-    series.seasonUUIDs = dto.season_uuids;
+    series.seasonUUIDs = dto.season_uuids ?? [];
 
     return series;
   }

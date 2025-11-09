@@ -77,9 +77,15 @@
                 col="1"
                 colSpan="2"
                 [text]="
-                  (item.localizedTitle | neoL) ||
-                  item.displayTitle ||
-                  item.title
+                  ((item.localizedTitle | neoL) ||
+                    item.displayTitle ||
+                    item.title) +
+                  (item.type === 'TVSeason'
+                    ? ' - ' +
+                      ('features.movie_series.season' | L) +
+                      ' ' +
+                      (item.seasonNumber || 0)
+                    : '')
                 "
               ></label>
               <Label

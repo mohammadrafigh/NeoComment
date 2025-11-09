@@ -115,8 +115,12 @@ export class ExploreComponent implements OnInit {
       }
       case "series": {
         const item = this.stateService.trendingSeries()[args.index];
-        if (!item?.year) {
-          this.seriesService.getTrendingSeriesDetails(item.uuid);
+        if (
+          ((item.type === "TVShow" || item.type === "TVSeason") &&
+            !(item as any)?.year) ||
+          (item.type === "TVEpisode" && !(item as any)?.episodeNumber)
+        ) {
+          this.seriesService.getTrendingSeriesDetails(item.uuid, item.type);
         }
         break;
       }

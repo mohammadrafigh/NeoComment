@@ -12,6 +12,8 @@ import { Music } from "../models/music.model";
 import { Podcast } from "../models/podcast.model";
 import { Collection } from "../models/collection.model";
 import { FediAccount } from "../models/fediverse/fedi-account.model";
+import { SeriesSeason } from "../models/series-season.model";
+import { SeriesEpisode } from "../models/series-episode.model";
 
 @Injectable({
   providedIn: "root",
@@ -33,7 +35,7 @@ export class StateService {
   trendingBooks = this._trendingBooks.asReadonly();
   private _trendingMovies = signal<Movie[]>([]);
   trendingMovies = this._trendingMovies.asReadonly();
-  private _trendingSeries = signal<Series[]>([]);
+  private _trendingSeries = signal<(Series | SeriesSeason | SeriesEpisode)[]>([]);
   trendingSeries = this._trendingSeries.asReadonly();
   private _trendingGames = signal<Game[]>([]);
   trendingGames = this._trendingGames.asReadonly();
@@ -169,7 +171,7 @@ export class StateService {
     );
   }
 
-  updateSeries(seriesItem: Series) {
+  updateSeries(seriesItem: Series | SeriesSeason | SeriesEpisode) {
     this._trendingSeries.update((series) =>
       series.map((s) => (s.uuid === seriesItem.uuid ? seriesItem : s)),
     );

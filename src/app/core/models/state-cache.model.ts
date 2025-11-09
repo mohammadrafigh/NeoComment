@@ -8,6 +8,8 @@ import { Game } from "./game.model";
 import { Music } from "./music.model";
 import { Podcast } from "./podcast.model";
 import { FediAccount } from "./fediverse/fedi-account.model";
+import { SeriesSeason } from "./series-season.model";
+import { SeriesEpisode } from "./series-episode.model";
 
 export class StateCache {
   id: string; // Same as sessionId
@@ -17,7 +19,7 @@ export class StateCache {
   preference: Preference;
   trendingBooks: Book[];
   trendingMovies: Movie[];
-  trendingSeries: Series[];
+  trendingSeries: (Series | SeriesSeason | SeriesEpisode)[];
   trendingGames: Game[];
   trendingMusics: Music[];
   trendingPodcasts: Podcast[];
