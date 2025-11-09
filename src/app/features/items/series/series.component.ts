@@ -58,7 +58,13 @@ export class SeriesComponent extends BaseItemPageComponent implements OnInit {
   seriesService = inject(SeriesService);
   item = signal<Series | SeriesSeason | SeriesEpisode>(null);
   customTitle = computed(() => {
-    if (this.item() && this.isSeason(this.item)) {
+    if (
+      this.item() &&
+      this.isSeason(this.item) &&
+      !this.itemTitle().includes(
+        `${localize("features.movie_series.season")} ${this.item().seasonNumber || 0}`,
+      )
+    ) {
       return `${this.itemTitle()} - ${localize("features.movie_series.season")} ${this.item().seasonNumber || 0}`;
     } else {
       return this.itemTitle();

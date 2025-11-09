@@ -72,15 +72,20 @@
                 "
                 class="rounded-lg mr-3 h-[60] w-[45]"
               ></NSImg>
+              @let mainTitle =
+                (item.localizedTitle | neoL) || item.displayTitle || item.title;
               <label
                 row="0"
                 col="1"
                 colSpan="2"
                 [text]="
-                  ((item.localizedTitle | neoL) ||
-                    item.displayTitle ||
-                    item.title) +
-                  (item.type === 'TVSeason'
+                  mainTitle +
+                  (item.type === 'TVSeason' &&
+                  !mainTitle.includes(
+                    ('features.movie_series.season' | L) +
+                      ' ' +
+                      (item.seasonNumber || 0)
+                  )
                     ? ' - ' +
                       ('features.movie_series.season' | L) +
                       ' ' +

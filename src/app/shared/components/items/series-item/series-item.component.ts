@@ -39,13 +39,21 @@ export class SeriesItemComponent implements OnChanges {
     if (this.item) {
       if (this.item.type === "TVSeason") {
         const item = this.item as SeriesSeason;
-        this.title.set(
-          `${
-            this.neoL.transform(item.localizedTitle) ||
-            item.displayTitle ||
-            item.title
-          } - ${localize("features.movie_series.season")} ${item.seasonNumber || 0}`,
-        );
+        const mainTitle =
+          this.neoL.transform(item.localizedTitle) ||
+          item.displayTitle ||
+          item.title;
+        if (
+          !mainTitle.includes(
+            `${localize("features.movie_series.season")} ${item.seasonNumber || 0}`,
+          )
+        ) {
+          this.title.set(
+            `${mainTitle} - ${localize("features.movie_series.season")} ${item.seasonNumber || 0}`,
+          );
+        } else {
+          this.title.set(mainTitle);
+        }
 
         const episodeCount = item.episodeUUIDs?.length || item.episodeCount;
         const subtitle = [

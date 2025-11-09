@@ -374,27 +374,17 @@
         </GridLayout>
       }
 
-      <Label
-        [text]="'common.external_resources' | L"
-        class="h1 mx-4 mb-2"
-      ></Label>
-      <ns-external-resources
-        [externalResources]="item().externalResources"
-        [site]="isSeries(item) || isSeason(item) ? item().site : null"
-        [localURL]="stateService.instanceURL() + item().url"
-      ></ns-external-resources>
-
       @if (seasons().length > 0) {
         <Label
           [text]="'features.movie_series.seasons' | L"
-          class="h1 mx-4 mb-2 mt-6"
+          class="h1 mx-4 mb-2"
         ></Label>
         <CollectionView
           [items]="seasons()"
           orientation="horizontal"
           colWidth="166"
           rowHeight="306"
-          class="bg-primary-300-15 py-4 px-2 h-[338]"
+          class="bg-primary-300-15 py-4 px-2 h-[338] mb-6"
           (itemTap)="navigateToChild($event)"
         >
           <ng-template let-season="item">
@@ -408,14 +398,14 @@
       @if (episodes().length > 0) {
         <Label
           [text]="'features.movie_series.episodes' | L"
-          class="h1 mx-4 mb-2 mt-6"
+          class="h1 mx-4 mb-2"
         ></Label>
         <CollectionView
           [items]="episodes()"
           orientation="horizontal"
           colWidth="166"
           rowHeight="306"
-          class="bg-primary-300-15 py-4 px-2 h-[338]"
+          class="bg-primary-300-15 py-4 px-2 h-[338] mb-6"
           (itemTap)="navigateToChild($event)"
           (loadMoreItems)="getEpisodes()"
         >
@@ -426,6 +416,29 @@
           </ng-template>
         </CollectionView>
       }
+
+      @if (item().parentUUID && !isSeries(item)) {
+        <Button
+          [text]="
+            (isSeason(item)
+              ? 'features.movie_series.go_to_series'
+              : 'features.movie_series.go_to_season'
+            ) | L
+          "
+          [nsRouterLink]="'/series/' + item().parentUUID"
+          class="gray-button mx-4 mb-6"
+        ></Button>
+      }
+
+      <Label
+        [text]="'common.external_resources' | L"
+        class="h1 mx-4 mb-2"
+      ></Label>
+      <ns-external-resources
+        [externalResources]="item().externalResources"
+        [site]="isSeries(item) || isSeason(item) ? item().site : null"
+        [localURL]="stateService.instanceURL() + item().url"
+      ></ns-external-resources>
 
       <ns-feedback-section
         [item]="item()"
