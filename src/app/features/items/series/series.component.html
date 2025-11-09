@@ -1,0 +1,464 @@
+<ActionBar flat="true">
+  <GridLayout columns="auto, *, auto" class="pr-4 py-2 w-full">
+    <Button
+      text="&#xea60;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="location.back()"
+    ></Button>
+    <Label
+      [text]="customTitle()"
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+    <Button
+      text="&#xeb21;"
+      class="tabler-icon icon-button"
+      col="2"
+      (tap)="share()"
+    ></Button>
+  </GridLayout>
+</ActionBar>
+
+<ScrollView>
+  <StackLayout class="pb-4">
+    <StackLayout
+      class="m-4"
+      horizontalAlignment="center"
+      [hidden]="!pageLoading()"
+    >
+      <ActivityIndicator [busy]="pageLoading()" />
+    </StackLayout>
+
+    @if (item()) {
+      <GridLayout
+        columns="auto, *"
+        rows="auto, auto, *, auto"
+        class="h-[160] w-full m-4 px-4"
+      >
+        <NSImg
+          [sharedTransitionTag]="'itemImage' + item().uuid"
+          rowSpan="4"
+          col="0"
+          [src]="item().coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
+          [failureImageUri]="
+            item().coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
+          "
+          class="rounded-lg h-[160]"
+        ></NSImg>
+        <Label
+          col="1"
+          row="0"
+          [text]="customTitle()"
+          class="pl-3 mb-0.5"
+          textWrap="true"
+        ></Label>
+        <StackLayout col="1" row="1" class="pl-3" orientation="horizontal">
+          @if (isSeries(item)) {
+            <Label
+              [text]="item().year + (item().duration ? ' - ' : '')"
+              class="text-xs font-medium text-app-fg-muted"
+            ></Label>
+            @if (item().duration) {
+              <Label
+                text="&#xff9b;"
+                class="tabler-icon text-lg font-medium text-app-fg-muted"
+              ></Label>
+              <Label
+                [text]="item().duration"
+                class="text-xs font-medium text-app-fg-muted ml-0.5"
+              ></Label>
+            }
+          } @else if (isSeason(item)) {
+            <Label
+              [text]="item().year"
+              class="text-xs font-medium text-app-fg-muted"
+            ></Label>
+          } @else if (isEpisode(item)) {
+            <Label
+              [text]="
+                ('features.movie_series.episode' | L) +
+                  ' ' +
+                  item().episodeNumber || 0
+              "
+              class="text-xs font-medium text-app-fg-muted"
+            ></Label>
+          }
+        </StackLayout>
+        <WrapLayout class="mt-2 pl-3" col="1" row="2">
+          <Label
+            text="&#xea8d;"
+            class="bg-primary-300-50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
+          ></Label>
+          @if (isSeries(item) || isSeason(item)) {
+            @for (genre of item().genres; track genre) {
+              <Label
+                [text]="genre"
+                class="bg-app-bg-muted rounded-lg text-xs h-6 mr-2 mb-2 px-2.5"
+              ></Label>
+            }
+          }
+        </WrapLayout>
+        <FlexboxLayout col="1" row="3" class="justify-between mt-2 pl-3">
+          <StackLayout orientation="horizontal">
+            <Label
+              text="&#xeb4d;"
+              class="tabler-icon text-app-fg-muted mr-1 text-lg"
+            ></Label>
+            <Label
+              [text]="item().ratingCount | kilo"
+              class="text-app-fg-muted text-sm"
+            ></Label>
+          </StackLayout>
+          @if (item().rating > 0) {
+            <StackLayout orientation="horizontal">
+              <Label
+                [text]="item().rating"
+                class="text-app-fg-muted text-sm mr-2"
+              ></Label>
+              <ns-rate-indicator
+                [rate]="item().rating"
+                [size]="18"
+              ></ns-rate-indicator>
+            </StackLayout>
+          }
+        </FlexboxLayout>
+      </GridLayout>
+
+      <FlexboxLayout class="px-4 w-full items-center mb-4">
+        <ns-icon-text-button
+          (pressed)="showCollections()"
+          buttonClass="gray-button w-full mr-2"
+          icon="&#xeb0b;"
+          [text]="'common.add_to_collection' | L"
+        >
+        </ns-icon-text-button>
+
+        <ns-icon-text-button
+          (pressed)="
+            postEditorsService.showMarkAndRateSheet(containerRef, {
+              itemUUID: item().uuid,
+              itemCategory: item().category,
+              itemTitle: customTitle(),
+              shelfMark: postsStateService.itemPosts[item().uuid]?.userMark(),
+            })
+          "
+          class="w-full"
+          iconClass="text-neutral-700"
+          textClass="text-neutral-700"
+          buttonClass="primary-button w-full"
+          icon="&#xf972;"
+          [text]="
+            postsStateService.itemPosts[item().uuid]?.userStatus()
+              ? postsStateService.itemPosts[item().uuid]?.userStatus() +
+                (postsStateService.itemPosts[item().uuid]?.userMark()
+                  .ratingGrade
+                  ? ' - ' +
+                    postsStateService.itemPosts[item().uuid]?.userMark()
+                      .ratingGrade
+                  : '')
+              : ('common.mark_and_rate' | L)
+          "
+        >
+        </ns-icon-text-button>
+      </FlexboxLayout>
+
+      @if (item().localizedDescription.length > 0) {
+        <Label
+          [text]="(item().localizedDescription | neoL) || item().description"
+          [maxLines]="descriptionCollapsed() ? 5 : 100"
+          textWrap="true"
+          class="mb-6 px-4"
+          (tap)="descriptionCollapsed.set(!descriptionCollapsed())"
+        ></Label>
+      }
+
+      @if (
+        isSeries(item) &&
+        (item().seasonUUIDs.length > 0 ||
+          item().seasonCount ||
+          item().episodeCount)
+      ) {
+        <FlexboxLayout class="mb-6 px-4">
+          <StackLayout
+            class="grow border-r-4 border-app-fg-muted-light text-center"
+          >
+            <Label
+              [text]="item().seasonUUIDs.length || item().seasonCount || '-'"
+              class="text-lg font-medium"
+            ></Label>
+            <Label
+              [text]="'features.movie_series.seasons' | L"
+              class="text-app-fg-muted"
+            ></Label>
+          </StackLayout>
+          <StackLayout class="grow text-center">
+            <Label
+              [text]="item().episodeCount || '-'"
+              class="text-lg font-medium"
+            ></Label>
+            <Label
+              [text]="'features.movie_series.episodes' | L"
+              class="text-app-fg-muted"
+            ></Label>
+          </StackLayout>
+        </FlexboxLayout>
+      }
+
+      @if (
+        isSeason(item) &&
+        (item().episodeUUIDs.length > 0 || item().episodeCount)
+      ) {
+        <StackLayout class="grow text-center mb-6 px-4">
+          <Label
+            [text]="item().episodeCount || '-'"
+            class="text-lg font-medium"
+          ></Label>
+          <Label
+            [text]="'features.movie_series.episodes' | L"
+            class="text-app-fg-muted"
+          ></Label>
+        </StackLayout>
+      }
+
+      @if (item().tags.length > 0) {
+        <Label [text]="'common.tags' | L" class="h1 mx-4 mb-2"></Label>
+        <CollectionView
+          [items]="item().tags"
+          colWidth="auto"
+          orientation="horizontal"
+          class="pr-2 pl-4 mb-6"
+        >
+          <ng-template let-tag="item">
+            <StackLayout class="pr-2">
+              <Label
+                [text]="tag"
+                class="text-xs bg-app-bg-muted rounded-lg px-2.5 py-1"
+              ></Label>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+
+      @if (
+        (isSeries(item) || isSeason(item)) &&
+        (item().actors.length > 0 ||
+          item().directors.length > 0 ||
+          item().playwrights.length > 0)
+      ) {
+        <Label
+          [text]="'features.movie_series.cast_and_crew' | L"
+          class="h1 mx-4 mb-2"
+        ></Label>
+        <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
+          <Label
+            [text]="
+              (item().directors.length > 1
+                ? 'features.movie_series.directors'
+                : 'features.movie_series.director'
+              ) | L
+            "
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="0"
+          ></Label>
+          <Label
+            [text]="
+              item().directors.length > 0 ? item().directors.join(', ') : '-'
+            "
+            textWrap="true"
+            col="1"
+            row="0"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="
+              (item().playwrights.length > 1
+                ? 'features.movie_series.writers'
+                : 'features.movie_series.writer'
+              ) | L
+            "
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="1"
+          ></Label>
+          <Label
+            [text]="
+              item().playwrights.length > 0
+                ? item().playwrights.join(', ')
+                : '-'
+            "
+            textWrap="true"
+            col="1"
+            row="1"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="'features.movie_series.cast' | L"
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="2"
+          ></Label>
+          <Label
+            [text]="item().actors.length > 0 ? item().actors.join(', ') : '-'"
+            textWrap="true"
+            col="1"
+            row="2"
+            class="mb-2"
+          ></Label>
+        </GridLayout>
+      }
+
+      @if (
+        (isSeries(item) || isSeason(item)) &&
+        (item().areas.length > 0 ||
+          item().languages.length > 0 ||
+          item().origTitle)
+      ) {
+        <Label
+          [text]="'features.movie_series.origins' | L"
+          class="h1 mx-4 mb-2"
+        ></Label>
+        <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
+          <Label
+            [text]="'common.original_title' | L"
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="0"
+          ></Label>
+          <Label
+            [text]="item().origTitle || '-'"
+            textWrap="true"
+            col="1"
+            row="0"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="
+              (item().areas.length > 1
+                ? 'features.movie_series.countries'
+                : 'features.movie_series.country'
+              ) | L
+            "
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="1"
+          ></Label>
+          <Label
+            [text]="item().areas.length > 0 ? item().areas.join(', ') : '-'"
+            textWrap="true"
+            col="1"
+            row="1"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="
+              (item().languages.length > 1
+                ? 'features.movie_series.languages'
+                : 'common.language'
+              ) | L
+            "
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="2"
+          ></Label>
+          <Label
+            [text]="
+              item().languages.length > 0 ? item().languages.join(', ') : '-'
+            "
+            textWrap="true"
+            col="1"
+            row="2"
+            class="mb-2"
+          ></Label>
+        </GridLayout>
+      }
+
+      <Label
+        [text]="'common.external_resources' | L"
+        class="h1 mx-4 mb-2"
+      ></Label>
+      <ns-external-resources
+        [externalResources]="item().externalResources"
+        [site]="isSeries(item) || isSeason(item) ? item().site : null"
+        [localURL]="stateService.instanceURL() + item().url"
+      ></ns-external-resources>
+
+      @if (seasons().length > 0) {
+        <Label
+          [text]="'features.movie_series.seasons' | L"
+          class="h1 mx-4 mb-2 mt-6"
+        ></Label>
+        <CollectionView
+          [items]="seasons()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="306"
+          class="bg-primary-300-15 py-4 px-2 h-[338]"
+          (itemTap)="navigateToChild($event)"
+        >
+          <ng-template let-season="item">
+            <StackLayout class="px-2">
+              <ns-series-item [item]="season"></ns-series-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+
+      @if (episodes().length > 0) {
+        <Label
+          [text]="'features.movie_series.episodes' | L"
+          class="h1 mx-4 mb-2 mt-6"
+        ></Label>
+        <CollectionView
+          [items]="episodes()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="306"
+          class="bg-primary-300-15 py-4 px-2 h-[338]"
+          (itemTap)="navigateToChild($event)"
+          (loadMoreItems)="getEpisodes()"
+        >
+          <ng-template let-episode="item">
+            <StackLayout class="px-2">
+              <ns-series-item [item]="episode"></ns-series-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+
+      <ns-feedback-section
+        [item]="item()"
+        [itemTitle]="customTitle()"
+      ></ns-feedback-section>
+
+      @if (postsStateService.itemPosts[item().uuid]?.collections().length > 0) {
+        <Label
+          [text]="'common.collections_featuring_item' | L"
+          class="h1 mx-4 mb-2 mt-6"
+        ></Label>
+        <CollectionView
+          [items]="postsStateService.itemPosts[item().uuid].collections()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="246"
+          class="bg-primary-300-15 py-4 px-2 h-[278]"
+          (itemTap)="navigateToCollection($event)"
+        >
+          <ng-template let-collection="item" let-index="index">
+            <StackLayout class="px-2">
+              <ns-collection-item
+                [item]="collection"
+                [post]="
+                  postsStateService.itemPosts[item().uuid].collectionPosts()[
+                    index
+                  ]
+                "
+              ></ns-collection-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+    }
+  </StackLayout>
+</ScrollView>

@@ -45,6 +45,8 @@
     "country": "Country",
     "seasons": "Seasons",
     "episodes": "Episodes",
+    "season": "Season",
+    "episode": "Episode",
     "to_do": "To Watch",
     "doing": "Watching",
     "did": "Watched"

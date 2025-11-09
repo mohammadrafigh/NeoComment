@@ -46,6 +46,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "series/:uuid",
+    loadComponent: () =>
+      import("./features/items/series/series.component").then(
+        (m) => m.SeriesComponent,
+      ),
+    data: { noReuse: true },
+  },
+  {
     path: "games/:uuid",
     loadComponent: () =>
       import("./features/items/game/game.component").then(
