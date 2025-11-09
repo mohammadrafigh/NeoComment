@@ -68,6 +68,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "podcasts/:uuid",
+    loadComponent: () =>
+      import("./features/items/podcast/podcast.component").then(
+        (m) => m.PodcastComponent,
+      ),
+    data: { noReuse: true },
+  },
+  {
     path: "performances/:uuid",
     loadComponent: () =>
       import("./features/items/performance/performance.component").then(

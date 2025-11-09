@@ -1,0 +1,296 @@
+<ActionBar flat="true">
+  <GridLayout columns="auto, *, auto" class="pr-4 py-2 w-full">
+    <Button
+      text="&#xea60;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="location.back()"
+    ></Button>
+    <Label
+      [text]="itemTitle()"
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+    <Button
+      text="&#xeb21;"
+      class="tabler-icon icon-button"
+      col="2"
+      (tap)="share()"
+    ></Button>
+  </GridLayout>
+</ActionBar>
+
+<ScrollView>
+  <StackLayout class="pb-4">
+    <StackLayout
+      class="m-4"
+      horizontalAlignment="center"
+      [hidden]="!pageLoading()"
+    >
+      <ActivityIndicator [busy]="pageLoading()" />
+    </StackLayout>
+
+    @if (item()) {
+      <GridLayout
+        columns="auto, *"
+        rows="auto, auto, auto, *, auto"
+        class="h-[160] w-full m-4 px-4"
+      >
+        <NSImg
+          [sharedTransitionTag]="'itemImage' + item().uuid"
+          rowSpan="5"
+          col="0"
+          [src]="item().coverImageURL + '.200x200_q85_autocrop_crop-scale.jpg'"
+          [failureImageUri]="
+            item().coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
+          "
+          class="rounded-lg h-[160]"
+        ></NSImg>
+        <Label
+          col="1"
+          row="0"
+          [text]="itemTitle()"
+          class="pl-3 mb-0.5"
+          textWrap="true"
+        ></Label>
+        @if (isPodcast(item)) {
+          <Label
+            col="1"
+            row="1"
+            [text]="item().hosts?.join(' - ')"
+            class="text-xs font-medium text-app-fg-muted pl-3"
+            textWrap="true"
+          ></Label>
+        }
+        @if (isPodcast(item) && item().languages?.length > 0) {
+          <Label
+            col="1"
+            row="2"
+            [text]="item().languages?.join(', ')"
+            class="text-xs font-medium text-app-fg-muted pl-3 mt-0.5"
+            textWrap="true"
+          ></Label>
+        } @else if (isEpisode(item) && (item().pubDate || item().duration)) {
+          <StackLayout
+            col="1"
+            row="2"
+            class="pl-3 mt-0.5"
+            orientation="horizontal"
+          >
+            <Label
+              [text]="
+                (item().pubDate | date: 'MMM dd yyyy') +
+                (item().duration ? ' - ' : '')
+              "
+              class="text-xs font-medium text-app-fg-muted"
+            ></Label>
+            @if (item().duration) {
+              <Label
+                text="&#xff9b;"
+                class="tabler-icon text-lg font-medium text-app-fg-muted"
+              ></Label>
+              <Label
+                [text]="item().duration | duration"
+                class="text-xs font-medium text-app-fg-muted ml-0.5"
+              ></Label>
+            }
+          </StackLayout>
+        }
+        <WrapLayout class="mt-2 pl-3" col="1" row="3">
+          <Label
+            text="&#xf1e9;"
+            class="bg-primary-300-50 tabler-icon rounded-lg text-lg h-6 mr-2 mb-2 px-2.5"
+          ></Label>
+          @if (isPodcast(item)) {
+            @for (genre of item().genres; track genre) {
+              <Label
+                [text]="genre"
+                class="bg-app-bg-muted rounded-lg text-xs h-6 mr-2 mb-2 px-2.5"
+              ></Label>
+            }
+          }
+        </WrapLayout>
+        <FlexboxLayout col="1" row="4" class="justify-between mt-2 pl-3">
+          <StackLayout orientation="horizontal">
+            <Label
+              text="&#xeb4d;"
+              class="tabler-icon text-app-fg-muted mr-1 text-lg"
+            ></Label>
+            <Label
+              [text]="item().ratingCount | kilo"
+              class="text-app-fg-muted text-sm"
+            ></Label>
+          </StackLayout>
+          @if (item().rating > 0) {
+            <StackLayout orientation="horizontal">
+              <Label
+                [text]="item().rating"
+                class="text-app-fg-muted text-sm mr-2"
+              ></Label>
+              <ns-rate-indicator
+                [rate]="item().rating"
+                [size]="18"
+              ></ns-rate-indicator>
+            </StackLayout>
+          }
+        </FlexboxLayout>
+      </GridLayout>
+
+      <FlexboxLayout class="px-4 w-full items-center mb-4">
+        <ns-icon-text-button
+          (pressed)="showCollections()"
+          buttonClass="gray-button w-full mr-2"
+          icon="&#xeb0b;"
+          [text]="'common.add_to_collection' | L"
+        >
+        </ns-icon-text-button>
+
+        <ns-icon-text-button
+          (pressed)="
+            postEditorsService.showMarkAndRateSheet(containerRef, {
+              itemUUID: item().uuid,
+              itemCategory: item().category,
+              itemTitle: itemTitle(),
+              shelfMark: postsStateService.itemPosts[item().uuid]?.userMark(),
+            })
+          "
+          class="w-full"
+          iconClass="text-neutral-700"
+          textClass="text-neutral-700"
+          buttonClass="primary-button w-full"
+          icon="&#xf972;"
+          [text]="
+            postsStateService.itemPosts[item().uuid]?.userStatus()
+              ? postsStateService.itemPosts[item().uuid]?.userStatus() +
+                (postsStateService.itemPosts[item().uuid]?.userMark()
+                  .ratingGrade
+                  ? ' - ' +
+                    postsStateService.itemPosts[item().uuid]?.userMark()
+                      .ratingGrade
+                  : '')
+              : ('common.mark_and_rate' | L)
+          "
+        >
+        </ns-icon-text-button>
+      </FlexboxLayout>
+
+      @if (item().localizedDescription.length > 0) {
+        <Label
+          [text]="(item().localizedDescription | neoL) || item().description"
+          [maxLines]="descriptionCollapsed() ? 5 : 100"
+          textWrap="true"
+          class="mb-6 px-4"
+          (tap)="descriptionCollapsed.set(!descriptionCollapsed())"
+        ></Label>
+      }
+
+      @if (episodes().length > 0) {
+        <StackLayout class="grow text-center mb-6 px-4">
+          <Label [text]="count()" class="text-lg font-medium"></Label>
+          <Label
+            [text]="'features.podcast.episodes' | L"
+            class="text-app-fg-muted"
+          ></Label>
+        </StackLayout>
+      }
+
+      @if (item().tags.length > 0) {
+        <Label [text]="'common.tags' | L" class="h1 mx-4 mb-2"></Label>
+        <CollectionView
+          [items]="item().tags"
+          colWidth="auto"
+          orientation="horizontal"
+          class="pr-2 pl-4 mb-6"
+        >
+          <ng-template let-tag="item">
+            <StackLayout class="pr-2">
+              <Label
+                [text]="tag"
+                class="text-xs bg-app-bg-muted rounded-lg px-2.5 py-1"
+              ></Label>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+
+      @if (episodes().length > 0) {
+        <Label
+          [text]="'features.podcast.episodes' | L"
+          class="h1 mx-4 mb-2"
+        ></Label>
+        <CollectionView
+          [items]="episodes()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="246"
+          class="bg-primary-300-15 py-4 px-2 h-[278] mb-6"
+          (itemTap)="navigateToEpisode($event)"
+          (loadMoreItems)="getEpisodes()"
+        >
+          <ng-template let-episode="item">
+            <StackLayout class="px-2">
+              <ns-podcast-item [item]="episode"></ns-podcast-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+
+      @if (item().parentUUID && isEpisode(item)) {
+        <Button
+          [text]="'features.podcast.go_to_podcast' | L"
+          [nsRouterLink]="'/podcasts/' + item().parentUUID"
+          class="gray-button mx-4 mb-6"
+        ></Button>
+      }
+
+      <Label
+        [text]="'common.external_resources' | L"
+        class="h1 mx-4 mb-2"
+      ></Label>
+      <ns-external-resources
+        [externalResources]="item().externalResources"
+        [site]="
+          isPodcast(item)
+            ? item().officialSite
+            : isEpisode(item)
+              ? item().link
+              : null
+        "
+        [localURL]="stateService.instanceURL() + item().url"
+      ></ns-external-resources>
+
+      <ns-feedback-section
+        [item]="item()"
+        [itemTitle]="itemTitle()"
+      ></ns-feedback-section>
+
+      @if (postsStateService.itemPosts[item().uuid]?.collections().length > 0) {
+        <Label
+          [text]="'common.collections_featuring_item' | L"
+          class="h1 mx-4 mb-2 mt-6"
+        ></Label>
+        <CollectionView
+          [items]="postsStateService.itemPosts[item().uuid].collections()"
+          orientation="horizontal"
+          colWidth="166"
+          rowHeight="246"
+          class="bg-primary-300-15 py-4 px-2 h-[278]"
+          (itemTap)="navigateToCollection($event)"
+        >
+          <ng-template let-collection="item" let-index="index">
+            <StackLayout class="px-2">
+              <ns-collection-item
+                [item]="collection"
+                [post]="
+                  postsStateService.itemPosts[item().uuid].collectionPosts()[
+                    index
+                  ]
+                "
+              ></ns-collection-item>
+            </StackLayout>
+          </ng-template>
+        </CollectionView>
+      }
+    }
+  </StackLayout>
+</ScrollView>

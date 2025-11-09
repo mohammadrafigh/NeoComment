@@ -16,7 +16,7 @@ import {
 import { CollectionViewModule } from "@nativescript-community/ui-collectionview/angular";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { CollectionItemComponent } from "../../../shared/components/items/collection-item/collection-item.component";
-import { finalize, forkJoin, Observable } from "rxjs";
+import { finalize, forkJoin } from "rxjs";
 import { localize } from "@nativescript/localize";
 import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 import { KiloPipe } from "~/app/shared/pipes/kilo.pipe";

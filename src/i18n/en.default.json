@@ -79,6 +79,13 @@
     "doing": "Listening",
     "did": "Listened"
   },
+  "features.podcast": {
+    "go_to_podcast": "Go to podcast",
+    "episodes": "Episodes",
+    "to_do": "To Listen",
+    "doing": "Listening",
+    "did": "Listened"
+  },
   "features.performance": {
     "composers": "Composers",
     "composer": "Composer",

@@ -5,6 +5,7 @@ import { Podcast } from "../../../../core/models/podcast.model";
 import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.component";
 import { KiloPipe } from "../../../pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
+import { PodcastEpisode } from "~/app/core/models/podcast-episode.model";
 
 @Component({
   selector: "ns-podcast-item",
@@ -19,5 +20,5 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
   schemas: [NO_ERRORS_SCHEMA],
 })
 export class PodcastItemComponent {
-  @Input() item: Podcast;
+  @Input() item: Podcast | PodcastEpisode;
 }
