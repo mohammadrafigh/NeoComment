@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   NO_ERRORS_SCHEMA,
-  OnDestroy,
   OnInit,
   inject,
   signal,
@@ -22,11 +21,10 @@ import { KiloPipe } from "~/app/shared/pipes/kilo.pipe";
 import { RateIndicatorComponent } from "~/app/shared/components/rate-indicator/rate-indicator.component";
 import { IconTextButtonComponent } from "~/app/shared/components/icon-text-button/icon-text-button.component";
 import { ExternalResourcesComponent } from "~/app/shared/components/external-resources/external-resources.component";
-import { RatingsChartComponent } from "~/app/shared/components/ratings-chart/ratings-chart.component";
-import { PostItemComponent } from "~/app/shared/components/post/post-item/post-item.component";
 import { BaseItemPageComponent } from "../base-item-page.component";
 import { GameService } from "~/app/core/services/game.service";
 import { Game } from "~/app/core/models/game.model";
+import { FeedbackSectionComponent } from "../feedback-section/feedback-section.component";
 
 @Component({
   selector: "ns-game",
@@ -41,19 +39,15 @@ import { Game } from "~/app/core/models/game.model";
     IconTextButtonComponent,
     CollectionItemComponent,
     ExternalResourcesComponent,
-    RatingsChartComponent,
-    PostItemComponent,
     NeoDBLocalizePipe,
     KiloPipe,
+    FeedbackSectionComponent,
   ],
   providers: [NeoDBLocalizePipe],
   schemas: [NO_ERRORS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameComponent
-  extends BaseItemPageComponent
-  implements OnInit, OnDestroy
-{
+export class GameComponent extends BaseItemPageComponent implements OnInit {
   gameService = inject(GameService);
   item = signal<Game>(null);
 
@@ -73,9 +67,5 @@ export class GameComponent
             localize("common.generic_connection_error"),
           ),
       });
-  }
-
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
   }
 }

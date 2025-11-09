@@ -122,7 +122,7 @@
               itemUUID: item().uuid,
               itemCategory: item().category,
               itemTitle: itemTitle(),
-              shelfMark: postsStateService.itemPosts[item().uuid].userMark(),
+              shelfMark: postsStateService.itemPosts[item().uuid]?.userMark(),
             })
           "
           class="w-full"
@@ -131,11 +131,11 @@
           buttonClass="primary-button w-full"
           icon="&#xf972;"
           [text]="
-            postsStateService.itemPosts[item().uuid].userStatus()
-              ? postsStateService.itemPosts[item().uuid].userStatus() +
-                (postsStateService.itemPosts[item().uuid].userMark().ratingGrade
+            postsStateService.itemPosts[item().uuid]?.userStatus()
+              ? postsStateService.itemPosts[item().uuid]?.userStatus() +
+                (postsStateService.itemPosts[item().uuid]?.userMark().ratingGrade
                   ? ' - ' +
-                    postsStateService.itemPosts[item().uuid].userMark()
+                    postsStateService.itemPosts[item().uuid]?.userMark()
                       .ratingGrade
                   : '')
               : ('common.mark_and_rate' | L)
@@ -179,15 +179,15 @@
         item().playwrights.length > 0
       ) {
         <Label
-          [text]="'features.movie.cast_and_crew' | L"
+          [text]="'features.movie_series.cast_and_crew' | L"
           class="h1 mx-4 mb-2"
         ></Label>
         <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
           <Label
             [text]="
               (item().directors.length > 1
-                ? 'features.movie.directors'
-                : 'features.movie.director'
+                ? 'features.movie_series.directors'
+                : 'features.movie_series.director'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -206,8 +206,8 @@
           <Label
             [text]="
               (item().playwrights.length > 1
-                ? 'features.movie.writers'
-                : 'features.movie.writer'
+                ? 'features.movie_series.writers'
+                : 'features.movie_series.writer'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -226,7 +226,7 @@
             class="mb-2"
           ></Label>
           <Label
-            [text]="'features.movie.cast' | L"
+            [text]="'features.movie_series.cast' | L"
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="2"
@@ -241,25 +241,24 @@
         </GridLayout>
       }
 
-      @if (item().areas.length > 0 || item().languages.length > 0) {
+      @if (
+        item().areas.length > 0 ||
+        item().languages.length > 0 ||
+        item().origTitle
+      ) {
         <Label
-          [text]="'features.movie.origins' | L"
+          [text]="'features.movie_series.origins' | L"
           class="h1 mx-4 mb-2"
         ></Label>
-        <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto">
+        <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
           <Label
-            [text]="
-              (item().areas.length > 1
-                ? 'features.movie.countries'
-                : 'features.movie.country'
-              ) | L
-            "
+            [text]="'common.original_title' | L"
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="0"
           ></Label>
           <Label
-            [text]="item().areas.length > 0 ? item().areas.join(', ') : '-'"
+            [text]="item().origTitle || '-'"
             textWrap="true"
             col="1"
             row="0"
@@ -267,9 +266,9 @@
           ></Label>
           <Label
             [text]="
-              (item().languages.length > 1
-                ? 'features.movie.languages'
-                : 'common.language'
+              (item().areas.length > 1
+                ? 'features.movie_series.countries'
+                : 'features.movie_series.country'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -277,12 +276,30 @@
             row="1"
           ></Label>
           <Label
+            [text]="item().areas.length > 0 ? item().areas.join(', ') : '-'"
+            textWrap="true"
+            col="1"
+            row="1"
+            class="mb-2"
+          ></Label>
+          <Label
+            [text]="
+              (item().languages.length > 1
+                ? 'features.movie_series.languages'
+                : 'common.language'
+              ) | L
+            "
+            class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
+            col="0"
+            row="2"
+          ></Label>
+          <Label
             [text]="
               item().languages.length > 0 ? item().languages.join(', ') : '-'
             "
             textWrap="true"
             col="1"
-            row="1"
+            row="2"
             class="mb-2"
           ></Label>
         </GridLayout>
@@ -298,191 +315,12 @@
         [localURL]="stateService.instanceURL() + item().url"
       ></ns-external-resources>
 
-      <Label
-        [text]="'common.user_ratings_and_marks' | L"
-        class="h1 mx-4 mb-2 mt-6"
-      ></Label>
-      @if (item().rating > 0) {
-        <StackLayout class="mx-4 mb-4">
-          <ns-ratings-chart
-            [rating]="item().rating"
-            [ratingCount]="item().ratingCount"
-            [ratingDistribution]="item().ratingDistribution"
-          ></ns-ratings-chart>
-        </StackLayout>
-      }
-      <StackLayout class="px-4 pt-4 bg-primary-300-15">
-        <Button
-          [text]="
-            postsStateService.itemPosts[item().uuid].userStatus()
-              ? postsStateService.itemPosts[item().uuid].userStatus() +
-                (postsStateService.itemPosts[item().uuid].userMark().ratingGrade
-                  ? ' - ' +
-                    postsStateService.itemPosts[item().uuid].userMark()
-                      .ratingGrade
-                  : '')
-              : ('common.mark_and_rate' | L)
-          "
-          class="primary-button w-full mb-4"
-          (tap)="
-            postEditorsService.showMarkAndRateSheet(containerRef, {
-              itemUUID: item().uuid,
-              itemCategory: item().category,
-              itemTitle: itemTitle(),
-              shelfMark: postsStateService.itemPosts[item().uuid].userMark(),
-            })
-          "
-        ></Button>
-        @for (
-          comment of postsStateService.itemPosts[
-            item().uuid
-          ].commentsOverview();
-          track comment
-        ) {
-          <ns-post-item
-            [post]="comment"
-            [isLiking]="postsStateService.likingPostIds().includes(comment.id)"
-            [isBoosting]="
-              postsStateService.boostingPostIds().includes(comment.id)
-            "
-            [isEditable]="comment.account.id === stateService.fediAccount().id"
-            [itemCategory]="item().category"
-            (likePressed)="postsStateService.toggleLike(comment)"
-            (boostPressed)="postsStateService.toggleBoost(comment)"
-            (editPressed)="
-              postEditorsService.showMarkAndRateSheet(containerRef, {
-                itemUUID: item().uuid,
-                itemCategory: item().category,
-                itemTitle: itemTitle(),
-                shelfMark: postsStateService.itemPosts[item().uuid].userMark(),
-              })
-            "
-            (replyPressed)="
-              postEditorsService.showReplySheet(containerRef, {
-                replyingPost: comment,
-              })
-            "
-            (postPressed)="navigateToPost(comment.id, 'mark')"
-          ></ns-post-item>
-        }
-        @if (postsStateService.itemPosts[item().uuid].hasMoreComments()) {
-          <Button
-            [text]="'common.show_all' | L"
-            class="basic-button mb-4"
-            (tap)="showAllPosts('mark')"
-          ></Button>
-        }
-      </StackLayout>
+      <ns-feedback-section
+        [item]="item()"
+        [itemTitle]="itemTitle()"
+      ></ns-feedback-section>
 
-      <Label [text]="'common.reviews' | L" class="h1 mx-4 mb-2 mt-6"></Label>
-      <StackLayout class="px-4 pt-4 bg-primary-300-15">
-        <Button
-          [text]="
-            (postsStateService.itemPosts[item().uuid].userReview()
-              ? 'common.modify_review'
-              : 'common.write_review'
-            ) | L
-          "
-          class="primary-button w-full mb-4"
-          (tap)="
-            postEditorsService.showReviewSheet(containerRef, {
-              itemUUID: item().uuid,
-              itemCategory: item().category,
-              itemTitle: itemTitle(),
-              review: postsStateService.itemPosts[item().uuid].userReview(),
-            })
-          "
-        ></Button>
-        @for (
-          review of postsStateService.itemPosts[item().uuid].reviewsOverview();
-          track review
-        ) {
-          <ns-post-item
-            [post]="review"
-            [isLiking]="postsStateService.likingPostIds().includes(review.id)"
-            [isBoosting]="
-              postsStateService.boostingPostIds().includes(review.id)
-            "
-            [isEditable]="review.account.id === stateService.fediAccount().id"
-            [itemCategory]="item().category"
-            (likePressed)="postsStateService.toggleLike(review)"
-            (boostPressed)="postsStateService.toggleBoost(review)"
-            (editPressed)="
-              postEditorsService.showReviewSheet(containerRef, {
-                itemUUID: item().uuid,
-                itemCategory: item().category,
-                itemTitle: itemTitle(),
-                review: postsStateService.itemPosts[item().uuid].userReview(),
-              })
-            "
-            (replyPressed)="
-              postEditorsService.showReplySheet(containerRef, {
-                replyingPost: review,
-              })
-            "
-            (postPressed)="navigateToPost(review.id, 'review')"
-          ></ns-post-item>
-        }
-        @if (postsStateService.itemPosts[item().uuid].hasMoreReviews()) {
-          <Button
-            [text]="'common.show_all' | L"
-            class="basic-button mb-4"
-            (tap)="showAllPosts('review')"
-          ></Button>
-        }
-      </StackLayout>
-
-      <Label [text]="'common.notes' | L" class="h1 mx-4 mb-2 mt-6"></Label>
-      <StackLayout class="px-4 pt-4 bg-primary-300-15">
-        <Button
-          [text]="'common.write_note' | L"
-          class="primary-button w-full mb-4"
-          (tap)="
-            postEditorsService.showNoteSheet(containerRef, {
-              itemUUID: item().uuid,
-              itemCategory: item().category,
-              itemTitle: itemTitle(),
-            })
-          "
-        ></Button>
-        @for (
-          note of postsStateService.itemPosts[item().uuid].notesOverview();
-          track note
-        ) {
-          <ns-post-item
-            [post]="note"
-            [isLiking]="postsStateService.likingPostIds().includes(note.id)"
-            [isBoosting]="postsStateService.boostingPostIds().includes(note.id)"
-            [isEditable]="note.account.id === stateService.fediAccount().id"
-            [itemCategory]="item().category"
-            (likePressed)="postsStateService.toggleLike(note)"
-            (boostPressed)="postsStateService.toggleBoost(note)"
-            (editPressed)="
-              postEditorsService.showNoteSheet(containerRef, {
-                itemUUID: item().uuid,
-                itemCategory: item().category,
-                itemTitle: itemTitle(),
-                note: postsStateService.getUserNoteByPost(note),
-              })
-            "
-            (replyPressed)="
-              postEditorsService.showReplySheet(containerRef, {
-                replyingPost: note,
-              })
-            "
-            (postPressed)="navigateToPost(note.id, 'note')"
-          ></ns-post-item>
-        }
-        @if (postsStateService.itemPosts[item().uuid].hasMoreNotes()) {
-          <Button
-            [text]="'common.show_all' | L"
-            class="basic-button mb-4"
-            (tap)="showAllPosts('note')"
-          ></Button>
-        }
-      </StackLayout>
-
-      @if (postsStateService.itemPosts[item().uuid].collections().length > 0) {
+      @if (postsStateService.itemPosts[item().uuid]?.collections().length > 0) {
         <Label
           [text]="'common.collections_featuring_item' | L"
           class="h1 mx-4 mb-2 mt-6"

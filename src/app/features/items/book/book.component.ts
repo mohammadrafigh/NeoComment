@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   NO_ERRORS_SCHEMA,
-  OnDestroy,
   OnInit,
   inject,
   signal,
@@ -22,8 +21,6 @@ import { KiloPipe } from "~/app/shared/pipes/kilo.pipe";
 import { RateIndicatorComponent } from "~/app/shared/components/rate-indicator/rate-indicator.component";
 import { IconTextButtonComponent } from "~/app/shared/components/icon-text-button/icon-text-button.component";
 import { ExternalResourcesComponent } from "~/app/shared/components/external-resources/external-resources.component";
-import { RatingsChartComponent } from "~/app/shared/components/ratings-chart/ratings-chart.component";
-import { PostItemComponent } from "~/app/shared/components/post/post-item/post-item.component";
 import { BaseItemPageComponent } from "../base-item-page.component";
 import {
   BookService,
@@ -32,6 +29,7 @@ import {
 import { Book } from "~/app/core/models/book.model";
 import { PageTransition, SharedTransition } from "@nativescript/core";
 import { BookItemComponent } from "~/app/shared/components/items/book-item/book-item.component";
+import { FeedbackSectionComponent } from "../feedback-section/feedback-section.component";
 
 @Component({
   selector: "ns-book",
@@ -46,20 +44,16 @@ import { BookItemComponent } from "~/app/shared/components/items/book-item/book-
     IconTextButtonComponent,
     CollectionItemComponent,
     ExternalResourcesComponent,
-    RatingsChartComponent,
-    PostItemComponent,
     NeoDBLocalizePipe,
     KiloPipe,
     BookItemComponent,
+    FeedbackSectionComponent,
   ],
   providers: [NeoDBLocalizePipe],
   schemas: [NO_ERRORS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookComponent
-  extends BaseItemPageComponent
-  implements OnInit, OnDestroy
-{
+export class BookComponent extends BaseItemPageComponent implements OnInit {
   bookService = inject(BookService);
   item = signal<Book>(null);
   siblingEditions = signal<BookSiblingsResponse>(null);
@@ -118,9 +112,5 @@ export class BookComponent
         },
       }),
     } as any);
-  }
-
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
   }
 }

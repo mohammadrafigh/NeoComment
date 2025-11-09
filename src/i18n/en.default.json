@@ -27,13 +27,12 @@
     "page_count": "Page Count",
     "isbn": "ISBN",
     "price": "Price",
-    "original_title": "Original Title",
     "other_editions": "Other Editions",
     "to_do": "To Read",
     "doing": "Reading",
     "did": "Read"
   },
-  "features.movie": {
+  "features.movie_series": {
     "cast_and_crew": "Cast and Crew",
     "directors": "Directors",
     "writers": "Writers",
@@ -44,6 +43,8 @@
     "countries": "Countries",
     "languages": "Languages",
     "country": "Country",
+    "seasons": "Seasons",
+    "episodes": "Episodes",
     "to_do": "To Watch",
     "doing": "Watching",
     "did": "Watched"
@@ -177,6 +178,7 @@
     "create": "Create",
     "save": "Save",
     "language": "Language",
-    "stopped": "Stopped"
+    "stopped": "Stopped",
+    "original_title": "Original Title"
   }
 }

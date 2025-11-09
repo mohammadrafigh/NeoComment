@@ -1,6 +1,5 @@
 import {
   Directive,
-  OnDestroy,
   OnInit,
   ViewContainerRef,
   WritableSignal,
@@ -25,7 +24,7 @@ import { BaseItem } from "~/app/core/models/base-item.model";
 import { AddToCollectionComponent } from "./add-to-collection/add-to-collection.component";
 
 @Directive()
-export abstract class BaseItemPageComponent implements OnInit, OnDestroy {
+export abstract class BaseItemPageComponent implements OnInit {
   protected bottomSheet = inject(BottomSheetService);
   stateService = inject(StateService);
   messageService = inject(MessageService);
@@ -50,7 +49,6 @@ export abstract class BaseItemPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const uuid = this.activatedRoute.snapshot.params.uuid;
     this.getItemDetails(uuid);
-    this.postsStateService.getPostsForItem(uuid);
   }
 
   abstract getItemDetails(uuid: string);
@@ -79,30 +77,5 @@ export abstract class BaseItemPageComponent implements OnInit, OnDestroy {
     };
 
     this.bottomSheet.show(AddToCollectionComponent, options).subscribe();
-  }
-
-  showAllPosts(type: string) {
-    this.router.navigate([`/posts`], {
-      queryParams: this.getPostsQueryParams(type),
-    });
-  }
-
-  navigateToPost(postId: string, type: string) {
-    this.router.navigate([`/posts/${postId}`], {
-      queryParams: this.getPostsQueryParams(type),
-    });
-  }
-
-  getPostsQueryParams(type: string) {
-    return {
-      type,
-      itemUUID: this.item().uuid,
-      itemCategory: this.item().category,
-      itemTitle: this.itemTitle(),
-    };
-  }
-
-  ngOnDestroy(): void {
-    this.postsStateService.loadPreviousItemPosts(this.item().uuid);
   }
 }
