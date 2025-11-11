@@ -54,7 +54,7 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
-        <item name="android:navigationBarColor">@color/pure_black</item>
+        <item name="android:navigationBarColor">@color/nav_bar_color</item>
         <!-- Optional for dark icons -->
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:windowLightStatusBar">false</item>

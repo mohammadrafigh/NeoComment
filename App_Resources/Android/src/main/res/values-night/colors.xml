@@ -10,7 +10,7 @@
 	<color name="ns_accent_forest">#88b563</color>
 	<color name="ns_accent_beach">#3cb8a6</color>
 
-    <color name="pure_black">#000000</color>
+    <color name="nav_bar_color">#000000</color>
 
     <!-- this is unused in the default themes, so we might want to remove it? -->
     <!-- <color name="ns_blue">#272734</color> -->
