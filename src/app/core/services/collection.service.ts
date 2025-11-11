@@ -26,15 +26,25 @@ interface CollectionList {
   count: number;
 }
 
+interface CollectionBaseItemDTO {
+  item: BaseItemDTO;
+  note: string;
+}
+
+export interface CollectionBaseItem {
+  item: BaseItem;
+  note: string;
+}
+
 interface BaseItemListDTO {
-  data: { item: BaseItemDTO; note: string }[];
+  data: CollectionBaseItemDTO[];
   pages: number;
   count: number;
 }
 
 interface BaseItemList {
   collectionUUID: string;
-  data: { item: BaseItem; note: string }[];
+  data: CollectionBaseItem[];
   pages: number;
   count: number;
 }
@@ -121,11 +131,34 @@ export class CollectionService {
     return this.http
       .get<CollectionDTO>(
         `${this.stateService.instanceURL()}/api/collection/${collectionUUID}`,
+        { responseType: "text" as "json" },
       )
       .pipe(
+        map(JSONbig({ storeAsString: true, useNativeBigInt: true }).parse),
         map((collectionDTO: CollectionDTO) =>
           Collection.fromDTO(collectionDTO),
         ),
+      );
+  }
+
+  getCollectionItems(
+    collectionUUID: string,
+    page: number,
+  ): Observable<BaseItemList> {
+    return this.http
+      .get<BaseItemListDTO>(
+        `${this.stateService.instanceURL()}/api/collection/${collectionUUID}/item/?page=${page}`,
+      )
+      .pipe(
+        map((res) => ({
+          collectionUUID: collectionUUID,
+          pages: res.pages,
+          count: res.count,
+          data: res.data.map((i) => ({
+            item: BaseItem.fromDTO(i.item),
+            note: i.note,
+          })),
+        })),
       );
   }
 

@@ -122,9 +122,9 @@ export class Status {
   static fromPost(post: Post): Status {
     const status = new Status();
     status.id = post.id;
-    status.status = post.extNeodb.relatedWith.find(
-      (r) => r.type === "Comment",
-    ).content;
+    status.status =
+      post.extNeodb?.relatedWith.find((r) => r.type === "Comment").content ??
+      post.content.replace(/<\/?[^>]+(>|$)/g, "");
     status.mediaIds = post.mediaAttachments.map((m) => m.id);
     // status.poll - It seems it's not supported by NeoDB right now
     status.inReplyToId = post.inReplyToId;

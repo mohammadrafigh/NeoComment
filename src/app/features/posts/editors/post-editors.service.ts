@@ -120,10 +120,11 @@ export class PostEditorsService {
         }
 
         if (result.isRemoved) {
-          // TODO: Mohammad 10-29-2025: implement if needed
+          this.postsStateService.removeReply(context.editingPost);
+          return;
         }
 
-        this.postsStateService.increaseRepliesCount(context.replyingPost);
+        this.postsStateService.syncReply(result.post);
       });
   }
 }

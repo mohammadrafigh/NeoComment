@@ -52,12 +52,12 @@ export class PostReplyComponent implements OnInit {
   showCharCounterHint = signal(false);
   postLoading = signal(false);
   removeLoading = signal(false);
-  isNew = signal(true);
+  isNew = signal(false);
 
   ngOnInit(): void {
     this.replyingPost.set(this.params.context.replyingPost);
-    this.status = this.params.context.status
-      ? Status.fromPost(this.params.context.status)
+    this.status = this.params.context.editingPost
+      ? Status.fromPost(this.params.context.editingPost)
       : new Status();
 
     if (!this.status.status) {

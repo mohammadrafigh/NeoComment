@@ -1,0 +1,24 @@
+<GridLayout rows="56, *" bottomSheetContainer>
+  <GridLayout
+    row="0"
+    columns="auto, *, auto"
+    class="rounded-t-2xl px-4 w-full bg-app-bg-pure"
+  >
+    <Button
+      text="&#xeb55;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="close()"
+    ></Button>
+  </GridLayout>
+
+  <ScrollView row="1">
+    <StackLayout class="p-4">
+      <NSImg
+        [src]="collection.coverImageURL"
+        class="rounded-lg w-full mb-4"
+      ></NSImg>
+      <Label [text]="collection.brief" textWrap="true" class="mb-4"></Label>
+    </StackLayout>
+  </ScrollView>
+</GridLayout>

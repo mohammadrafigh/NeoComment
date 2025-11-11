@@ -83,6 +83,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "collections/:uuid",
+    loadComponent: () =>
+      import("./features/collections/collection/collection.component").then(
+        (m) => m.CollectionComponent,
+      ),
+  },
+  {
     path: "posts",
     loadComponent: () =>
       import("./features/posts/posts.component").then((m) => m.PostsComponent),

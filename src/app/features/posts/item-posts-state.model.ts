@@ -8,6 +8,7 @@ import { Review } from "~/app/core/models/post/review.model";
 import { ShelfMark } from "~/app/core/models/post/shelf-mark.model";
 
 export class ItemPostsState {
+  // Only used for BaseItem-like items
   private fediAccountId: string;
   comments = signal<PostsResponse>(null);
   reviews = signal<PostsResponse>(null);
@@ -21,6 +22,10 @@ export class ItemPostsState {
   userNotes = signal<Note[]>([]);
   userNotesPosts = signal<Post[]>([]);
 
+  // Only used for Collection item
+  collectionPost = signal<Post>(null);
+
+  // Only used for BaseItem-like items
   userStatus = computed(() => this.setUserStatus(this.userMark()));
   commentsOverview = computed(() =>
     this.processPostsOverview(this.userMarkPost(), this.comments()?.data),

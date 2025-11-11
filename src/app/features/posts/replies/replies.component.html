@@ -11,12 +11,22 @@
       class="font-medium text-lg text-center"
       col="1"
     ></Label>
-    <StackLayout col="2" class="w-10"></StackLayout>
+    @if (type === "collection") {
+      <Button
+        text="&#xeaed;"
+        class="tabler-icon icon-button"
+        col="2"
+        (tap)="addReply()"
+      ></Button>
+    } @else {
+      <StackLayout col="2" class="w-10"></StackLayout>
+    }
   </GridLayout>
 </ActionBar>
 
 <GridLayout>
   <CollectionView
+    #repliesCollectionView
     [items]="postsStateService.postReplies[post.id]()"
     colWidth="100%"
     class="p-4 bg-primary-300-15 h-full"
@@ -31,12 +41,8 @@
           [itemCategory]="itemCategory"
           (likePressed)="postsStateService.toggleLike(item)"
           (boostPressed)="postsStateService.toggleBoost(item)"
-          (editPressed)="addEditSheet(item)"
-          (replyPressed)="
-            postEditorsService.showReplySheet(containerRef, {
-              replyingPost: item,
-            })
-          "
+          (editPressed)="editSheet(item)"
+          (replyPressed)="addReply(item)"
           (postPressed)="navigateToPost(item.id)"
         ></ns-post-item>
       </StackLayout>

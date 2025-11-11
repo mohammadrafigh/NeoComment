@@ -176,7 +176,7 @@
         crew()
       ) {
         <Label
-          [text]="'features.movie_series.cast_and_crew' | L"
+          [text]="'features.performance.cast_and_crew' | L"
           class="h1 mx-4 mb-2"
         ></Label>
         <GridLayout
@@ -187,8 +187,8 @@
           <Label
             [text]="
               (item().directors.length > 1
-                ? 'features.movie_series.directors'
-                : 'features.movie_series.director'
+                ? 'features.performance.directors'
+                : 'features.performance.director'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -207,8 +207,8 @@
           <Label
             [text]="
               (item().playwrights.length > 1
-                ? 'features.movie_series.writers'
-                : 'features.movie_series.writer'
+                ? 'features.performance.writers'
+                : 'features.performance.writer'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -227,7 +227,7 @@
             class="mb-2"
           ></Label>
           <Label
-            [text]="'features.movie_series.cast' | L"
+            [text]="'features.performance.cast' | L"
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="2"
@@ -323,7 +323,7 @@
         item().origTitle
       ) {
         <Label
-          [text]="'features.movie_series.origins' | L"
+          [text]="'features.performance.origins' | L"
           class="h1 mx-4 mb-2"
         ></Label>
         <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
@@ -365,7 +365,7 @@
           <Label
             [text]="
               (item().languages.length > 1
-                ? 'features.movie_series.languages'
+                ? 'common.languages'
                 : 'common.language'
               ) | L
             "

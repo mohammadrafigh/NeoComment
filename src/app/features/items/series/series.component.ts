@@ -62,10 +62,10 @@ export class SeriesComponent extends BaseItemPageComponent implements OnInit {
       this.item() &&
       this.isSeason(this.item) &&
       !this.itemTitle().includes(
-        `${localize("features.movie_series.season")} ${this.item().seasonNumber || 0}`,
+        `${localize("features.tv.season")} ${this.item().seasonNumber || 0}`,
       )
     ) {
-      return `${this.itemTitle()} - ${localize("features.movie_series.season")} ${this.item().seasonNumber || 0}`;
+      return `${this.itemTitle()} - ${localize("features.tv.season")} ${this.item().seasonNumber || 0}`;
     } else {
       return this.itemTitle();
     }

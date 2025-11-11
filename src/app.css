@@ -148,15 +148,25 @@
     @apply text-app-fg-muted bg-app-bg-pure highlighted:bg-app-bg-muted dark:highlighted:bg-app-bg;
   }
 
-  .basic-button Label {
+  .basic-button Label,
+  .transparent-button Label {
     @apply text-app-fg-muted;
   }
 
-  .basic-button.disabled Label {
+  .basic-button.disabled Label,
+  .transparent-button.disabled Label {
     @apply text-app-bg-muted-light;
   }
 
   .basic-button.pressed {
+    @apply bg-app-bg-muted;
+  }
+
+  .transparent-button {
+    @apply text-app-fg-muted highlighted:bg-app-bg-muted dark:highlighted:bg-app-bg;
+  }
+
+  .transparent-button.pressed {
     @apply bg-app-bg-muted;
   }
 

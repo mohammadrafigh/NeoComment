@@ -133,7 +133,8 @@
           [text]="
             postsStateService.itemPosts[item().uuid]?.userStatus()
               ? postsStateService.itemPosts[item().uuid]?.userStatus() +
-                (postsStateService.itemPosts[item().uuid]?.userMark().ratingGrade
+                (postsStateService.itemPosts[item().uuid]?.userMark()
+                  .ratingGrade
                   ? ' - ' +
                     postsStateService.itemPosts[item().uuid]?.userMark()
                       .ratingGrade
@@ -179,15 +180,15 @@
         item().playwrights.length > 0
       ) {
         <Label
-          [text]="'features.movie_series.cast_and_crew' | L"
+          [text]="'features.movie.cast_and_crew' | L"
           class="h1 mx-4 mb-2"
         ></Label>
         <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
           <Label
             [text]="
               (item().directors.length > 1
-                ? 'features.movie_series.directors'
-                : 'features.movie_series.director'
+                ? 'features.movie.directors'
+                : 'features.movie.director'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -206,8 +207,8 @@
           <Label
             [text]="
               (item().playwrights.length > 1
-                ? 'features.movie_series.writers'
-                : 'features.movie_series.writer'
+                ? 'features.movie.writers'
+                : 'features.movie.writer'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -226,7 +227,7 @@
             class="mb-2"
           ></Label>
           <Label
-            [text]="'features.movie_series.cast' | L"
+            [text]="'features.movie.cast' | L"
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
             col="0"
             row="2"
@@ -247,7 +248,7 @@
         item().origTitle
       ) {
         <Label
-          [text]="'features.movie_series.origins' | L"
+          [text]="'features.movie.origins' | L"
           class="h1 mx-4 mb-2"
         ></Label>
         <GridLayout class="mb-6 mx-4" columns="auto, *" rows="auto, auto, auto">
@@ -267,8 +268,8 @@
           <Label
             [text]="
               (item().areas.length > 1
-                ? 'features.movie_series.countries'
-                : 'features.movie_series.country'
+                ? 'features.movie.countries'
+                : 'features.movie.country'
               ) | L
             "
             class="font-bold text-app-fg-muted mb-2 mr-4 align-top min-w-28"
@@ -285,7 +286,7 @@
           <Label
             [text]="
               (item().languages.length > 1
-                ? 'features.movie_series.languages'
+                ? 'common.languages'
                 : 'common.language'
               ) | L
             "

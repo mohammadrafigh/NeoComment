@@ -1,0 +1,191 @@
+<ActionBar flat="true">
+  <GridLayout columns="auto, *, auto" class="pr-4 py-2 w-full">
+    <Button
+      text="&#xea60;"
+      class="tabler-icon icon-button"
+      col="0"
+      (tap)="location.back()"
+    ></Button>
+    <Label
+      [text]="collection()?.title"
+      class="font-medium text-lg text-center"
+      col="1"
+    ></Label>
+    <Button
+      text="&#xeb21;"
+      class="tabler-icon icon-button"
+      col="2"
+      (tap)="share()"
+    ></Button>
+  </GridLayout>
+</ActionBar>
+
+<GridLayout rows="*, auto">
+  <CollectionView
+    [items]="items()"
+    [colWidth]="screenWidth >= 720 ? '25%' : screenWidth >= 550 ? '33%' : '50%'"
+    [itemTemplateSelector]="templateSelector"
+    [spanSize]="getSpanSize"
+    (loadMoreItems)="getItems()"
+    (itemTap)="navigateToItem($event)"
+    class="bg-primary-300-15 p-2"
+    row="0"
+  >
+    <ng-template cvTemplateKey="book" let-colItem="item">
+      <StackLayout class="p-2">
+        <ns-book-item [item]="colItem.item"></ns-book-item>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="movie" let-colItem="item">
+      <StackLayout class="p-2">
+        <ns-movie-item [item]="colItem.item"></ns-movie-item>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="tv" let-colItem="item">
+      <StackLayout class="p-2">
+        <ns-series-item [item]="colItem.item"></ns-series-item>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="game" let-colItem="item">
+      <StackLayout class="p-2">
+        <ns-game-item [item]="colItem.item"></ns-game-item>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="music" let-colItem="item">
+      <StackLayout class="p-2">
+        <ns-music-item [item]="colItem.item"></ns-music-item>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="podcast" let-colItem="item">
+      <StackLayout class="p-2">
+        <ns-podcast-item [item]="colItem.item"></ns-podcast-item>
+      </StackLayout>
+    </ng-template>
+
+    <ng-template cvTemplateKey="performance" let-colItem="item">
+      <StackLayout class="p-2">
+        <ns-performance-item [item]="colItem.item"></ns-performance-item>
+      </StackLayout>
+    </ng-template>
+  </CollectionView>
+
+  <StackLayout
+    class="m-4"
+    horizontalAlignment="center"
+    verticalAlignment="bottom"
+    [hidden]="!pageLoading()"
+  >
+    <ActivityIndicator [busy]="pageLoading()" />
+  </StackLayout>
+
+  @if (collectionPost && collectionPost()) {
+    <GridLayout
+      row="1"
+      rows="auto, auto, auto"
+      columns="48, *, auto"
+      class="pt-2 pb-4 px-4"
+    >
+      <NSImg
+        row="0"
+        rowSpan="2"
+        col="0"
+        [src]="collectionPost().account.avatar"
+        failureImageUri="font://&#xeb4d;"
+        class="tabler-icon text-app-fg-muted text-4xl rounded-full w-10 h-10 mr-2"
+        [decodeWidth]="200"
+        [decodeHeight]="200"
+      ></NSImg>
+      <Label
+        row="0"
+        col="1"
+        class="text-xs font-medium no-font-padding mr-2"
+        [text]="collectionPost().account.displayName"
+      ></Label>
+      <StackLayout row="1" col="1" class="mt-0.5" orientation="horizontal">
+        <Label
+          [text]="
+            collectionPost().visibility === 'public' ||
+            collectionPost().visibility === 'unlisted'
+              ? '&#xec08;'
+              : collectionPost().visibility === 'private'
+                ? '&#xeae2;'
+                : '&#xea2b;'
+          "
+          class="tabler-icon text-xs text-app-fg-muted mr-1"
+        ></Label>
+        <Label
+          [text]="collectionPost().createdAt | date: 'MMM dd, yyyy hh:mm a'"
+          class="text-xs text-app-fg-muted mr-2 no-font-padding"
+        ></Label>
+      </StackLayout>
+      <FlexboxLayout colSpan="3" row="2" class="mt-2">
+        <StackLayout class="w-1/4">
+          <ns-icon-text-button
+            (pressed)="navigateToPost()"
+            buttonClass="transparent-button"
+            textClass="text-xs ml-1"
+            icon="&#xeaed;"
+            [text]="
+              collectionPost().repliesCount
+                ? (collectionPost().repliesCount | kilo)
+                : ''
+            "
+          >
+          </ns-icon-text-button>
+        </StackLayout>
+        <StackLayout class="w-1/4">
+          <ns-icon-text-button
+            (pressed)="postStateService.toggleLike(collectionPost())"
+            [disabled]="
+              postStateService
+                .boostingPostIds()
+                .includes(collection().postId) ||
+              collectionPost().visibility === 'private' ||
+              collectionPost().visibility === 'direct'
+            "
+            buttonClass="transparent-button"
+            [iconClass]="collectionPost().reblogged ? 'text-primary-300' : ''"
+            textClass="text-xs ml-1"
+            icon="&#xeb72;"
+            [text]="
+              collectionPost().reblogsCount
+                ? (collectionPost().reblogsCount | kilo)
+                : ''
+            "
+          >
+          </ns-icon-text-button>
+        </StackLayout>
+        <StackLayout class="w-1/4">
+          <ns-icon-text-button
+            (pressed)="postStateService.toggleLike(collectionPost())"
+            [disabled]="
+              postStateService.likingPostIds().includes(collection().postId)
+            "
+            buttonClass="transparent-button"
+            [iconClass]="collectionPost().favourited ? 'text-primary-300' : ''"
+            textClass="text-xs ml-1"
+            [icon]="collectionPost().favourited ? '&#xf67c;' : '&#xeabe;'"
+            [text]="
+              collectionPost().favouritesCount
+                ? (collectionPost().favouritesCount | kilo)
+                : ''
+            "
+          >
+          </ns-icon-text-button>
+        </StackLayout>
+        <StackLayout class="w-1/4">
+          <Button
+            text="&#xeac5;"
+            class="tabler-icon icon-button"
+            (tap)="showCollectionDetails()"
+          ></Button>
+        </StackLayout>
+      </FlexboxLayout>
+    </GridLayout>
+  }
+</GridLayout>

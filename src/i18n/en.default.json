@@ -32,7 +32,7 @@
     "doing": "Reading",
     "did": "Read"
   },
-  "features.movie_series": {
+  "features.movie": {
     "cast_and_crew": "Cast and Crew",
     "directors": "Directors",
     "writers": "Writers",
@@ -41,7 +41,20 @@
     "cast": "Cast",
     "origins": "Origins",
     "countries": "Countries",
-    "languages": "Languages",
+    "country": "Country",
+    "to_do": "To Watch",
+    "doing": "Watching",
+    "did": "Watched"
+  },
+  "features.tv": {
+    "cast_and_crew": "Cast and Crew",
+    "directors": "Directors",
+    "writers": "Writers",
+    "director": "Director",
+    "writer": "Writer",
+    "cast": "Cast",
+    "origins": "Origins",
+    "countries": "Countries",
     "country": "Country",
     "seasons": "Seasons",
     "episodes": "Episodes",
@@ -87,6 +100,12 @@
     "did": "Listened"
   },
   "features.performance": {
+    "directors": "Directors",
+    "writers": "Writers",
+    "director": "Director",
+    "writer": "Writer",
+    "cast": "Cast",
+    "origins": "Origins",
     "composers": "Composers",
     "composer": "Composer",
     "choreographers": "Choreographers",
@@ -202,8 +221,10 @@
     "write_your_reply": "Write your reply",
     "create": "Create",
     "save": "Save",
+    "languages": "Languages",
     "language": "Language",
     "stopped": "Stopped",
-    "original_title": "Original Title"
+    "original_title": "Original Title",
+    "comments": "Comments"
   }
 }

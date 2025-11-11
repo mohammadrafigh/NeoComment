@@ -82,12 +82,10 @@
                   mainTitle +
                   (item.type === 'TVSeason' &&
                   !mainTitle.includes(
-                    ('features.movie_series.season' | L) +
-                      ' ' +
-                      (item.seasonNumber || 0)
+                    ('features.tv.season' | L) + ' ' + (item.seasonNumber || 0)
                   )
                     ? ' - ' +
-                      ('features.movie_series.season' | L) +
+                      ('features.tv.season' | L) +
                       ' ' +
                       (item.seasonNumber || 0)
                     : '')

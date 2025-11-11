@@ -45,11 +45,11 @@ export class SeriesItemComponent implements OnChanges {
           item.title;
         if (
           !mainTitle.includes(
-            `${localize("features.movie_series.season")} ${item.seasonNumber || 0}`,
+            `${localize("features.tv.season")} ${item.seasonNumber || 0}`,
           )
         ) {
           this.title.set(
-            `${mainTitle} - ${localize("features.movie_series.season")} ${item.seasonNumber || 0}`,
+            `${mainTitle} - ${localize("features.tv.season")} ${item.seasonNumber || 0}`,
           );
         } else {
           this.title.set(mainTitle);
@@ -59,7 +59,7 @@ export class SeriesItemComponent implements OnChanges {
         const subtitle = [
           item.year,
           episodeCount
-            ? `${episodeCount} ${localize(episodeCount === 1 ? "features.movie_series.episode" : "features.movie_series.episodes")}`
+            ? `${episodeCount} ${localize(episodeCount === 1 ? "features.tv.episode" : "features.tv.episodes")}`
             : undefined,
         ]
           .filter((t) => t)
@@ -74,7 +74,7 @@ export class SeriesItemComponent implements OnChanges {
         );
 
         this.subtitle.set(
-          `${localize("features.movie_series.episode")} ${item.episodeNumber || 0}`,
+          `${localize("features.tv.episode")} ${item.episodeNumber || 0}`,
         );
       } else {
         const item = this.item as Series;
@@ -88,7 +88,7 @@ export class SeriesItemComponent implements OnChanges {
         const subtitle = [
           item.year,
           seasonCount
-            ? `${seasonCount} ${localize(seasonCount === 1 ? "features.movie_series.season" : "features.movie_series.seasons")}`
+            ? `${seasonCount} ${localize(seasonCount === 1 ? "features.tv.season" : "features.tv.seasons")}`
             : undefined,
         ]
           .filter((t) => t)

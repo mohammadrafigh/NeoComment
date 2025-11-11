@@ -46,6 +46,8 @@ export class PostsStateService {
 
   private focusedItemsStack = signal<string[]>([]);
   private focusedItem = computed(() => this.focusedItemsStack().at(-1));
+  // TODO: Mohammad 11-11-2025: It should be better to make this public and
+  // make itemPosts private, we need more investigations here
   private focusedItemPostsState = computed(
     () => this.itemPosts[this.focusedItemsStack().at(-1)],
   );
@@ -55,6 +57,8 @@ export class PostsStateService {
   // ------------- single post state (replies) -------------
 
   private focusedPostsStack = signal<string[]>([]);
+  // TODO: Mohammad 11-11-2025: It should be better to make this public and
+  // make postReplies private, we need more investigations here
   private focusedPostState = computed(
     () => this.postReplies[this.focusedPostsStack().at(-1)],
   );
@@ -72,6 +76,7 @@ export class PostsStateService {
     this.focusedItemsStack.update((items) => [...items, itemUUID]);
   }
 
+  // Starting point to use in ngOnInit of item pages
   getPostsForItem(itemUUID: string) {
     this.initItemPosts(itemUUID);
     this.getMarks();
@@ -80,6 +85,20 @@ export class PostsStateService {
     this.getCollections();
   }
 
+  // Starting point to use in ngOnInit of collection page
+  getPostForCollection(postId: string) {
+    this.initItemPosts(postId);
+
+    return this.postService
+      .getPost(postId)
+      .pipe(takeUntil(this.cancelItemPostsRequests$))
+      .subscribe({
+        next: (post) => this.focusedItemPostsState().collectionPost.set(post),
+        error: (err) => console.dir(err),
+      });
+  }
+
+  // NOTE: Important: Always call this on item/collection page destroy
   loadPreviousItemPosts(itemUUID: string) {
     this.cancelItemPostsRequests$.next();
     this.focusedItemsStack.update((items) => items.slice(0, -1));
@@ -307,12 +326,20 @@ export class PostsStateService {
       .subscribe({
         next: ({ shelfMark, userPost }) => {
           if (!this.focusedItemPostsState().userMarkPost()) {
-            this.focusedItemPostsState().comments?.update((posts) => ({
-              ...posts,
-              data: [userPost, ...posts.data],
-            }));
+            this.focusedItemPostsState().comments.update((posts) =>
+              posts
+                ? {
+                    ...posts,
+                    data: [userPost, ...posts.data],
+                  }
+                : {
+                    count: 1,
+                    pages: 1,
+                    data: [userPost],
+                  },
+            );
           } else {
-            this.focusedItemPostsState().comments?.update((comments) => ({
+            this.focusedItemPostsState().comments.update((comments) => ({
               ...comments,
               data: comments.data.map((p) =>
                 p.id === userPost.id ? userPost : p,
@@ -331,12 +358,20 @@ export class PostsStateService {
       .subscribe({
         next: ({ review, userPost }) => {
           if (!this.focusedItemPostsState().userReviewPost()) {
-            this.focusedItemPostsState().reviews?.update((posts) => ({
-              ...posts,
-              data: [userPost, ...posts.data],
-            }));
+            this.focusedItemPostsState().reviews.update((posts) =>
+              posts
+                ? {
+                    ...posts,
+                    data: [userPost, ...posts.data],
+                  }
+                : {
+                    count: 1,
+                    pages: 1,
+                    data: [userPost],
+                  },
+            );
           } else {
-            this.focusedItemPostsState().reviews?.update((reviews) => ({
+            this.focusedItemPostsState().reviews.update((reviews) => ({
               ...reviews,
               data: reviews.data.map((p) =>
                 p.id === userPost.id ? userPost : p,
@@ -360,10 +395,18 @@ export class PostsStateService {
               .userNotesPosts()
               .find((p) => p.id === post.id)
           ) {
-            this.focusedItemPostsState().notes?.update((posts) => ({
-              ...posts,
-              data: [post, ...posts.data],
-            }));
+            this.focusedItemPostsState().notes.update((posts) =>
+              posts
+                ? {
+                    ...posts,
+                    data: [post, ...posts.data],
+                  }
+                : {
+                    count: 1,
+                    pages: 1,
+                    data: [post],
+                  },
+            );
             this.focusedItemPostsState().userNotesPosts.update((posts) => [
               ...posts,
               post,
@@ -373,7 +416,7 @@ export class PostsStateService {
               note,
             ]);
           } else {
-            this.focusedItemPostsState().notes?.update((notes) => ({
+            this.focusedItemPostsState().notes.update((notes) => ({
               ...notes,
               data: notes.data.map((p) => (p.id === post.id ? post : p)),
             }));
@@ -420,6 +463,10 @@ export class PostsStateService {
     );
   }
 
+  getCollectionPostById(postId: string): Post {
+    return this.focusedItemPostsState().collectionPost();
+  }
+
   // ------------- single post methods (replies) -------------
 
   private initPostReplies(post: Post) {
@@ -429,6 +476,7 @@ export class PostsStateService {
     this.focusedPostsStack.update((posts) => [...posts, post.id]);
   }
 
+  // Starting point to use in ngOnInit of replies page
   getRepliesForPost(post: Post) {
     this.initPostReplies(post);
 
@@ -447,11 +495,43 @@ export class PostsStateService {
       });
   }
 
+  // NOTE: Important: Always call this on replies page destroy
   loadPreviousPostReplies(postId: string) {
     this.cancelPostsRequests$.next();
     this.focusedPostsStack.update((posts) => posts.slice(0, -1));
-    if (!this.focusedItemsStack().includes(postId)) {
+    if (!this.focusedPostsStack().includes(postId)) {
       delete this.postReplies[postId];
+    }
+  }
+
+  removeReply(post: Post) {
+    for (const postId in this.postReplies) {
+      this.postReplies[postId].update((posts) =>
+        posts.filter((p) => p.id !== post.id),
+      );
+    }
+    for (const postId in this.postReplies) {
+      let parent = this.postReplies[postId]().find(
+        (p) => post.inReplyToId === p.id,
+      );
+      if (parent) {
+        this.decreaseRepliesCount(parent);
+        break;
+      }
+    }
+  }
+
+  syncReply(post: Post) {
+    if (!this.focusedPostState()().find((p) => p.id === post.id)) {
+      this.focusedPostState().update((posts) => [...posts, post]);
+      const parent = this.focusedPostState()().find(
+        (p) => post.inReplyToId === p.id,
+      );
+      if (parent) {
+        this.increaseRepliesCount(parent);
+      }
+    } else {
+      this.updatePost(post);
     }
   }
 
@@ -549,6 +629,12 @@ export class PostsStateService {
     this.updatePost(updatedPost);
   }
 
+  decreaseRepliesCount(replyingPost: Post) {
+    const updatedPost = cloneDeep(replyingPost);
+    updatedPost.repliesCount--;
+    this.updatePost(updatedPost);
+  }
+
   private updatePost(post: Post) {
     // Update post in comments if found
     if (this.focusedItemPostsState()?.comments()) {
@@ -593,6 +679,11 @@ export class PostsStateService {
     this.focusedItemPostsState()?.userNotesPosts.update((posts) =>
       posts.map((p) => (p.id === post.id ? post : p)),
     );
+
+    // Update collection post if it matches
+    if (this.focusedItemPostsState()?.collectionPost()?.id === post.id) {
+      this.focusedItemPostsState()?.collectionPost.set(post);
+    }
 
     for (const postId in this.postReplies) {
       this.postReplies[postId].update((posts) =>
