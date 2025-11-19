@@ -1,0 +1,15 @@
+Hello NeoComment - Initial alpha release
+
+New Features:
+- Added explore page
+- Added item details page
+- Added Forest and Beach themes
+- Added light and dark modes
+- Added search over items
+- Added rate, review and note taking functionalities
+- Added ability to create collections and add items to the collections
+- Added post interactions
+- Updated Chinese translation - Thanks to @heddxh
+
+Fixes:
+- Improve liking and boosting
