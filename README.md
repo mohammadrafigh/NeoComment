@@ -29,6 +29,11 @@ Then, clone the project and run `npm install` in the project root to fetch the d
 
 To run the project in development mode, execute `ns run android`.
 
+### Production Build
+We use github actions to build for production. You can check actions to see how to build a production version, but here is a short guide:
+
+`ns build android --release --env.production --env.snapshot --env.compileSnapshot --env.uglify --env.aot --key-store-path={keystore.keystore} --key-store-password={PASSWORD} --key-store-alias=neocomment --key-store-alias-password={PASSWORD}`
+
 ### Translations
 You can help by translating the project to a language you speak at [Weblate](https://hosted.weblate.org/projects/neocomment/app/).
 

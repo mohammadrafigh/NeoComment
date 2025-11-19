@@ -1,0 +1,19 @@
+name: Validate Fastlane Metadata
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  validate-fastlane:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Fastlane Supply Metadata
+        uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2.1.0
+        with:
+          metadata_path: fastlane/metadata/android
+          fail_on_warnings: true

@@ -1,0 +1,77 @@
+name: Release Android
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  push:
+    tags:
+      - 'v*' # Runs when a version tag like v1.0.0 is pushed
+
+jobs:
+  build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} # Run only if fastlane has been validated successfully
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install NativeScript CLI
+        run: npm install -g nativescript
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          cache: gradle
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Extract versionName from app.gradle
+        id: version
+        run: |
+          version=$(grep -oP 'versionName "\K[^"]+' App_Resources/Android/app.gradle)
+          echo "VERSION_NAME=$version" >> $GITHUB_ENV
+
+      - name: Build APKs for all architectures
+        run: |
+          ARCHS=("arm64-v8a" "armeabi-v7a" "x86" "x86_64")
+          for arch in "${ARCHS[@]}"; do
+            echo "🛠 Building for $arch..."
+            ns build android --release --env.production --env.snapshot --env.compileSnapshot --env.uglify --env.aot \
+              --key-store-path keys/my-release-key.keystore \
+              --key-store-password ${{ secrets.KEYSTORE_PASSWORD }} \
+              --key-store-alias ${{ secrets.KEYSTORE_ALIAS }} \
+              --key-store-alias-password ${{ secrets.KEYSTORE_ALIAS_PASSWORD }} \
+              --aab false --bundle --android-archs=$arch
+          done
+
+      - name: Rename and collect APKs
+        run: |
+          OUTPUT_PATH="platforms/android/app/build/outputs/apk/release"
+          mkdir release_apks
+          for apk in $OUTPUT_PATH/*.apk; do
+            case $apk in
+              *arm64-v8a*)  arch="arm64" ;;
+              *armeabi-v7a*) arch="armv7" ;;
+              *x86_64*)      arch="x86_64" ;;
+              *x86*)         arch="x86" ;;
+            esac
+            new_name="NeoComment-${VERSION_NAME}-${arch}.apk"
+            mv "$apk" "release_apks/$new_name"
+            echo "Renamed: $new_name"
+          done
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: NeoComment-${{ env.VERSION_NAME }}-APKs
+          path: release_apks/

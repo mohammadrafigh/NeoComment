@@ -1,0 +1,22 @@
+NeoComment is a user friendly client for NeoDB — a decentralized Fediverse platform powered by ActivityPub.
+Discover, track, rate, review, and collect your favorite books, movies, series, games, music, podcasts, performances, and more.
+
+🎯 Features:
+• Search and explore media from across NeoDB
+• Rate, leave comments, review, and write notes on books, movies, series, games, music, podcasts, and performances
+• Create personal collections: watchlists, reading lists, game playlists, media favorites, etc.
+• Interact through ActivityPub — likes, replies, boosts, and federated activity
+• No central authority — decentralized and privacy-friendly
+
+🌐 NeoDB & Fediverse:
+NeoDB is part of the Fediverse and uses ActivityPub — meaning you control your data and can connect across different servers (instances).
+<b>Important:</b> You will need to sign up on a NeoDB instance (such as neodb.social, eggplant.place, or others) to start using NeoComment.
+
+🔐 Your Privacy Matters
+• No ads
+• No trackers
+• Your account stays on your chosen NeoDB instance
+
+NeoComment is the ideal tool for media lovers, reviewers, creators, and curators who want full control in a decentralized ecosystem.
+
+Join the federated media community today with NeoComment!
