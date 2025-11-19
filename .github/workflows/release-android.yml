@@ -41,18 +41,13 @@ jobs:
           version=$(grep -oP 'versionName "\K[^"]+' App_Resources/Android/app.gradle)
           echo "VERSION_NAME=$version" >> $GITHUB_ENV
 
-      - name: Build APKs for all architectures
+      - name: Build APK
         run: |
-          ARCHS=("arm64-v8a" "armeabi-v7a" "x86" "x86_64")
-          for arch in "${ARCHS[@]}"; do
-            echo "🛠 Building for $arch..."
-            ns build android --release --env.production --env.snapshot --env.compileSnapshot --env.uglify --env.aot \
+            ns build android --release --env.snapshot --env.compileSnapshot --env.uglify --env.aot \
               --key-store-path keys/my-release-key.keystore \
               --key-store-password ${{ secrets.KEYSTORE_PASSWORD }} \
               --key-store-alias ${{ secrets.KEYSTORE_ALIAS }} \
-              --key-store-alias-password ${{ secrets.KEYSTORE_ALIAS_PASSWORD }} \
-              --aab false --bundle --android-archs=$arch
-          done
+              --key-store-alias-password ${{ secrets.KEYSTORE_ALIAS_PASSWORD }}
 
       - name: Rename and collect APKs
         run: |
@@ -60,12 +55,12 @@ jobs:
           mkdir release_apks
           for apk in $OUTPUT_PATH/*.apk; do
             case $apk in
-              *arm64-v8a*)  arch="arm64" ;;
-              *armeabi-v7a*) arch="armv7" ;;
-              *x86_64*)      arch="x86_64" ;;
-              *x86*)         arch="x86" ;;
+              *arm64-v8a*)  arch="-arm64-v8a" ;;
+              *armeabi-v7a*) arch="-armeabi-v7a" ;;
+              *x86_64*)      arch="-x86_64" ;;
+              *x86*)         arch="-x86" ;;
             esac
-            new_name="NeoComment-${VERSION_NAME}-${arch}.apk"
+            new_name="NeoComment-${VERSION_NAME}${arch}.apk"
             mv "$apk" "release_apks/$new_name"
             echo "Renamed: $new_name"
           done
