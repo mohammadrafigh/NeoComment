@@ -142,9 +142,6 @@
           <ns-icon-text-button
             (pressed)="postStateService.toggleLike(collectionPost())"
             [disabled]="
-              postStateService
-                .boostingPostIds()
-                .includes(collection().postId) ||
               collectionPost().visibility === 'private' ||
               collectionPost().visibility === 'direct'
             "
@@ -163,9 +160,6 @@
         <StackLayout class="w-1/4">
           <ns-icon-text-button
             (pressed)="postStateService.toggleLike(collectionPost())"
-            [disabled]="
-              postStateService.likingPostIds().includes(collection().postId)
-            "
             buttonClass="transparent-button"
             [iconClass]="collectionPost().favourited ? 'text-primary-300' : ''"
             textClass="text-xs ml-1"

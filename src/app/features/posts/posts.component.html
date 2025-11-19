@@ -40,8 +40,6 @@
       <StackLayout>
         <ns-post-item
           [post]="item"
-          [isLiking]="postsStateService.likingPostIds().includes(item.id)"
-          [isBoosting]="postsStateService.boostingPostIds().includes(item.id)"
           [isEditable]="item.account.id === stateService.fediAccount().id"
           (likePressed)="postsStateService.toggleLike(item)"
           [itemCategory]="itemCategory"

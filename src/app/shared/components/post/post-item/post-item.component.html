@@ -92,9 +92,7 @@
       <ns-icon-text-button
         (pressed)="onBoostPressed()"
         [disabled]="
-          isBoosting ||
-          post.visibility === 'private' ||
-          post.visibility === 'direct'
+          post.visibility === 'private' || post.visibility === 'direct'
         "
         buttonClass="basic-button"
         [iconClass]="post.reblogged ? 'text-primary-300' : ''"
@@ -107,7 +105,6 @@
     <StackLayout [ngClass]="isEditable ? 'w-1/4' : 'w-1/3'">
       <ns-icon-text-button
         (pressed)="onLikePressed()"
-        [disabled]="isLiking"
         buttonClass="basic-button"
         [iconClass]="post.favourited ? 'text-primary-300' : ''"
         textClass="text-xs ml-1"

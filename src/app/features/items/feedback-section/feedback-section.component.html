@@ -39,8 +39,6 @@
   ) {
     <ns-post-item
       [post]="comment"
-      [isLiking]="postsStateService.likingPostIds().includes(comment.id)"
-      [isBoosting]="postsStateService.boostingPostIds().includes(comment.id)"
       [isEditable]="comment.account.id === stateService.fediAccount().id"
       [itemCategory]="item.category"
       (likePressed)="postsStateService.toggleLike(comment)"
@@ -95,8 +93,6 @@
   ) {
     <ns-post-item
       [post]="review"
-      [isLiking]="postsStateService.likingPostIds().includes(review.id)"
-      [isBoosting]="postsStateService.boostingPostIds().includes(review.id)"
       [isEditable]="review.account.id === stateService.fediAccount().id"
       [itemCategory]="item.category"
       (likePressed)="postsStateService.toggleLike(review)"
@@ -145,8 +141,6 @@
   ) {
     <ns-post-item
       [post]="note"
-      [isLiking]="postsStateService.likingPostIds().includes(note.id)"
-      [isBoosting]="postsStateService.boostingPostIds().includes(note.id)"
       [isEditable]="note.account.id === stateService.fediAccount().id"
       [itemCategory]="item.category"
       (likePressed)="postsStateService.toggleLike(note)"

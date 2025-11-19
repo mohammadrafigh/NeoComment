@@ -32,8 +32,6 @@ import { PostContentComponent } from "../post-content/post-content.component";
 })
 export class PostItemComponent implements OnChanges {
   @Input() post: Post;
-  @Input() isLiking = false;
-  @Input() isBoosting = false;
   @Input() isEditable = false;
   @Input() itemCategory: string;
   @Output() likePressed = new EventEmitter();

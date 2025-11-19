@@ -15,7 +15,6 @@ import { Note } from "~/app/core/models/post/note.model";
 import {
   catchError,
   concatMap,
-  finalize,
   forkJoin,
   from,
   map,
@@ -38,9 +37,6 @@ export class PostsStateService {
   private reviewService = inject(ReviewService);
   private noteService = inject(NoteService);
   private collectionService = inject(CollectionService);
-
-  likingPostIds = signal<string[]>([]);
-  boostingPostIds = signal<string[]>([]);
 
   // ------------- item posts state -------------
 
@@ -538,30 +534,15 @@ export class PostsStateService {
   // ------------- shared methods -------------
 
   toggleLike(post: Post) {
-    this.likingPostIds.update((ids) => [...ids, post.id]);
     if (post.favourited) {
       this.applyUnlike(post);
       this.postService
         .unlikePost(post.id)
-        .pipe(
-          finalize(() =>
-            this.likingPostIds.update((ids) =>
-              ids.filter((id) => id !== post.id),
-            ),
-          ),
-        )
         .subscribe({ error: () => this.applyLike(post) });
     } else {
       this.applyLike(post);
       this.postService
         .likePost(post.id)
-        .pipe(
-          finalize(() =>
-            this.likingPostIds.update((ids) =>
-              ids.filter((id) => id !== post.id),
-            ),
-          ),
-        )
         .subscribe({ error: () => this.applyUnlike(post) });
     }
   }
@@ -581,30 +562,15 @@ export class PostsStateService {
   }
 
   toggleBoost(post: Post) {
-    this.boostingPostIds.update((ids) => [...ids, post.id]);
     if (post.reblogged) {
       this.applyUnboost(post);
       this.postService
         .unboostPost(post.id)
-        .pipe(
-          finalize(() =>
-            this.boostingPostIds.update((ids) =>
-              ids.filter((id) => id !== post.id),
-            ),
-          ),
-        )
         .subscribe({ error: () => this.applyBoost(post) });
     } else {
       this.applyBoost(post);
       this.postService
         .boostPost(post.id)
-        .pipe(
-          finalize(() =>
-            this.boostingPostIds.update((ids) =>
-              ids.filter((id) => id !== post.id),
-            ),
-          ),
-        )
         .subscribe({ error: () => this.applyUnboost(post) });
     }
   }
