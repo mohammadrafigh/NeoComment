@@ -5,6 +5,7 @@ import { Movie } from "../../../../core/models/movie.model";
 import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.component";
 import { KiloPipe } from "../../../pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
+import { CATEGORIES } from "~/app/shared/constants/categories";
 
 @Component({
   selector: "ns-movie-item",
@@ -20,4 +21,6 @@ import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
 })
 export class MovieItemComponent {
   @Input() item: Movie;
+  @Input() showIcon = false;
+  icon = CATEGORIES.get("movie").icon;
 }

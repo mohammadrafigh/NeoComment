@@ -16,6 +16,7 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 import { SeriesSeason } from "~/app/core/models/series-season.model";
 import { SeriesEpisode } from "~/app/core/models/series-episode.model";
 import { localize } from "@nativescript/localize";
+import { CATEGORIES } from "~/app/shared/constants/categories";
 
 @Component({
   selector: "ns-series-item",
@@ -31,9 +32,11 @@ import { localize } from "@nativescript/localize";
 })
 export class SeriesItemComponent implements OnChanges {
   @Input() item: Series | SeriesSeason | SeriesEpisode;
+  @Input() showIcon = false;
   private neoL = inject(NeoDBLocalizePipe);
   title = signal<string>("");
   subtitle = signal<string>("");
+  icon = CATEGORIES.get("tv").icon;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.item) {

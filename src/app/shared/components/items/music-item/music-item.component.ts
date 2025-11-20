@@ -5,6 +5,7 @@ import { Music } from "../../../../core/models/music.model";
 import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.component";
 import { KiloPipe } from "../../../pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
+import { CATEGORIES } from "~/app/shared/constants/categories";
 
 @Component({
   selector: "ns-music-item",
@@ -20,4 +21,6 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 })
 export class MusicItemComponent {
   @Input() item: Music;
+  @Input() showIcon = false;
+  icon = CATEGORIES.get("music").icon;
 }

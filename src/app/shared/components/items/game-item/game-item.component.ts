@@ -5,6 +5,7 @@ import { Game } from "../../../../core/models/game.model";
 import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.component";
 import { KiloPipe } from "../../../pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
+import { CATEGORIES } from "~/app/shared/constants/categories";
 
 @Component({
   selector: "ns-game-item",
@@ -20,4 +21,6 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 })
 export class GameItemComponent {
   @Input() item: Game;
+  @Input() showIcon = false;
+  icon = CATEGORIES.get("game").icon;
 }

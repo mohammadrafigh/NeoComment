@@ -6,6 +6,7 @@ import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.comp
 import { KiloPipe } from "../../../pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 import { PodcastEpisode } from "~/app/core/models/podcast-episode.model";
+import { CATEGORIES } from "~/app/shared/constants/categories";
 
 @Component({
   selector: "ns-podcast-item",
@@ -21,4 +22,6 @@ import { PodcastEpisode } from "~/app/core/models/podcast-episode.model";
 })
 export class PodcastItemComponent {
   @Input() item: Podcast | PodcastEpisode;
+  @Input() showIcon = false;
+  icon = CATEGORIES.get("podcast").icon;
 }

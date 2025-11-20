@@ -5,6 +5,7 @@ import { Performance } from "../../../../core/models/performance.model";
 import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.component";
 import { KiloPipe } from "../../../pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
+import { CATEGORIES } from "~/app/shared/constants/categories";
 
 @Component({
   selector: "ns-performance-item",
@@ -20,4 +21,6 @@ import { NeoDBLocalizePipe } from "../../../pipes/neodb-localize.pipe";
 })
 export class PerformanceItemComponent {
   @Input() item: Performance;
+  @Input() showIcon = false;
+  icon = CATEGORIES.get("performance").icon;
 }

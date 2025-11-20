@@ -5,6 +5,7 @@ import { RateIndicatorComponent } from "../../rate-indicator/rate-indicator.comp
 import { Book } from "~/app/core/models/book.model";
 import { KiloPipe } from "../../../pipes/kilo.pipe";
 import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
+import { CATEGORIES } from "~/app/shared/constants/categories";
 
 @Component({
   selector: "ns-book-item",
@@ -20,4 +21,6 @@ import { NeoDBLocalizePipe } from "~/app/shared/pipes/neodb-localize.pipe";
 })
 export class BookItemComponent {
   @Input() item: Book;
+  @Input() showIcon = false;
+  icon = CATEGORIES.get("book").icon;
 }

@@ -33,43 +33,52 @@
   >
     <ng-template cvTemplateKey="book" let-colItem="item">
       <StackLayout class="p-2">
-        <ns-book-item [item]="colItem.item"></ns-book-item>
+        <ns-book-item [item]="colItem.item" [showIcon]="true"></ns-book-item>
       </StackLayout>
     </ng-template>
 
     <ng-template cvTemplateKey="movie" let-colItem="item">
       <StackLayout class="p-2">
-        <ns-movie-item [item]="colItem.item"></ns-movie-item>
+        <ns-movie-item [item]="colItem.item" [showIcon]="true"></ns-movie-item>
       </StackLayout>
     </ng-template>
 
     <ng-template cvTemplateKey="tv" let-colItem="item">
       <StackLayout class="p-2">
-        <ns-series-item [item]="colItem.item"></ns-series-item>
+        <ns-series-item
+          [item]="colItem.item"
+          [showIcon]="true"
+        ></ns-series-item>
       </StackLayout>
     </ng-template>
 
     <ng-template cvTemplateKey="game" let-colItem="item">
       <StackLayout class="p-2">
-        <ns-game-item [item]="colItem.item"></ns-game-item>
+        <ns-game-item [item]="colItem.item" [showIcon]="true"></ns-game-item>
       </StackLayout>
     </ng-template>
 
     <ng-template cvTemplateKey="music" let-colItem="item">
       <StackLayout class="p-2">
-        <ns-music-item [item]="colItem.item"></ns-music-item>
+        <ns-music-item [item]="colItem.item" [showIcon]="true"></ns-music-item>
       </StackLayout>
     </ng-template>
 
     <ng-template cvTemplateKey="podcast" let-colItem="item">
       <StackLayout class="p-2">
-        <ns-podcast-item [item]="colItem.item"></ns-podcast-item>
+        <ns-podcast-item
+          [item]="colItem.item"
+          [showIcon]="true"
+        ></ns-podcast-item>
       </StackLayout>
     </ng-template>
 
     <ng-template cvTemplateKey="performance" let-colItem="item">
       <StackLayout class="p-2">
-        <ns-performance-item [item]="colItem.item"></ns-performance-item>
+        <ns-performance-item
+          [item]="colItem.item"
+          [showIcon]="true"
+        ></ns-performance-item>
       </StackLayout>
     </ng-template>
   </CollectionView>
