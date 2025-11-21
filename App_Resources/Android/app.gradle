@@ -17,6 +17,26 @@ android {
     versionName "1.0.0-alpha.2"
 
     generatedDensities = []
+
+    ndk {
+      abiFilters.clear()
+    }
+  }
+
+  splits {
+    abi {
+      enable true //enables the ABIs split mechanism
+      reset() //reset the list of ABIs to be included to an empty string
+      include 'arm64-v8a'
+      universalApk false
+    }
+  }
+
+  dependenciesInfo {
+    // Disables dependency metadata when building APKs (for IzzyOnDroid/F-Droid)
+    includeInApk false
+    // Disables dependency metadata when building Android App Bundles (for Google Play)
+    includeInBundle false
   }
 
   aaptOptions {
