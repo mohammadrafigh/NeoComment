@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }} # Run only if fastlane has been validated successfully
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -41,32 +40,26 @@ jobs:
           version=$(grep -oP 'versionName "\K[^"]+' App_Resources/Android/app.gradle)
           echo "VERSION_NAME=$version" >> $GITHUB_ENV
 
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > my-release-key.keystore
+
       - name: Build APK
         run: |
             ns build android --release --env.snapshot --env.compileSnapshot --env.uglify --env.aot \
-              --key-store-path keys/my-release-key.keystore \
+              --key-store-path my-release-key.keystore \
               --key-store-password ${{ secrets.KEYSTORE_PASSWORD }} \
-              --key-store-alias ${{ secrets.KEYSTORE_ALIAS }} \
-              --key-store-alias-password ${{ secrets.KEYSTORE_ALIAS_PASSWORD }}
+              --key-store-alias ${{ secrets.KEY_ALIAS }} \
+              --key-store-alias-password ${{ secrets.KEY_PASSWORD }}
 
-      - name: Rename and collect APKs
+      - name: Rename and collect APK
         run: |
-          OUTPUT_PATH="platforms/android/app/build/outputs/apk/release"
           mkdir release_apks
-          for apk in $OUTPUT_PATH/*.apk; do
-            case $apk in
-              *arm64-v8a*)  arch="-arm64-v8a" ;;
-              *armeabi-v7a*) arch="-armeabi-v7a" ;;
-              *x86_64*)      arch="-x86_64" ;;
-              *x86*)         arch="-x86" ;;
-            esac
-            new_name="NeoComment-${VERSION_NAME}${arch}.apk"
-            mv "$apk" "release_apks/$new_name"
-            echo "Renamed: $new_name"
-          done
+          new_name="NeoComment-${VERSION_NAME}.apk"
+          mv "platforms/android/app/build/outputs/apk/release/app-arm64-v8a-release.apk" "release_apks/$new_name"
+          echo "Renamed: $new_name"
 
-      - name: Upload APKs
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: NeoComment-${{ env.VERSION_NAME }}-APKs
+          name: NeoComment-${{ env.VERSION_NAME }}-APK
           path: release_apks/
