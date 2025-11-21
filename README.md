@@ -1,16 +1,26 @@
-<div style="text-align: center;">
-<img src="design/logo.svg" alt="Logo" width="200"/>
+<p align="center">
+  <img src="design/logo.svg" alt="Logo" width="200"/>
+</p>
+<h1 align="center">NeoComment - NeoDB Client</h1>
 
-# NeoComment - NeoDB Client
-</div>
+> [!WARNING]
+> The project is still in its early stages. Please be aware of potential issues and report them back to us! 😉
 
-**Warning:** The project is still in its early stages. Please be aware of potential issues and report them back to us! 😉
-
-**Note:** The app will soon be available on F-Droid, but if you're curious, you can build it yourself.
+> [!NOTE]
+> The app will soon be available on F-Droid, but if you're curious, you can build it yourself.
 
 NeoComment aims to provide an easy to use Android client for NeoDB - a federated user rating and review platform for books, movies, series, games, music, podcasts, and performances. You just need a NeoDB account on an instance to use NeoComment. To find an instance you can take a look at [NeoDB servers](https://neodb.net/servers/) or [FediDB](https://fedidb.com/software/neodb).
 
 The project is powered by NativeScript, which means it may also have an iOS version in the future. However, the current focus is on Android.
+
+<p align="center">
+  <img alt="Screenshot 1" src="fastlane/metadata//android//en-US/images/phoneScreenshots/1.png" width="270px">
+  <img alt="Screenshot 2" src="fastlane/metadata//android//en-US/images/phoneScreenshots/2.png" width="270px">
+  <img alt="Screenshot 3" src="fastlane/metadata//android//en-US/images/phoneScreenshots/3.png" width="270px">
+  <img alt="Screenshot 4" src="fastlane/metadata//android//en-US/images/phoneScreenshots/4.png" width="270px">
+  <img alt="Screenshot 5" src="fastlane/metadata//android//en-US/images/phoneScreenshots/5.png" width="270px">
+  <img alt="Screenshot 6" src="fastlane/metadata//android//en-US/images/phoneScreenshots/6.png" width="270px">
+</p>
 
 ## Upcoming Features
 - Home (Profile): A page to view your ratings and reviews in one place.
@@ -61,4 +71,4 @@ If you'd like to support my work on NeoComment, feel free to donate using the cr
 **XEC:** ecash:qpjgpk576exggjgd6zek8z9naxvcn3eeequc58h5yy
 
 ## Alternatives
-There are other great apps available for NeoDB, such as [NeoDB You (Android)](https://github.com/heddxh/NeoDB-You/), [Piecelet](https://github.com/lcandy2/neodb-app),[Chihu](https://github.com/nunesdennis/Chihu), and [Fedicat](https://codeberg.org/technicat/fedicat).
+There are other great apps available for NeoDB, such as [NeoDB You (Android)](https://github.com/heddxh/NeoDB-You/), [Piecelet (iOS)](https://github.com/lcandy2/neodb-app), [Chihu (iOS)](https://github.com/nunesdennis/Chihu), and [Fedicat (iOS)](https://codeberg.org/technicat/fedicat).
