@@ -12,6 +12,13 @@ NeoComment aims to provide an easy to use Android client for NeoDB - a federated
 
 The project is powered by NativeScript, which means it may also have an iOS version in the future. However, the current focus is on Android.
 
+<img src="fastlane/metadata//android//en-US/images/phoneScreenshots/1.png" style="width: 33%; border-radius: 10px">
+<img src="fastlane/metadata//android//en-US/images/phoneScreenshots/2.png" style="width: 33%; border-radius: 10px">
+<img src="fastlane/metadata//android//en-US/images/phoneScreenshots/3.png" style="width: 33%; border-radius: 10px">
+<img src="fastlane/metadata//android//en-US/images/phoneScreenshots/4.png" style="width: 33%; border-radius: 10px">
+<img src="fastlane/metadata//android//en-US/images/phoneScreenshots/5.png" style="width: 33%; border-radius: 10px">
+<img src="fastlane/metadata//android//en-US/images/phoneScreenshots/6.png" style="width: 33%; border-radius: 10px">
+
 ## Upcoming Features
 - Home (Profile): A page to view your ratings and reviews in one place.
 - Feed: A section where you can see your friends' opinions on different items.
@@ -61,4 +68,4 @@ If you'd like to support my work on NeoComment, feel free to donate using the cr
 **XEC:** ecash:qpjgpk576exggjgd6zek8z9naxvcn3eeequc58h5yy
 
 ## Alternatives
-There are other great apps available for NeoDB, such as [NeoDB You (Android)](https://github.com/heddxh/NeoDB-You/), [Piecelet](https://github.com/lcandy2/neodb-app),[Chihu](https://github.com/nunesdennis/Chihu), and [Fedicat](https://codeberg.org/technicat/fedicat).
+There are other great apps available for NeoDB, such as [NeoDB You (Android)](https://github.com/heddxh/NeoDB-You/), [Piecelet (iOS)](https://github.com/lcandy2/neodb-app), [Chihu (iOS)](https://github.com/nunesdennis/Chihu), and [Fedicat (iOS)](https://codeberg.org/technicat/fedicat).
