@@ -1,6 +1,6 @@
 <StackLayout class="rounded-lg bg-app-bg-pure w-[150] h-[256]">
   @if (showIcon) {
-    <GridLayout rows="*, auto" columns="*, auto" class="w-[150] h-[200]">
+    <GridLayout rows="*, auto" columns="*, auto" class="w-[150] h-[150]">
       <NSImg
         row="0"
         rowSpan="2"
@@ -11,7 +11,7 @@
         [failureImageUri]="
           item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
         "
-        class="rounded-tl-lg rounded-tr-lg w-[150] h-[200]"
+        class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
       ></NSImg>
       <Label
         [text]="icon"
@@ -27,7 +27,7 @@
       [failureImageUri]="
         item?.coverImageURL + '.200x200_q85_autocrop_crop-scale.png'
       "
-      class="rounded-tl-lg rounded-tr-lg w-[150] h-[200]"
+      class="rounded-tl-lg rounded-tr-lg w-[150] h-[150]"
     ></NSImg>
   }
   <StackLayout class="p-2">

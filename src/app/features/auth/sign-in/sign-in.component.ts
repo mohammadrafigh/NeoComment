@@ -7,6 +7,7 @@ import {
 import { AuthService } from "../../../core/services/auth.service";
 import { NativeScriptLocalizeModule } from "@nativescript/localize/angular";
 import { finalize } from "rxjs";
+import { Utils } from "@nativescript/core";
 
 @Component({
   selector: "ns-sign-in",
@@ -37,5 +38,9 @@ export class SignInComponent {
       .subscribe({
         error: (e) => console.log("Failed to register client"),
       });
+  }
+
+  openFindInstanceURL() {
+    Utils.openUrl("https://neodb.net/servers/");
   }
 }

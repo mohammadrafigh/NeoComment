@@ -24,5 +24,14 @@
         [text]="'features.sign_in.next' | L"
       ></Button>
     }
+
+    <WrapLayout orientation="horizontal" horizontalAlignment="center" class="mt-4">
+      <Label [text]="'features.sign_in.no_account_message' | L" class="mr-1"></Label>
+      <Button
+        class="transparent-button text-primary-500 px-2"
+        [text]="'features.sign_in.find_an_instance' | L"
+        (tap)="openFindInstanceURL()"
+      ></Button>
+    </WrapLayout>
   </StackLayout>
 </GridLayout>
