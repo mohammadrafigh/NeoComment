@@ -1,0 +1,7 @@
+### Added
+
+- Added config for Zapstore
+
+### Changed
+
+- Reduced APK size by enabling legacy compression to be able to publish on IzzyOnDroid
