@@ -1,0 +1,8 @@
+### Added
+
+- Added item type icon in collections over items to help detecting item types easier.
+- Added a link to NeoDB instances in authentication page. So, new users can find an instance easier.
+
+### Fixed
+
+- Reduced APK size by including only arm64 architecture.

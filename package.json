@@ -1,7 +1,7 @@
 {
   "name": "neocomment",
   "main": "./src/main.ts",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "private": true,
   "dependencies": {
     "@angular/animations": "~20.0.0",
