@@ -39,6 +39,12 @@ android {
     includeInBundle false
   }
 
+  packagingOptions {
+    jniLibs {
+      useLegacyPackaging = true
+    }
+  }
+
   aaptOptions {
     additionalParameters "--no-version-vectors"
   }
