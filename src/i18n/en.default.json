@@ -3,7 +3,9 @@
   "features.sign_in": {
     "welcome": "Welcome to NeoComment!",
     "instance_url": "Instance URL",
-    "next": "Next"
+    "next": "Next",
+    "no_account_message": "Don't have an account?",
+    "find_an_instance": "Find an instance"
   },
   "features.explore": {
     "page_title": "Explore"
