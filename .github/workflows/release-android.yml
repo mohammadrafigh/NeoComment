@@ -62,4 +62,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NeoComment-${{ env.VERSION_NAME }}-APK
-          path: release_apks/
+          path: release_apks/NeoComment-${{ env.VERSION_NAME }}.apk
