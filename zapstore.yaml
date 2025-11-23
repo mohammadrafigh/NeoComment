@@ -1,0 +1,40 @@
+name: NeoComment
+summary: User friendly NeoDB client to track, rate, review, and comment for books, movies, games, music and more
+description: |
+  NeoComment is a user friendly client for NeoDB — a decentralized Fediverse platform powered by ActivityPub.
+  Discover, track, rate, review, and collect your favorite books, movies, series, games, music, podcasts, performances, and more.
+
+  🎯 Features:
+  • Search and explore media from across NeoDB
+  • Rate, leave comments, review, and write notes on books, movies, series, games, music, podcasts, and performances
+  • Create personal collections: watchlists, reading lists, game playlists, media favorites, etc.
+  • Interact through ActivityPub — likes, replies, boosts, and federated activity
+  • No central authority — decentralized and privacy-friendly
+
+  🌐 NeoDB & Fediverse:
+  NeoDB is part of the Fediverse and uses ActivityPub — meaning you control your data and can connect across different servers (instances).
+  **Important:** You will need to sign up on a NeoDB instance (such as neodb.social, eggplant.place, or others) to start using NeoComment.
+
+  🔐 Your Privacy Matters
+  • No ads
+  • No trackers
+  • Your account stays on your chosen NeoDB instance
+
+  NeoComment is the ideal tool for media lovers, reviewers, creators, and curators who want full control in a decentralized ecosystem.
+
+  Join the federated media community today with NeoComment!
+repository: https://github.com/mohammadrafigh/NeoComment
+images:
+  - fastlane/metadata/android/en-US/images/phoneScreenshots/1.png
+  - fastlane/metadata/android/en-US/images/phoneScreenshots/2.png
+  - fastlane/metadata/android/en-US/images/phoneScreenshots/3.png
+  - fastlane/metadata/android/en-US/images/phoneScreenshots/4.png
+  - fastlane/metadata/android/en-US/images/phoneScreenshots/5.png
+  - fastlane/metadata/android/en-US/images/phoneScreenshots/6.png
+icon: fastlane/metadata/android/en-US/images/icon.png
+tags: neodb review-platform social-media fediverse activitypub bluesky atproto android
+license: GPL-3.0-only
+remote_metadata:
+  - github
+assets:
+  - .*.apk
