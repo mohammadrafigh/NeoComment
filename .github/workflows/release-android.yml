@@ -74,22 +74,13 @@ jobs:
             echo "notes=Release build for NeoComment ${VERSION_NAME}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Create GitHub Release and upload APK
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: v${{ env.VERSION_NAME }}
           body: ${{ steps.release_notes.outputs.notes }}
           draft: true
           prerelease: false
-
-      - name: Upload APK to release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: release_apks/NeoComment-${{ env.VERSION_NAME }}.apk
-          asset_name: NeoComment-${{ env.VERSION_NAME }}.apk
-          asset_content_type: application/vnd.android.package-archive
+          files: release_apks/NeoComment-${{ env.VERSION_NAME }}.apk
