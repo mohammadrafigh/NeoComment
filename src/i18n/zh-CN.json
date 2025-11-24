@@ -3,7 +3,9 @@
     "features.sign_in": {
         "welcome": "欢迎使用 NeoComment！",
         "instance_url": "实例地址",
-        "next": "继续"
+        "next": "继续",
+        "no_account_message": "没有账号？",
+        "find_an_instance": "寻找实例"
     },
     "features.explore": {
         "page_title": "探索"
