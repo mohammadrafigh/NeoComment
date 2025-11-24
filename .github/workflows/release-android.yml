@@ -11,6 +11,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install emulator for NativeScript just to pass CLI check
+        run: sdkmanager "emulator"
+
       - name: Install NativeScript CLI
         run: npm install -g nativescript
 
