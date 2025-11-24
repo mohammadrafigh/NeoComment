@@ -1,10 +1,8 @@
 name: Release Android
 
 on:
-  workflow_dispatch: # Allows manual triggering
   push:
-    tags:
-      - 'v*' # Runs when a version tag like v1.0.0 is pushed
+    branches: [ master ]
 
 jobs:
   build:
@@ -13,23 +11,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: Install NativeScript CLI
         run: npm install -g nativescript
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          cache: gradle
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
 
       - name: Install dependencies
         run: npm install
