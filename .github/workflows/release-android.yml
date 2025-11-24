@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install emulator for NativeScript just to pass CLI check
-        run: sdkmanager "emulator"
+        run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "emulator"
 
       - name: Install NativeScript CLI
         run: npm install -g nativescript
