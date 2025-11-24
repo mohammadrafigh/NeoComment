@@ -1,8 +1,10 @@
 name: Release Android
 
 on:
+  workflow_dispatch: # Allows manual triggering
   push:
-    branches: [ master ]
+    tags:
+      - 'v*' # Runs when a version tag like v1.0.0 is pushed
 
 jobs:
   build:
