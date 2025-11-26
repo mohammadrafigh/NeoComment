@@ -35,7 +35,7 @@ jobs:
 
       - name: Build APK
         run: |
-            ns build android --release --env.snapshot --env.compileSnapshot --env.uglify --env.aot --compileSdk=$COMPILE_SDK_VERSION \
+            ns build android --release --env.snapshot --env.compileSnapshot --env.uglify --env.aot --compileSdk=${COMPILE_SDK_VERSION} \
               --key-store-path my-release-key.keystore \
               --key-store-password ${{ secrets.KEYSTORE_PASSWORD }} \
               --key-store-alias ${{ secrets.KEY_ALIAS }} \
