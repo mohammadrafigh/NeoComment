@@ -26,7 +26,7 @@ jobs:
         id: version
         run: |
           version=$(grep -oP 'versionName "\K[^"]+' App_Resources/Android/app.gradle)
-          compileSdkVersion=$(grep -oP 'compileSdkVersion' "\K[^"]+' App_Resources/Android/app.gradle)
+          compileSdkVersion=$(grep -oP 'compileSdkVersion \K[^*]+' App_Resources/Android/app.gradle)
           echo "VERSION_NAME=$version" >> $GITHUB_ENV
           echo "COMPILE_SDK_VERSION=$compileSdkVersion" >> $GITHUB_ENV
 
