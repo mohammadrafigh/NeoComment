@@ -22,18 +22,20 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Extract versionName from app.gradle
+      - name: Extract versionName and compileSdkVersion from app.gradle
         id: version
         run: |
           version=$(grep -oP 'versionName "\K[^"]+' App_Resources/Android/app.gradle)
+          compileSdkVersion=$(grep -oP 'compileSdkVersion' "\K[^"]+' App_Resources/Android/app.gradle)
           echo "VERSION_NAME=$version" >> $GITHUB_ENV
+          echo "COMPILE_SDK_VERSION=$compileSdkVersion" >> $GITHUB_ENV
 
       - name: Decode keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > my-release-key.keystore
 
       - name: Build APK
         run: |
-            ns build android --release --env.snapshot --env.compileSnapshot --env.uglify --env.aot \
+            ns build android --release --env.snapshot --env.compileSnapshot --env.uglify --env.aot --compileSdk=$COMPILE_SDK_VERSION \
               --key-store-path my-release-key.keystore \
               --key-store-password ${{ secrets.KEYSTORE_PASSWORD }} \
               --key-store-alias ${{ secrets.KEY_ALIAS }} \
