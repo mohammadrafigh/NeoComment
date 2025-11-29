@@ -3,7 +3,9 @@
     "features.sign_in": {
         "welcome": "Benvenuti su NeoComment!",
         "instance_url": "URL dell’istanza",
-        "next": "Avanti"
+        "next": "Avanti",
+        "no_account_message": "Non hai un account?",
+        "find_an_instance": "Trova un’istanza"
     },
     "features.explore": {
         "page_title": "Esplora"
@@ -64,6 +66,41 @@
         "to_watch": "Da vedere",
         "watching": "Guardando",
         "watched": "Guardato",
-        "stopped": "Fermato"
+        "stopped": "Fermato",
+        "to_do": "Da vedere",
+        "doing": "Vedendo",
+        "did": "Visto"
+    },
+    "features.book": {
+        "authors": "Autori",
+        "author": "Autore",
+        "translators": "Traduttori",
+        "translator": "Traduttore",
+        "publication_date": "Data di pubblicazione",
+        "series": "Serie",
+        "isbn": "ISBN",
+        "price": "Prezzo",
+        "other_editions": "Altre Edizioni",
+        "to_do": "Da leggere",
+        "doing": "Leggendo",
+        "did": "Letto"
+    },
+    "features.tv": {
+        "directors": "Registi",
+        "writers": "Sceneggiatori",
+        "director": "Regista",
+        "writer": "Sceneggiatore",
+        "cast": "Cast",
+        "countries": "Paesi",
+        "country": "Paese",
+        "seasons": "Stagioni",
+        "episodes": "Episodi",
+        "season": "Stagione",
+        "episode": "Episodio",
+        "to_do": "Da vedere"
+    },
+    "features.game": {
+        "developers": "Sviluppatori",
+        "developer": "Sviluppatore"
     }
 }
