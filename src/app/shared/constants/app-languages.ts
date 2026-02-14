@@ -16,6 +16,11 @@ export const APP_LANGUAGES: {
     name: "German (Deutsch)",
     rtl: false,
   },
+  "pt-BR": {
+    code: "pt-BR",
+    name: "Portuguese (Português)",
+    rtl: false,
+  },
   it: {
     code: "it",
     name: "Italian (Italiano)",

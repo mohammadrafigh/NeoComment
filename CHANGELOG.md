@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Changed workflow to use docker container to make build environment the same
+- Added Portuguese (Português) translations - thanks to @Havokdan
 
 ## [1.0.0-alpha.5] - 2025-11-26
 

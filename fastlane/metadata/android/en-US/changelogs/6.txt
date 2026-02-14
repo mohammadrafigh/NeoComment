@@ -1,3 +1,4 @@
 ### Changed
 
 - Changed workflow to use docker container to make build environment the same
+- Added Portuguese (Português) translations - thanks to @Havokdan
