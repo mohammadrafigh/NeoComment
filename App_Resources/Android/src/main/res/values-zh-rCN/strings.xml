@@ -192,14 +192,14 @@
   <string name="_core_auth_service_authentication_error_EM4WQ">"无法完成身份验证。请重试。"</string>
   <string name="_core_auth_service_unavailable_instance_Z22pryR">"该实例不可用"</string>
   <string name="_features_explore_page_title_ZrpHT6">"探索"</string>
+  <string name="_features_sign_in_find_an_instance_116sKH">"寻找实例"</string>
+  <string name="_features_sign_in_no_account_message_uE11z">"没有账号？"</string>
   <string name="_features_sign_in_next_Vzyp">"继续"</string>
   <string name="_features_sign_in_instance_url_qg7CC">"实例地址"</string>
   <string name="_features_sign_in_welcome_Z2se0Fl">"欢迎使用 NeoComment！"</string>
   <string name="_app_name_1k3Sbz">"NeoComment"</string>
   <string name="app_name">"NeoComment"</string>
   <string name="title_activity_kimera">"NeoComment"</string>
-  <string name="_features_sign_in_find_an_instance_116sKH">"Find an instance"</string>
-  <string name="_features_sign_in_no_account_message_uE11z">"Don\'t have an account?"</string>
   <string name="_features_movie_stopped_Z1EQp4k">"features.movie.stopped"</string>
   <string name="_features_movie_watched_1SxQrk">"features.movie.watched"</string>
   <string name="_features_movie_watching_Z2ib3Mg">"features.movie.watching"</string>

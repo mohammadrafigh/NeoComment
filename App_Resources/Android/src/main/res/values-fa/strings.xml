@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="_features_sign_in_next_Vzyp">"بعدی"</string>
-  <string name="_features_sign_in_instance_url_qg7CC">"آدرس نمونه"</string>
+  <string name="_features_sign_in_instance_url_qg7CC">"نشانی نمونه"</string>
   <string name="_features_sign_in_welcome_Z2se0Fl">"به نئوکامنت خوش آمدید!"</string>
-  <string name="_app_name_1k3Sbz">"NeoComment"</string>
-  <string name="app_name">"NeoComment"</string>
-  <string name="title_activity_kimera">"NeoComment"</string>
+  <string name="_app_name_1k3Sbz">"نئوکامنت"</string>
+  <string name="app_name">"نئوکامنت"</string>
+  <string name="title_activity_kimera">"نئوکامنت"</string>
   <string name="_common_comments_Z2kj2dh">"Comments"</string>
   <string name="_common_original_title_klzq3">"Original Title"</string>
   <string name="_common_stopped_1tQUJr">"Stopped"</string>

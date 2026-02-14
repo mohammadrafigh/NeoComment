@@ -48,8 +48,8 @@ ns build android --release --env.snapshot --env.compileSnapshot --env.uglify --e
   --key-store-alias-password "${KEY_PASSWORD}"
 
 echo "Collecting APK..."
+find . -name '*.apk'
 mkdir -p release_apks
-DEFAULT_APK="platforms/android/app/build/outputs/apk/release/app-arm64-v8a-release*.apk"
-mv "$DEFAULT_APK" "release_apks/NeoComment-${VERSION_NAME}.apk"
+mv platforms/android/app/build/outputs/apk/release/app-arm64-v8a-release*.apk "release_apks/NeoComment-${VERSION_NAME}.apk"
 
 echo "Build finished. APK is in release_apks/NeoComment-${VERSION_NAME}.apk"
