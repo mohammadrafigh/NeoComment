@@ -1,0 +1,91 @@
+{
+    "common": {
+        "comments": "Komentāri",
+        "books": "Grāmatas",
+        "movies": "Filmas",
+        "series": "Seriāli, raidījumi",
+        "games": "Spēles",
+        "musics": "Mūzika",
+        "podcasts": "Raidieraksti",
+        "collections": "Kolekcijas",
+        "search": "Meklēt",
+        "generic_error": "Kaut kas nogāja greizi",
+        "add_to_collection": "Pievienot kolekcijai",
+        "tags": "Birkas",
+        "unknown": "Nezināms",
+        "website": "Vietne",
+        "show": "Rādīt",
+        "show_all": "Rādīt visu",
+        "write_review": "Rakstīt atsauksmi",
+        "notes": "Piezīmes",
+        "write_note": "Rakstīt piezīmi"
+    },
+    "features.book": {
+        "did": "Izlasīta",
+        "authors": "Autori",
+        "author": "Autors",
+        "translators": "Tulkotāji",
+        "translator": "Tulkotājs",
+        "publisher": "Izdevējs"
+    },
+    "app.name": "NeoComment",
+    "features.movie": {
+        "directors": "Režisori",
+        "writers": "Scenāristi",
+        "director": "Režisors",
+        "writer": "Scenārists",
+        "cast": "Aktieru sastāvs"
+    },
+    "features.tv": {
+        "writers": "Scenāristi",
+        "director": "Režisors",
+        "writer": "Scenārists",
+        "cast": "Aktieru sastāvs",
+        "season": "Sezona",
+        "episode": "Epizode",
+        "doing": "Skatos",
+        "did": "Noskatīts"
+    },
+    "features.game": {
+        "developers": "Izstrādātāji",
+        "developer": "Izstrādātājs",
+        "publishers": "Izdevēji",
+        "publisher": "Izdevējs",
+        "platforms": "Platformas",
+        "platform": "Platforma",
+        "doing": "Spēlēju",
+        "did": "Pabeidzu spēlēt (Izgāju)"
+    },
+    "features.music": {
+        "tracks": "Dziesmas",
+        "publishers": "Izdevēji",
+        "publisher": "Izdevējs",
+        "barcode": "Svītrkods",
+        "doing": "Klausos",
+        "did": "Noklausīta"
+    },
+    "features.podcast": {
+        "episodes": "Epizodes",
+        "doing": "Klausos",
+        "did": "Noklausīts"
+    },
+    "features.collection": {
+        "description": "Apraksts",
+        "add_name_message": "Lūdzu, ievadiet kolekcijas nosaukumu"
+    },
+    "features.about": {
+        "about_neocomment": "Par NeoComment",
+        "subtitle": "NeoDB klients izveidots ar ❤️",
+        "version": "Versija"
+    },
+    "features.preferences": {
+        "preferences": "Iestatījumi",
+        "theme": "Motīvs",
+        "theme_color": "Krāsa",
+        "forest": "Mežs",
+        "beach": "Pludmale",
+        "light": "Gaišs",
+        "dark": "Tumšs",
+        "system": "Sistēmas"
+    }
+}

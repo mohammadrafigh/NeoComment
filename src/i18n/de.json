@@ -101,5 +101,53 @@
         "cycle": "Durchlauf",
         "track": "Lied"
     },
-    "app.name": "NeoComment"
+    "app.name": "NeoComment",
+    "features.book": {
+        "authors": "Autoren",
+        "author": "Autor",
+        "translators": "Übersetzer",
+        "translator": "Übersetzer",
+        "publisher": "Herausgeber",
+        "imprint": "Impressum",
+        "publication_date": "Erscheinungsdatum",
+        "series": "Serien",
+        "page_count": "Seitenanzahl",
+        "isbn": "ISBN",
+        "price": "Preis",
+        "did": "Lesen"
+    },
+    "features.tv": {
+        "cast_and_crew": "Darsteller und Stab",
+        "directors": "Regisseure",
+        "director": "Regisseur",
+        "cast": "Darsteller",
+        "countries": "Länder",
+        "country": "Land",
+        "seasons": "Staffeln",
+        "episodes": "Folgen",
+        "season": "Staffel",
+        "episode": "Folge"
+    },
+    "features.game": {
+        "developers": "Entwickler",
+        "developer": "Entwickler",
+        "publishers": "Herausgeber",
+        "publisher": "Herausgeber",
+        "platforms": "Plattformen",
+        "platform": "Plattform",
+        "did": "Gespielt"
+    },
+    "features.music": {
+        "tracks": "Titel",
+        "publishers": "Herausgeber",
+        "publisher": "Herausgeber",
+        "barcode": "Barcode"
+    },
+    "features.podcast": {
+        "episodes": "Folgen"
+    },
+    "features.performance": {
+        "directors": "Regisseure",
+        "director": "Regisseur"
+    }
 }
